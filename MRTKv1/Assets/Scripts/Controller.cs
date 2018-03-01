@@ -13,10 +13,6 @@ public class Controller : MonoBehaviour {
     private int stepNum;
     private int maxStepNum;
 
-    //Clock
-    public GameObject timeText;
-    private DateTime utcTime;
-
     //Called on startup
     void Start()
     {
@@ -28,16 +24,12 @@ public class Controller : MonoBehaviour {
         stepNum = 1;
         maxStepNum = 6;
         setStepSprite(stepNum);
-
-        //No need to init clock, Update will do this
     }
 
     //Called every frame
     void Update()
     {
-        utcTime = DateTime.UtcNow;
-        String timeStr = utcTime.ToString("t") + " UTC";
-        timeText.GetComponent<TextMesh>().text = timeStr;
+        //nothing here yet
     }
 
     void moveToNextStep()
