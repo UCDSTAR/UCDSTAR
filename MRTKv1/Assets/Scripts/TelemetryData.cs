@@ -28,7 +28,7 @@ public class TelemetryData
 
     public String getDataText()
     {
-        return dataName + ": " + dataValue + " " + dataUnits;
+        return dataName + ":\n" + dataValue + " " + dataUnits;
     }
 }
 

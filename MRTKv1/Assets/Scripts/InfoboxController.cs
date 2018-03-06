@@ -9,19 +9,26 @@ public class InfoboxController : MonoBehaviour {
     //Clock
     public GameObject timeText;
     public GameObject detailsCanvas;
+    public GameObject telemetryPanel; //this will be copied
+    public Button toggleButton;
     private DateTime utcTime;
-    private bool detailsActive;
 
     //Dummy data
     TelemetryData pressureData = new TelemetryData(Severity.CRITICAL, "Pressure", 1, "psia");
     TelemetryData temperatureData = new TelemetryData(Severity.WARNING, "Temperature", 60, "F");
     TelemetryData fanData = new TelemetryData(Severity.NOMINAL, "Fan techometer", 900, "RPM");
+    TelemetryData oxygenData = new TelemetryData(Severity.NOMINAL, "Oxygen level", 90, "%");
 
     // Use this for initialization
     void Start () {
         detailsCanvas.SetActive(false);
-        detailsActive = false;
+        toggleButton.onClick.AddListener(doToggle);
 	}
+
+    void doToggle()
+    {
+        detailsCanvas.SetActive(!detailsCanvas.activeInHierarchy);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -29,47 +36,36 @@ public class InfoboxController : MonoBehaviour {
         String timeStr = utcTime.ToString("t") + " UTC";
         timeText.GetComponent<TextMesh>().text = timeStr;
 
-        if (!detailsActive && detailsCanvas.activeSelf)
+        if (detailsCanvas.activeInHierarchy)
         {
-            detailsActive = true;
-            createTelemetryButton(temperatureData, 0);
-            createTelemetryButton(pressureData, 1);
+            createTelemetryPanel(temperatureData, 0);
+            createTelemetryPanel(pressureData, 1);
+            createTelemetryPanel(fanData, 2);
+            createTelemetryPanel(oxygenData, 3);    
         }
     }
 
-    void createTelemetryButton(TelemetryData t, int index)
+    void createTelemetryPanel(TelemetryData t, int index)
     {
-        //Create button object
-        GameObject button = new GameObject();
-        button.transform.parent = detailsCanvas.GetComponent<Transform>();
-        button.AddComponent<RectTransform>();
-        button.AddComponent<Button>();
-        button.AddComponent<Image>();
-        button.transform.localPosition = new Vector3(0, (float)(0.5+index), 0);
-        button.GetComponent<RectTransform>().sizeDelta = new Vector2((float)2.5, (float)0.75);
-
+        GameObject panelClone = Instantiate(telemetryPanel, detailsCanvas.GetComponent<Transform>(), false);
+        panelClone.GetComponent<RectTransform>().sizeDelta = new Vector2((float)2.5, (float)0.75);
+        panelClone.GetComponent<RectTransform>().localPosition = new Vector3((float)0, (float)(1.5-index), 0);
+       
         //Set color based on severity
         switch (t.getSeverity())
         {
             case Severity.NOMINAL:
-                button.GetComponent<Image>().color = Color.green;
+                panelClone.GetComponent<Image>().color = Color.green;
                 break;
             case Severity.WARNING:
-                button.GetComponent<Image>().color = Color.yellow;
+                panelClone.GetComponent<Image>().color = Color.yellow;
                 break;
             case Severity.CRITICAL:
-                button.GetComponent<Image>().color = Color.red;
+                panelClone.GetComponent<Image>().color = Color.red;
                 break;
         }
 
-        //Create text object
-        GameObject dataText = new GameObject();
-        dataText.transform.parent = button.GetComponent<Transform>();
-        dataText.AddComponent<RectTransform>();
-        dataText.AddComponent<Text>();
-        dataText.transform.localPosition = new Vector3((float)1.5, 2, 0);
-        dataText.GetComponent<RectTransform>().sizeDelta = new Vector2(160, 30);
-        dataText.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-        dataText.GetComponent<Text>().text = "Button";
+        //Set text
+        panelClone.GetComponentInChildren<TextMesh>().text = t.getDataText();
     }
 }
