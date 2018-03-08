@@ -9,7 +9,7 @@ public class InfoboxController : MonoBehaviour {
     //Clock
     public GameObject timeText;
     public GameObject detailsCanvas;
-    public GameObject telemetryPanel; //this will be copied
+    public GameObject telemetryPanel; //this will be copied into the scene
     public Button toggleButton;
     private DateTime utcTime;
 
@@ -25,24 +25,24 @@ public class InfoboxController : MonoBehaviour {
         toggleButton.onClick.AddListener(doToggle);
 	}
 
+    //Called when the toggle button is clicked
     void doToggle()
     {
         detailsCanvas.SetActive(!detailsCanvas.activeInHierarchy);
+        if (detailsCanvas.activeInHierarchy)
+        {
+            createTelemetryPanel(temperatureData, 0);
+            createTelemetryPanel(pressureData, 1);
+            createTelemetryPanel(fanData, 2);
+            createTelemetryPanel(oxygenData, 3);
+        }
     }
 	
 	// Update is called once per frame
 	void Update () {
         utcTime = DateTime.UtcNow;
         String timeStr = utcTime.ToString("t") + " UTC";
-        timeText.GetComponent<TextMesh>().text = timeStr;
-
-        if (detailsCanvas.activeInHierarchy)
-        {
-            createTelemetryPanel(temperatureData, 0);
-            createTelemetryPanel(pressureData, 1);
-            createTelemetryPanel(fanData, 2);
-            createTelemetryPanel(oxygenData, 3);    
-        }
+        timeText.GetComponent<TextMesh>().text = timeStr; 
     }
 
     void createTelemetryPanel(TelemetryData t, int index)
