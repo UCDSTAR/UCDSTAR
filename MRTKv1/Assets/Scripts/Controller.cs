@@ -10,8 +10,8 @@ public class Controller : MonoBehaviour {
     public Button fwdButton;
     public Button backButton;
     public Image stepImage;
-    private int stepNum;
-    private int maxStepNum;
+    public int numberOfSteps;
+    private int stepNum; //starts counting from 1
 
     //Called on startup
     void Start()
@@ -22,7 +22,6 @@ public class Controller : MonoBehaviour {
 
         //Let's start at the very beginning, a very good place to start
         stepNum = 1;
-        maxStepNum = 6;
         setStepSprite(stepNum);
     }
 
@@ -35,7 +34,7 @@ public class Controller : MonoBehaviour {
     void moveToNextStep()
     {
         ++stepNum;
-        if(stepNum > maxStepNum)
+        if(stepNum > numberOfSteps)
         {
             stepNum = 1; //wrap around
         }
@@ -47,7 +46,7 @@ public class Controller : MonoBehaviour {
         --stepNum;
         if (stepNum < 1)
         {
-            stepNum = maxStepNum; //wrap around
+            stepNum = numberOfSteps; //wrap around
         }
         setStepSprite(stepNum);
     }

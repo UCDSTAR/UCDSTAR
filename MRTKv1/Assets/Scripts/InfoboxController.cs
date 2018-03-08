@@ -8,9 +8,8 @@ public class InfoboxController : MonoBehaviour {
 
     //Clock
     public GameObject timeText;
-    public GameObject detailsCanvas;
+    public GameObject detailsPanel;
     public GameObject telemetryPanel; //this will be copied into the scene
-    public Button toggleButton;
     private DateTime utcTime;
 
     //Dummy data
@@ -21,35 +20,36 @@ public class InfoboxController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        detailsCanvas.SetActive(false);
-        toggleButton.onClick.AddListener(doToggle);
+        detailsPanel.SetActive(false);
 	}
 
-    //Called when the toggle button is clicked
-    void doToggle()
+    //Called when voice command is triggered
+    void showNotifications()
     {
-        detailsCanvas.SetActive(!detailsCanvas.activeInHierarchy);
-        if (detailsCanvas.activeInHierarchy)
-        {
-            createTelemetryPanel(temperatureData, 0);
-            createTelemetryPanel(pressureData, 1);
-            createTelemetryPanel(fanData, 2);
-            createTelemetryPanel(oxygenData, 3);
-        }
+        detailsPanel.SetActive(true);
+        createTelemetryPanel(temperatureData, 0);
+        createTelemetryPanel(pressureData, 1);
+        createTelemetryPanel(fanData, 2);
+        createTelemetryPanel(oxygenData, 3);
+    }
+
+    //Called when voice command is triggered
+    void hideNotifications()
+    {
+        detailsPanel.SetActive(false);
     }
 	
 	// Update is called once per frame
 	void Update () {
         utcTime = DateTime.UtcNow;
         String timeStr = utcTime.ToString("t") + " UTC";
-        timeText.GetComponent<TextMesh>().text = timeStr; 
+        timeText.GetComponentInChildren<Text>().text = timeStr;
     }
 
     void createTelemetryPanel(TelemetryData t, int index)
     {
-        GameObject panelClone = Instantiate(telemetryPanel, detailsCanvas.GetComponent<Transform>(), false);
-        panelClone.GetComponent<RectTransform>().sizeDelta = new Vector2((float)2.5, (float)0.75);
-        panelClone.GetComponent<RectTransform>().localPosition = new Vector3((float)0, (float)(1.5-index), 0);
+        GameObject panelClone = Instantiate(telemetryPanel, detailsPanel.GetComponent<Transform>(), false);
+        panelClone.GetComponent<RectTransform>().localPosition = new Vector3((float)0, (float)(3.5-index), 0);
        
         //Set color based on severity
         switch (t.getSeverity())
