@@ -21,10 +21,10 @@ public class InfoboxController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         detailsPanel.SetActive(false);
-	}
+    }
 
     //Called when voice command is triggered
-    void showNotifications()
+    void showNotifications_s()
     {
         detailsPanel.SetActive(true);
         createTelemetryPanel(temperatureData, 0);
@@ -34,7 +34,7 @@ public class InfoboxController : MonoBehaviour {
     }
 
     //Called when voice command is triggered
-    void hideNotifications()
+    void hideNotifications_s()
     {
         detailsPanel.SetActive(false);
     }
@@ -49,7 +49,7 @@ public class InfoboxController : MonoBehaviour {
     void createTelemetryPanel(TelemetryData t, int index)
     {
         GameObject panelClone = Instantiate(telemetryPanel, detailsPanel.GetComponent<Transform>(), false);
-        panelClone.GetComponent<RectTransform>().localPosition = new Vector3((float)0, (float)(3.5-index), 0);
+        panelClone.GetComponent<RectTransform>().localPosition = new Vector3(0, (float)(1.425-0.95*index), 0);
        
         //Set color based on severity
         switch (t.getSeverity())
@@ -66,6 +66,6 @@ public class InfoboxController : MonoBehaviour {
         }
 
         //Set text
-        panelClone.GetComponentInChildren<TextMesh>().text = t.getDataText();
+        panelClone.GetComponentInChildren<Text>().text = t.getDataText();
     }
 }

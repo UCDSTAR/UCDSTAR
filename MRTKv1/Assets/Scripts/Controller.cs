@@ -51,6 +51,17 @@ public class Controller : MonoBehaviour {
         setStepSprite(stepNum);
     }
 
+    //These next two are triggered by voice commands
+    void nextInstruction_s()
+    {
+        moveToNextStep();
+    }
+
+    void previousInstruction_s()
+    {
+        moveToPrevStep();
+    }
+
     void setStepSprite(int stepNum)
     {
         String path = String.Format("ProcedureSteps/Steps-0{0}-static", stepNum);
