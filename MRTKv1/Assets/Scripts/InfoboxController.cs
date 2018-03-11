@@ -52,7 +52,7 @@ public class InfoboxController : MonoBehaviour {
         panelClone.GetComponent<RectTransform>().localPosition = new Vector3(0, (float)(1.425-0.95*index), 0);
        
         //Set color based on severity
-        switch (t.getSeverity())
+        switch (t.GetSeverity())
         {
             case Severity.NOMINAL:
                 panelClone.GetComponent<Image>().color = Color.green;
@@ -66,6 +66,6 @@ public class InfoboxController : MonoBehaviour {
         }
 
         //Set text
-        panelClone.GetComponentInChildren<Text>().text = t.getDataText();
+        panelClone.GetComponentInChildren<Text>().text = t.GetDataText();
     }
 }

@@ -17,12 +17,12 @@ public class Controller : MonoBehaviour {
     void Start()
     {
         //Bind buttons to functions
-        fwdButton.onClick.AddListener(moveToNextStep);
-        backButton.onClick.AddListener(moveToPrevStep);
+        fwdButton.onClick.AddListener(MoveToNextStep);
+        backButton.onClick.AddListener(MoveToPrevStep);
 
         //Let's start at the very beginning, a very good place to start
         stepNum = 1;
-        setStepSprite(stepNum);
+        SetStepSprite(stepNum);
     }
 
     //Called every frame
@@ -31,38 +31,38 @@ public class Controller : MonoBehaviour {
         //nothing here yet
     }
 
-    void moveToNextStep()
+    void MoveToNextStep()
     {
         ++stepNum;
         if(stepNum > numberOfSteps)
         {
             stepNum = 1; //wrap around
         }
-        setStepSprite(stepNum);
+        SetStepSprite(stepNum);
     }
 
-    void moveToPrevStep()
+    void MoveToPrevStep()
     {
         --stepNum;
         if (stepNum < 1)
         {
             stepNum = numberOfSteps; //wrap around
         }
-        setStepSprite(stepNum);
+        SetStepSprite(stepNum);
     }
 
     //These next two are triggered by voice commands
-    void nextInstruction_s()
+    void NextInstruction_s()
     {
-        moveToNextStep();
+        MoveToNextStep();
     }
 
-    void previousInstruction_s()
+    void PreviousInstruction_s()
     {
-        moveToPrevStep();
+        MoveToPrevStep();
     }
 
-    void setStepSprite(int stepNum)
+    void SetStepSprite(int stepNum)
     {
         String path = String.Format("ProcedureSteps/Steps-0{0}-static", stepNum);
         Sprite newSprite = Resources.Load<Sprite>(path);

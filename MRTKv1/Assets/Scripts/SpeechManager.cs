@@ -14,25 +14,25 @@ public class SpeechManager : MonoBehaviour
         keywords.Add("Show notifications", () =>
         {
             // Call the OnReset method on every descendant object.
-            this.BroadcastMessage("showNotifications_s");
+            this.BroadcastMessage("ShowNotifications_s");
         });
 
         keywords.Add("Hide notifications", () =>
         {
             // Call the OnReset method on every descendant object.
-            this.BroadcastMessage("hideNotifications_s");
+            this.BroadcastMessage("HideNotifications_s");
         });
 
         keywords.Add("Next instruction", () =>
         {
             // Call the OnReset method on every descendant object.
-            this.BroadcastMessage("nextInstruction_s");
+            this.BroadcastMessage("NextInstruction_s");
         });
 
         keywords.Add("Previous instruction", () =>
         {
             // Call the OnReset method on every descendant object.
-            this.BroadcastMessage("previousInstruction_s");
+            this.BroadcastMessage("PreviousInstruction_s");
         });
 
         // Tell the KeywordRecognizer about our keywords.

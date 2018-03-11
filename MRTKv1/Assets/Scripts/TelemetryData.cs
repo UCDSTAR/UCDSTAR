@@ -21,12 +21,12 @@ public class TelemetryData
         dataUnits = units;
     }
 
-    public Severity getSeverity()
+    public Severity GetSeverity()
     {
         return severity;
     }
 
-    public String getDataText()
+    public String GetDataText()
     {
         return dataName + ":\n" + dataValue + " " + dataUnits;
     }

@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 222770123283101908}
   - component: {fileID: 114650163441251062}
   m_Layer: 0
-  m_Name: TelemetryPanel
+  m_Name: TelemetryNotification
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
