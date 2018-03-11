@@ -16,19 +16,14 @@ public class TelemetryController : MonoBehaviour
     private DateTime utcTime;
 
     //Telemetry data
-    //Do this!!
-
-    //Dummy data
-    TelemetryData pressureData = new TelemetryData(Severity.CRITICAL, "Pressure", 1, "psia");
-    TelemetryData temperatureData = new TelemetryData(Severity.WARNING, "Temperature", 60, "F");
-    TelemetryData fanData = new TelemetryData(Severity.NOMINAL, "Fan techometer", 900, "RPM");
-    TelemetryData oxygenData = new TelemetryData(Severity.NOMINAL, "Oxygen level", 90, "%");
+    private const int MAX_NOTIFICATIONS = 4;
+    private const float REFRESH_RATE = 10.0f;
+    private TelemetryData[] notifications;
 
     // Use this for initialization
     void Start()
     {
         detailsPanel.SetActive(false);
-        ShowNotifications_s(); //for debugging
         StartCoroutine(GetTelemetryData());
     }
 
@@ -37,11 +32,7 @@ public class TelemetryController : MonoBehaviour
     {
         detailsPanel.SetActive(true);
 
-        //Add dummy data
-        CreateTelemetryNotification(temperatureData, 0);
-        CreateTelemetryNotification(pressureData, 1);
-        CreateTelemetryNotification(fanData, 2);
-        CreateTelemetryNotification(oxygenData, 3);
+        //Clear and add notifications
     }
 
     //Called when voice command is triggered
@@ -80,25 +71,37 @@ public class TelemetryController : MonoBehaviour
         }
 
         //Set text
-        panelClone.GetComponentInChildren<Text>().text = t.GetDataText();
+        //panelClone.GetComponentInChildren<Text>().text = t.GetDataText();
     }
 
-    //Read telemetry data from server using an HTTP GET request
+    //Repeatedly read telemetry data from server using an HTTP GET request
     IEnumerator GetTelemetryData()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get("https://hrvip.ucdavis.edu/share/UCDSUITS/api/telemetry/recent.json"))
+        while (true)
         {
-            yield return www.Send();
+            using (UnityWebRequest www = UnityWebRequest.Get("https://hrvip.ucdavis.edu/share/UCDSUITS/api/telemetry/recent.json"))
+            {
+                yield return www.Send();
 
-            if (www.isError)
-            {
-                Debug.Log(www.error);
+                if (www.isError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    // Show results as text
+                    Debug.Log(www.downloadHandler.text);
+                    JSONData jsonData = JSONData.CreateFromJSON(www.downloadHandler.text);
+                }
             }
-            else
-            {
-                // Show results as text
-                Debug.Log(www.downloadHandler.text);
-            }
+
+            //Wait 10 seconds before pulling data again
+            yield return new WaitForSecondsRealtime(REFRESH_RATE);
         }
+    }
+
+    void GenerateNotificationsArray(JSONData jsonData)
+    {
+        TelemetryData P_sub = new TelemetryData("Sub pressure", jsonData.p_sub, "psia", 2, 4);
     }
 }

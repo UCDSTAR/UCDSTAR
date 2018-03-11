@@ -20,10 +20,10 @@ public class TelemetryData
     private float warningAmt;
 
     //Constructor for numerical data
-    public TelemetryData(string n, float v, string u, float min, float max)
+    public TelemetryData(string n, string v, string u, float min, float max)
     {
         name = n;
-        value = v;
+        value = Convert.ToSingle(v);
         units = u;
         minValue = min;
         maxValue = max;
@@ -32,10 +32,10 @@ public class TelemetryData
     }
 
     //Constructor for switch data
-    public TelemetryData(string n, float v)
+    public TelemetryData(string n, string v)
     {
         name = n;
-        value = v;
+        value = Convert.ToSingle(v);
         isSwitch = true;
     }
 
