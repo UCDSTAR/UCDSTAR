@@ -4,63 +4,14 @@ using System.Linq;
 using System.Text;
 
 
-public enum Severity { NOMINAL, WARNING, CRITICAL};
+public enum Severity { CRITICAL=0, WARNING=1, NOMINAL=2}; //should be ordered most to least severe
 
-public class TelemetryData
+public abstract class TelemetryData
 {
-    private string name;
-    private float value;
-    private string units;
+    public string name;
+    public Severity severity;
 
-    private float minValue;
-    private float maxValue;
-    private bool isSwitch;
-
-    private const float WARNING_PERCENTAGE = 0.1f;
-    private float warningAmt;
-
-    //Constructor for numerical data
-    public TelemetryData(string n, string v, string u, float min, float max)
-    {
-        name = n;
-        value = Convert.ToSingle(v);
-        units = u;
-        minValue = min;
-        maxValue = max;
-        warningAmt = (maxValue - minValue) * WARNING_PERCENTAGE;
-        isSwitch = false;
-    }
-
-    //Constructor for switch data
-    public TelemetryData(string n, string v)
-    {
-        name = n;
-        value = Convert.ToSingle(v);
-        isSwitch = true;
-    }
-
-    public Severity GetSeverity()
-    {
-        if (isSwitch)
-        {
-            if (value == 1) return Severity.CRITICAL;
-            else return Severity.NOMINAL;
-        }
-        else
-        {
-            if(value < minValue || value > maxValue)
-            {
-                return Severity.CRITICAL;
-            }
-            else if(value < (minValue + warningAmt) || value > (maxValue - warningAmt))
-            {
-                return Severity.WARNING;
-            }
-            else
-            {
-                return Severity.NOMINAL;
-            }
-        }
-    }
+    public abstract Severity GetSeverity();
+    public abstract string GetDataText();
 }
 

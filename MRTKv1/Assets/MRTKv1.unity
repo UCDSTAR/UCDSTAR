@@ -723,6 +723,11 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &467147333 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000011327985922, guid: 022450106439a8946ae18a9e20cc92d8,
+    type: 2}
+  m_PrefabInternal: {fileID: 328985249}
 --- !u!1 &487160272
 GameObject:
   m_ObjectHideFlags: 0
@@ -1182,8 +1187,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1c3502101b36b043bf9429558f6bd3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeText: {fileID: 1911113393}
+  currentTimeText: {fileID: 1911113393}
   detailsPanel: {fileID: 258405863}
+  evaTimeText: {fileID: 467147333}
   telemetryNotification: {fileID: 1596553688540818, guid: 3e50a3241ec907347b18aa2960cc15ba,
     type: 2}
 --- !u!1 &826812803
