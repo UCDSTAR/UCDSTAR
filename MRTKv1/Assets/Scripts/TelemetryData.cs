@@ -8,27 +8,59 @@ public enum Severity { NOMINAL, WARNING, CRITICAL};
 
 public class TelemetryData
 {
-    private Severity severity;
-    private String dataName;
-    private float dataValue;
-    private String dataUnits;
+    private string name;
+    private float value;
+    private string units;
 
-    public TelemetryData(Severity s, String name, float val, String units)
+    private float minValue;
+    private float maxValue;
+    private bool isSwitch;
+
+    private const float WARNING_PERCENTAGE = 0.1f;
+    private float warningAmt;
+
+    //Constructor for numerical data
+    public TelemetryData(string n, float v, string u, float min, float max)
     {
-        severity = s;
-        dataName = name;
-        dataValue = val;
-        dataUnits = units;
+        name = n;
+        value = v;
+        units = u;
+        minValue = min;
+        maxValue = max;
+        warningAmt = (maxValue - minValue) * WARNING_PERCENTAGE;
+        isSwitch = false;
+    }
+
+    //Constructor for switch data
+    public TelemetryData(string n, float v)
+    {
+        name = n;
+        value = v;
+        isSwitch = true;
     }
 
     public Severity GetSeverity()
     {
-        return severity;
-    }
-
-    public String GetDataText()
-    {
-        return dataName + ":\n" + dataValue + " " + dataUnits;
+        if (isSwitch)
+        {
+            if (value == 1) return Severity.CRITICAL;
+            else return Severity.NOMINAL;
+        }
+        else
+        {
+            if(value < minValue || value > maxValue)
+            {
+                return Severity.CRITICAL;
+            }
+            else if(value < (minValue + warningAmt) || value > (maxValue - warningAmt))
+            {
+                return Severity.WARNING;
+            }
+            else
+            {
+                return Severity.NOMINAL;
+            }
+        }
     }
 }
 
