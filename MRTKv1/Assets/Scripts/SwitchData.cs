@@ -22,7 +22,7 @@ public class SwitchData : TelemetryData
         }
         else
         {
-            if (switchCondition.Equals("false", StringComparison.InvariantCultureIgnoreCase)) return Severity.NOMINAL;
+            if (switchCondition.Equals("true", StringComparison.InvariantCultureIgnoreCase)) return Severity.NOMINAL;
             else return Severity.CRITICAL;
         }
     }
