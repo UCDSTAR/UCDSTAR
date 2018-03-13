@@ -9,23 +9,27 @@ public class TelemetryController : MonoBehaviour
 {
     //These are set in the editor
     public GameObject currentTimeText;
-    public GameObject detailsPanel;
+    public GameObject notificationsPanel;
+    public GameObject textPanel;
     public GameObject evaTimeText;
     public GameObject telemetryNotification; //this will be copied into the scene
+    public GameObject telemetryTextName; //this will be copied into the scene
+    public GameObject telemetryTextNumber; //this will be copied into the scene
 
     //Clock data
     private DateTime utcTime;
 
     //Telemetry data
     private const int MAX_NOTIFICATIONS = 4;
-    private const double REFRESH_RATE = 10;
+    private const double REFRESH_RATE = 1;
     private List<TelemetryData> notificationsList;
+    private List<TelemetryData> textList;
 
     // Use this for initialization
     void Start()
     {
         //Hide notifications panel on startup
-        detailsPanel.SetActive(true);
+        notificationsPanel.SetActive(true);
 
         //Start polling server for data
         StartCoroutine(GetTelemetryData());
@@ -35,13 +39,13 @@ public class TelemetryController : MonoBehaviour
     void ShowNotifications_s()
     {
         //Show panel
-        detailsPanel.SetActive(true);
+        notificationsPanel.SetActive(true);
     }
 
     //Called when voice command is triggered
     void HideNotifications_s()
     {
-        detailsPanel.SetActive(false);
+        notificationsPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -56,7 +60,7 @@ public class TelemetryController : MonoBehaviour
     //Index 0 is at the top of the panel
     void CreateTelemetryNotification(TelemetryData t, int index)
     {
-        GameObject panelClone = Instantiate(telemetryNotification, detailsPanel.GetComponent<Transform>(), false);
+        GameObject panelClone = Instantiate(telemetryNotification, notificationsPanel.GetComponent<Transform>(), false);
         panelClone.GetComponent<RectTransform>().localPosition = new Vector3(0, (float)(1.425 - 0.95 * index), 0);
 
         //Set color based on severity
@@ -75,6 +79,38 @@ public class TelemetryController : MonoBehaviour
 
         //Set text
         panelClone.GetComponentInChildren<Text>().text = t.GetDataText();
+    }
+
+    //Create telemetry data text for the right panel
+    //Index 0 is at the top of the panel
+    void CreateTelemetryText(TelemetryData t, int index)
+    {
+        GameObject textNameClone = Instantiate(telemetryTextName, textPanel.GetComponent<Transform>(), false);
+        GameObject textNumberClone = Instantiate(telemetryTextNumber, textPanel.GetComponent<Transform>(), false);
+
+        textNameClone.GetComponent<RectTransform>().localPosition = new Vector3((float)0.75, (float)(3.5 - 0.4 * index), 0);
+        textNumberClone.GetComponent<RectTransform>().localPosition = new Vector3((float)-0.75, (float)(3.5 - 0.4 * index), 0);
+
+        //Set color based on severity
+        switch (t.severity)
+        {
+            case Severity.NOMINAL:
+                textNameClone.GetComponentInChildren<Text>().color = Color.white;
+                textNumberClone.GetComponentInChildren<Text>().color = Color.white;
+                break;
+            case Severity.WARNING:
+                textNameClone.GetComponentInChildren<Text>().color = Color.yellow;
+                textNumberClone.GetComponentInChildren<Text>().color = Color.yellow;
+                break;
+            case Severity.CRITICAL:
+                textNameClone.GetComponentInChildren<Text>().color = Color.red;
+                textNumberClone.GetComponentInChildren<Text>().color = Color.red;
+                break;
+        }
+
+        //Set text
+        textNameClone.GetComponentInChildren<Text>().text = t.GetNameText();
+        textNumberClone.GetComponentInChildren<Text>().text = t.GetValueText();
     }
 
     //Repeatedly read telemetry data from server using an HTTP GET request and update notification data
@@ -121,7 +157,13 @@ public class TelemetryController : MonoBehaviour
             UpdateNotificationsArray(jsonData);
 
             //Clear notifications
-            foreach (Transform child in detailsPanel.transform)
+            foreach (Transform child in notificationsPanel.transform)
+            {
+                Destroy(child.gameObject);
+            }
+
+            //Clear right panel text
+            foreach (Transform child in textPanel.transform)
             {
                 Destroy(child.gameObject);
             }
@@ -129,10 +171,17 @@ public class TelemetryController : MonoBehaviour
             //Create new notifications
             for (int i = 0; i < MAX_NOTIFICATIONS; ++i)
             {
+                if (notificationsList[i].severity == Severity.NOMINAL) break;
                 CreateTelemetryNotification(notificationsList[i], i);
             }
 
-            //Wait 10 seconds before pulling data again
+            //Create telemetry text for right panel
+            for (int i = 0; i < textList.Count; ++i)
+            {
+                CreateTelemetryText(textList[i], i);
+            }
+
+            //Wait before pulling data again
             yield return new WaitForSecondsRealtime((float)REFRESH_RATE);
         }
     }
@@ -154,13 +203,36 @@ public class TelemetryController : MonoBehaviour
 
         //Switch data
         SwitchData Sop_on = new SwitchData("SOP active", jsonData.sop_on, false);
-        SwitchData Sspe = new SwitchData("Spacesuit pressure emergency", jsonData.sspe, true);
+        SwitchData Sspe = new SwitchData("Pressure emergency", jsonData.sspe, true);
         SwitchData Fan_error = new SwitchData("Fan error", jsonData.fan_error, true);
         SwitchData Vent_error = new SwitchData("Vent error", jsonData.vent_error, true);
-        SwitchData Vehicle_power = new SwitchData("Receiving power through craft", jsonData.vehicle_power, false);
+        SwitchData Vehicle_power = new SwitchData("Receiving power", jsonData.vehicle_power, false);
         SwitchData H2o_off = new SwitchData("H2O offline", jsonData.h2o_off, true);
         SwitchData O2_off = new SwitchData("O2 offline", jsonData.o2_off, true);
 
+        //This is already in alphabetical order to save us a sort
+        textList = new List<TelemetryData>
+        {
+            Cap_battery,
+            P_sub,
+            T_sub,
+            Fan_error,
+            V_fan,
+            P_h2o_g,
+            P_h2o_l,
+            H2o_off,
+            Rate_o2,
+            O2_off,
+            P_o2,
+            Sspe,
+            Vehicle_power,
+            Sop_on,
+            Rate_sop,
+            P_sop,
+            Vent_error
+        };
+
+        //We'll need to sort this list
         notificationsList = new List<TelemetryData>
         {
             P_sub,

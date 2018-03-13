@@ -41,4 +41,14 @@ public class NumericalData : TelemetryData
     {
         return name + ": " + value + " " + units;
     }
+
+    public override string GetNameText()
+    {
+        return name + ": ";
+    }
+
+    public override string GetValueText()
+    {
+        return value + " " + units;
+    }
 }

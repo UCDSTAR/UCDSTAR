@@ -13,5 +13,7 @@ public abstract class TelemetryData
 
     public abstract Severity GetSeverity();
     public abstract string GetDataText();
+    public abstract string GetNameText();
+    public abstract string GetValueText();
 }
 

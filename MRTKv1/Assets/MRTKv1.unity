@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 258405866}
   - component: {fileID: 258405865}
   m_Layer: 0
-  m_Name: DetailsPanel
+  m_Name: NotificationsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -604,7 +604,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1000011327985922, guid: 022450106439a8946ae18a9e20cc92d8, type: 2}
       propertyPath: m_Name
-      value: TimerText
+      value: EVATimerText
       objectReference: {fileID: 0}
     - target: {fileID: 224000014204859762, guid: 022450106439a8946ae18a9e20cc92d8,
         type: 2}
@@ -1188,9 +1188,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTimeText: {fileID: 1911113393}
-  detailsPanel: {fileID: 258405863}
+  notificationsPanel: {fileID: 258405863}
+  textPanel: {fileID: 663706310}
   evaTimeText: {fileID: 467147333}
   telemetryNotification: {fileID: 1596553688540818, guid: 3e50a3241ec907347b18aa2960cc15ba,
+    type: 2}
+  telemetryTextName: {fileID: 1758121880457490, guid: 5bd0767fc1e1f664293c5d1620e3b516,
+    type: 2}
+  telemetryTextNumber: {fileID: 1660932676639410, guid: 782b9b1236762d146ae8d50dda7b483d,
     type: 2}
 --- !u!1 &826812803
 GameObject:

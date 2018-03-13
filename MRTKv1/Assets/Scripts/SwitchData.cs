@@ -31,4 +31,14 @@ public class SwitchData : TelemetryData
     {
         return name + ": " + switchCondition;
     }
+
+    public override string GetNameText()
+    {
+        return name;
+    }
+
+    public override string GetValueText()
+    {
+        return switchCondition;
+    }
 }
