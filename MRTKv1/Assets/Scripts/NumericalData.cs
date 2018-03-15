@@ -4,8 +4,8 @@ public class NumericalData : TelemetryData
 {
     public double value;
     public string units;
-    private double minValue;
-    private double maxValue;
+    public double minValue;
+    public double maxValue;
 
     private const double WARNING_PERCENTAGE = 0.1;
     private double warningAmt;
@@ -37,7 +37,7 @@ public class NumericalData : TelemetryData
         }
     }
 
-    public override string GetDataText()
+    public override string GetDescription()
     {
         return name + ": " + value + " " + units;
     }

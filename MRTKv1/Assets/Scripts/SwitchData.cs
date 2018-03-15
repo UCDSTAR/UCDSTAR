@@ -27,7 +27,7 @@ public class SwitchData : TelemetryData
         }
     }
 
-    public override string GetDataText()
+    public override string GetDescription()
     {
         return name + ": " + switchCondition;
     }

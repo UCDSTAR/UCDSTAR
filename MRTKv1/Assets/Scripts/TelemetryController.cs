@@ -15,15 +15,16 @@ public class TelemetryController : MonoBehaviour
     public GameObject telemetryNotification; //this will be copied into the scene
     public GameObject telemetryTextName; //this will be copied into the scene
     public GameObject telemetryTextNumber; //this will be copied into the scene
-
-    //Clock data
-    private DateTime utcTime;
+    public GameObject pressureArrow;
+    public GameObject oxygenArrow;
 
     //Telemetry data
     private const int MAX_NOTIFICATIONS = 4;
-    private const double REFRESH_RATE = 1;
+    private const double REFRESH_RATE = 2; //in seconds
     private List<TelemetryData> notificationsList;
     private List<TelemetryData> textList;
+    private string numericalDataURL = "https://hrvip.ucdavis.edu/share/UCDSUITS/api/telemetry/recent.json";
+    private string switchDataURL = "https://hrvip.ucdavis.edu/share/UCDSUITS/api/switch/recent.json";
 
     // Use this for initialization
     void Start()
@@ -33,6 +34,13 @@ public class TelemetryController : MonoBehaviour
 
         //Start polling server for data
         StartCoroutine(GetTelemetryData());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        String timeStr = DateTime.UtcNow.ToString("t") + " UTC";
+        currentTimeText.GetComponentInChildren<Text>().text = timeStr;
     }
 
     //Called when voice command is triggered
@@ -48,71 +56,6 @@ public class TelemetryController : MonoBehaviour
         notificationsPanel.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        utcTime = DateTime.UtcNow;
-        String timeStr = utcTime.ToString("t") + " UTC";
-        currentTimeText.GetComponentInChildren<Text>().text = timeStr;
-    }
-
-    //Create a telemetry notification object and add it to the details panel at the given index
-    //Index 0 is at the top of the panel
-    void CreateTelemetryNotification(TelemetryData t, int index)
-    {
-        GameObject panelClone = Instantiate(telemetryNotification, notificationsPanel.GetComponent<Transform>(), false);
-        panelClone.GetComponent<RectTransform>().localPosition = new Vector3(0, (float)(1.425 - 0.95 * index), 0);
-
-        //Set color based on severity
-        switch (t.severity)
-        {
-            case Severity.NOMINAL:
-                panelClone.GetComponent<Image>().color = Color.green;
-                break;
-            case Severity.WARNING:
-                panelClone.GetComponent<Image>().color = Color.yellow;
-                break;
-            case Severity.CRITICAL:
-                panelClone.GetComponent<Image>().color = Color.red;
-                break;
-        }
-
-        //Set text
-        panelClone.GetComponentInChildren<Text>().text = t.GetDataText();
-    }
-
-    //Create telemetry data text for the right panel
-    //Index 0 is at the top of the panel
-    void CreateTelemetryText(TelemetryData t, int index)
-    {
-        GameObject textNameClone = Instantiate(telemetryTextName, textPanel.GetComponent<Transform>(), false);
-        GameObject textNumberClone = Instantiate(telemetryTextNumber, textPanel.GetComponent<Transform>(), false);
-
-        textNameClone.GetComponent<RectTransform>().localPosition = new Vector3((float)0.75, (float)(3.5 - 0.4 * index), 0);
-        textNumberClone.GetComponent<RectTransform>().localPosition = new Vector3((float)-0.75, (float)(3.5 - 0.4 * index), 0);
-
-        //Set color based on severity
-        switch (t.severity)
-        {
-            case Severity.NOMINAL:
-                textNameClone.GetComponentInChildren<Text>().color = Color.white;
-                textNumberClone.GetComponentInChildren<Text>().color = Color.white;
-                break;
-            case Severity.WARNING:
-                textNameClone.GetComponentInChildren<Text>().color = Color.yellow;
-                textNumberClone.GetComponentInChildren<Text>().color = Color.yellow;
-                break;
-            case Severity.CRITICAL:
-                textNameClone.GetComponentInChildren<Text>().color = Color.red;
-                textNumberClone.GetComponentInChildren<Text>().color = Color.red;
-                break;
-        }
-
-        //Set text
-        textNameClone.GetComponentInChildren<Text>().text = t.GetNameText();
-        textNumberClone.GetComponentInChildren<Text>().text = t.GetValueText();
-    }
-
     //Repeatedly read telemetry data from server using an HTTP GET request and update notification data
     IEnumerator GetTelemetryData()
     {
@@ -121,7 +64,7 @@ public class TelemetryController : MonoBehaviour
             string numericalStr="", switchStr="", jsonStr="";
 
             //Get numerical data
-            using (UnityWebRequest www1 = UnityWebRequest.Get("https://hrvip.ucdavis.edu/share/UCDSUITS/api/telemetry/recent.json"))
+            using (UnityWebRequest www1 = UnityWebRequest.Get(numericalDataURL))
             {
                 yield return www1.Send();
 
@@ -135,8 +78,8 @@ public class TelemetryController : MonoBehaviour
                 }
             }
 
-            //Concatenate with switch data
-            using (UnityWebRequest www2 = UnityWebRequest.Get("https://hrvip.ucdavis.edu/share/UCDSUITS/api/switch/recent.json"))
+            //Get switch data
+            using (UnityWebRequest www2 = UnityWebRequest.Get(switchDataURL))
             {
                 yield return www2.Send();
 
@@ -171,19 +114,96 @@ public class TelemetryController : MonoBehaviour
             //Create new notifications
             for (int i = 0; i < MAX_NOTIFICATIONS; ++i)
             {
-                if (notificationsList[i].severity == Severity.NOMINAL) break;
+                if (notificationsList[i].severity == Severity.NOMINAL) break; //only show errors and warnings
                 CreateTelemetryNotification(notificationsList[i], i);
             }
 
             //Create telemetry text for right panel
+            //Also get pressure and oxygen data
+            NumericalData sop_pressure = null; //just to keep the compiler quiet
+            NumericalData oxygen_pressure = null;
             for (int i = 0; i < textList.Count; ++i)
             {
                 CreateTelemetryText(textList[i], i);
+                if (textList[i].name.Equals("SOP pressure")) sop_pressure = (NumericalData)textList[i];
+                else if (textList[i].name.Equals("O2 pressure")) oxygen_pressure = (NumericalData)textList[i];
             }
+
+            //Update pressure and oxygen arrows
+            double pressureAngle = ValueToDegrees(sop_pressure);
+            double oxygenAngle = ValueToDegrees(oxygen_pressure);
+            pressureArrow.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, (float)pressureAngle);
+            oxygenArrow.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, (float)oxygenAngle);
 
             //Wait before pulling data again
             yield return new WaitForSecondsRealtime((float)REFRESH_RATE);
         }
+    }
+
+    //Converts a data value into a degree value between 225 deg (-10%) and -45 deg (110%)
+    double ValueToDegrees(NumericalData data)
+    {
+        double degrees = (100 * (data.value - data.minValue) / (data.maxValue - data.minValue)) * -2.25 + 202.5;
+        if (degrees > 225) return 225;
+        else if (degrees < -45) return -45;
+        else return degrees;
+    }
+
+    //Create a telemetry notification object and add it to the details panel at the given index
+    //Index 0 is at the top of the panel
+    void CreateTelemetryNotification(TelemetryData t, int index)
+    {
+        GameObject panelClone = Instantiate(telemetryNotification, notificationsPanel.GetComponent<Transform>(), false);
+        panelClone.GetComponent<RectTransform>().localPosition = new Vector3(0, (float)(1.425 - 0.95 * index), 0);
+
+        //Set color based on severity
+        switch (t.severity)
+        {
+            case Severity.NOMINAL:
+                panelClone.GetComponent<Image>().color = Color.green;
+                break;
+            case Severity.WARNING:
+                panelClone.GetComponent<Image>().color = Color.yellow;
+                break;
+            case Severity.CRITICAL:
+                panelClone.GetComponent<Image>().color = Color.red;
+                break;
+        }
+
+        //Set text
+        panelClone.GetComponentInChildren<Text>().text = t.GetDescription();
+    }
+
+    //Create telemetry data text for the right panel
+    //Index 0 is at the top of the panel
+    void CreateTelemetryText(TelemetryData t, int index)
+    {
+        GameObject textNameClone = Instantiate(telemetryTextName, textPanel.GetComponent<Transform>(), false);
+        GameObject textNumberClone = Instantiate(telemetryTextNumber, textPanel.GetComponent<Transform>(), false);
+
+        textNameClone.GetComponent<RectTransform>().localPosition = new Vector3((float)0.75, (float)(3.5 - 0.4 * index), 0);
+        textNumberClone.GetComponent<RectTransform>().localPosition = new Vector3((float)-0.75, (float)(3.5 - 0.4 * index), 0);
+
+        //Set color based on severity
+        switch (t.severity)
+        {
+            case Severity.NOMINAL:
+                textNameClone.GetComponentInChildren<Text>().color = Color.white;
+                textNumberClone.GetComponentInChildren<Text>().color = Color.white;
+                break;
+            case Severity.WARNING:
+                textNameClone.GetComponentInChildren<Text>().color = Color.yellow;
+                textNumberClone.GetComponentInChildren<Text>().color = Color.yellow;
+                break;
+            case Severity.CRITICAL:
+                textNameClone.GetComponentInChildren<Text>().color = Color.red;
+                textNumberClone.GetComponentInChildren<Text>().color = Color.red;
+                break;
+        }
+
+        //Set text
+        textNameClone.GetComponentInChildren<Text>().text = t.GetNameText();
+        textNumberClone.GetComponentInChildren<Text>().text = t.GetValueText();
     }
 
     //Converts json data into TelemetryData objects, sorts by severity and name, and updates notification array
