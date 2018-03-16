@@ -17,12 +17,12 @@ public class SwitchData : TelemetryData
     {
         if (trueMeansError)
         {
-            if (switchCondition.Equals("false", StringComparison.InvariantCultureIgnoreCase)) return Severity.NOMINAL;
+            if (switchCondition.Equals("false")) return Severity.NOMINAL;
             else return Severity.CRITICAL; //if condition not recognized, err on the side of caution
         }
         else
         {
-            if (switchCondition.Equals("true", StringComparison.InvariantCultureIgnoreCase)) return Severity.NOMINAL;
+            if (switchCondition.Equals("true")) return Severity.NOMINAL;
             else return Severity.CRITICAL;
         }
     }

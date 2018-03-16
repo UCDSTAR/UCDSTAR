@@ -211,7 +211,7 @@ public class TelemetryController : MonoBehaviour
     {
         //Numerical data
         NumericalData P_sub = new NumericalData("External pressure", jsonData.p_sub, "psia", 2, 4);
-        NumericalData T_sub = new NumericalData("External temperature", jsonData.t_sub, "F", 0, 100);
+        NumericalData T_sub = new NumericalData("External temperature", jsonData.t_sub, "F", -150, 250);
         NumericalData V_fan = new NumericalData("Fan speed", jsonData.v_fan, "RPM", 10000, 40000);
         NumericalData P_o2 = new NumericalData("O2 pressure", jsonData.p_o2, "psia", 750, 950);
         NumericalData Rate_o2 = new NumericalData("O2 flow rate", jsonData.rate_o2, "psi/min", 0.5, 1);
