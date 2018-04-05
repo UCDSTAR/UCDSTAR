@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 
-public enum Severity { CRITICAL=0, WARNING=1, NOMINAL=2}; //should be ordered most to least severe
+public enum Severity {UNKNOWN=0, CRITICAL=1, WARNING=2, NOMINAL=3}; //should be ordered most to least severe
 
 public abstract class TelemetryData
 {

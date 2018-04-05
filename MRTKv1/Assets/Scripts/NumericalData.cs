@@ -12,13 +12,22 @@ public class NumericalData : TelemetryData
 
     public NumericalData(string n, string v, string u, double min, double max)
     {
-        name = n;
-        value = Convert.ToDouble(v);
-        units = u;
-        minValue = min;
-        maxValue = max;
-        warningAmt = (maxValue - minValue) * WARNING_PERCENTAGE;
-        severity = GetSeverity();
+        if (v == null) //value missing from JSON
+        {
+            name = n + " UNKNOWN";
+            value = -1;
+            severity = Severity.UNKNOWN;
+        }
+        else
+        {
+            name = n;
+            value = Convert.ToDouble(v);
+            units = u;
+            minValue = min;
+            maxValue = max;
+            warningAmt = (maxValue - minValue) * WARNING_PERCENTAGE;
+            severity = GetSeverity();
+        }
     }
 
     public override Severity GetSeverity()

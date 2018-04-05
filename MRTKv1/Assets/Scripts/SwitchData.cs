@@ -7,10 +7,19 @@ public class SwitchData : TelemetryData
 
     public SwitchData(string n, string c, bool t)
     {
-        name = n;
-        switchCondition = c;
-        trueMeansError = t;
-        severity = GetSeverity();
+        if (c == null)
+        {
+            name = n + " UNKNOWN";
+            switchCondition = "?";
+            severity = Severity.UNKNOWN;
+        }
+        else
+        {
+            name = n;
+            switchCondition = c;
+            trueMeansError = t;
+            severity = GetSeverity();
+        }
     }
 
     public override Severity GetSeverity()

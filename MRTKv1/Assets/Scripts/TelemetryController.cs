@@ -25,6 +25,8 @@ public class TelemetryController : MonoBehaviour
     private List<TelemetryData> textList;
     private string numericalDataURL = "https://hrvip.ucdavis.edu/share/UCDSUITS/api/telemetry/recent.json";
     private string switchDataURL = "https://hrvip.ucdavis.edu/share/UCDSUITS/api/switch/recent.json";
+    private Boolean numericalServerConnErr;
+    private Boolean switchServerConnErr;
 
     // Use this for initialization
     void Start()
@@ -61,15 +63,19 @@ public class TelemetryController : MonoBehaviour
     {
         while (true)
         {
-            string numericalStr="", switchStr="", jsonStr="";
+            string numericalStr="blank:blank", switchStr="blank:blank", jsonStr="blank:blank";
 
             //Get numerical data
+            numericalServerConnErr = false;
+            switchServerConnErr = false;
+
             using (UnityWebRequest www1 = UnityWebRequest.Get(numericalDataURL))
             {
                 yield return www1.Send();
 
                 if (www1.isError)
                 {
+                    numericalServerConnErr = true;
                     Debug.Log(www1.error);
                 }
                 else
@@ -85,6 +91,7 @@ public class TelemetryController : MonoBehaviour
 
                 if (www2.isError)
                 {
+                    switchServerConnErr = true;
                     Debug.Log(www2.error);
                 }
                 else
@@ -93,11 +100,17 @@ public class TelemetryController : MonoBehaviour
                 }
             }
 
-            //Parse and update notifications
-            jsonStr = numericalStr.Substring(0, numericalStr.Length - 3) + "," + switchStr.Substring(1);
-            JSONData jsonData = JSONData.CreateFromJSON(jsonStr);
-            evaTimeText.GetComponentInChildren<Text>().text = jsonData.t_eva; //update eva time separately
-            UpdateNotificationsArray(jsonData);
+            //Parse and update notifications if valid connections to servers exist
+            //Note that BOTH connections must be working for any updates to occur
+            //TODO: if one server goes down, figure out how to only update notifications from the other server
+            if (!switchServerConnErr && !numericalServerConnErr)
+            {
+                jsonStr = numericalStr.Substring(0, numericalStr.Length - 3) + "," + switchStr.Substring(1);
+                JSONData jsonData = JSONData.CreateFromJSON(jsonStr);
+                if (jsonData.t_eva != null)
+                    evaTimeText.GetComponentInChildren<Text>().text = jsonData.t_eva; //update eva time separately
+                UpdateNotificationsArray(jsonData);
+            }
 
             //Clear notifications
             foreach (Transform child in notificationsPanel.transform)
@@ -112,28 +125,50 @@ public class TelemetryController : MonoBehaviour
             }
 
             //Create new notifications
-            for (int i = 0; i < MAX_NOTIFICATIONS; ++i)
+            //Special notifications for server communication failure appear first (if any)
+            SwitchData switchConnNotification, numConnNotification;
+            int index = 0;
+            if (switchServerConnErr)
             {
-                if (notificationsList[i].severity == Severity.NOMINAL) break; //only show errors and warnings
-                CreateTelemetryNotification(notificationsList[i], i);
+                switchConnNotification = new SwitchData("Switch server connection", "false", false);
+                CreateTelemetryNotification(switchConnNotification, index);
+                ++index;
+            }
+            if (numericalServerConnErr)
+            {
+                numConnNotification = new SwitchData("Telemetry server connection", "false", false);
+                CreateTelemetryNotification(numConnNotification, index);
+                ++index;
+            }
+            for (; index < MAX_NOTIFICATIONS; ++index)
+            {
+                if (notificationsList[index].severity == Severity.NOMINAL) break; //only show errors and warnings
+                CreateTelemetryNotification(notificationsList[index], index);
             }
 
             //Create telemetry text for right panel
             //Also get pressure and oxygen data
-            NumericalData sop_pressure = null; //just to keep the compiler quiet
+            NumericalData sop_pressure = null;
             NumericalData oxygen_pressure = null;
-            for (int i = 0; i < textList.Count; ++i)
+            for (int j = 0; j < textList.Count; ++j)
             {
-                CreateTelemetryText(textList[i], i);
-                if (textList[i].name.Equals("SOP pressure")) sop_pressure = (NumericalData)textList[i];
-                else if (textList[i].name.Equals("O2 pressure")) oxygen_pressure = (NumericalData)textList[i];
+                CreateTelemetryText(textList[j], j);
+                if (textList[j].name.Equals("SOP pressure")) sop_pressure = (NumericalData)textList[j];
+                else if (textList[j].name.Equals("O2 pressure")) oxygen_pressure = (NumericalData)textList[j];
             }
 
-            //Update pressure and oxygen arrows
-            double pressureAngle = ValueToDegrees(sop_pressure);
-            double oxygenAngle = ValueToDegrees(oxygen_pressure);
-            pressureArrow.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, (float)pressureAngle);
-            oxygenArrow.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, (float)oxygenAngle);
+            //Update pressure and oxygen arrows if they have values
+            //If null, the arrows won't change their rotation
+            if(sop_pressure != null)
+            {
+                double pressureAngle = ValueToDegrees(sop_pressure);
+                pressureArrow.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, (float)pressureAngle);
+            }
+            if(oxygen_pressure != null)
+            {
+                double oxygenAngle = ValueToDegrees(oxygen_pressure);
+                oxygenArrow.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, (float)oxygenAngle);
+            }
 
             //Wait before pulling data again
             yield return new WaitForSecondsRealtime((float)REFRESH_RATE);
@@ -168,6 +203,9 @@ public class TelemetryController : MonoBehaviour
             case Severity.CRITICAL:
                 panelClone.GetComponent<Image>().color = Color.red;
                 break;
+            case Severity.UNKNOWN:
+                panelClone.GetComponent<Image>().color = Color.red;
+                break;
         }
 
         //Set text
@@ -196,6 +234,10 @@ public class TelemetryController : MonoBehaviour
                 textNumberClone.GetComponentInChildren<Text>().color = Color.yellow;
                 break;
             case Severity.CRITICAL:
+                textNameClone.GetComponentInChildren<Text>().color = Color.red;
+                textNumberClone.GetComponentInChildren<Text>().color = Color.red;
+                break;
+            case Severity.UNKNOWN:
                 textNameClone.GetComponentInChildren<Text>().color = Color.red;
                 textNumberClone.GetComponentInChildren<Text>().color = Color.red;
                 break;
