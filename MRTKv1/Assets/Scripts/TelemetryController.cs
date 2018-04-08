@@ -17,10 +17,16 @@ public class TelemetryController : MonoBehaviour
     public GameObject telemetryTextNumber; //this will be copied into the scene
     public GameObject pressureArrow;
     public GameObject oxygenArrow;
+    public GameObject pressureImage;
+    public GameObject oxygenImage;
+    public GameObject temperatureImage;
 
     //Telemetry data
     private const int MAX_NOTIFICATIONS = 4;
     private const double REFRESH_RATE = 2; //in seconds
+    private const int TEMPERATURE_INDEX = 2;
+    private const int PRESSURE_INDEX = 15;
+    private const int OXYGEN_INDEX = 10;
     private List<TelemetryData> notificationsList;
     private List<TelemetryData> textList;
     private string numericalDataURL = "https://hrvip.ucdavis.edu/share/UCDSUITS/api/telemetry/recent.json";
@@ -147,19 +153,31 @@ public class TelemetryController : MonoBehaviour
             }
 
             //Create telemetry text for right panel
-            //Also get pressure and oxygen data
-            NumericalData sop_pressure = null;
-            NumericalData oxygen_pressure = null;
             for (int j = 0; j < textList.Count; ++j)
             {
                 CreateTelemetryText(textList[j], j);
-                if (textList[j].name.Equals("SOP pressure")) sop_pressure = (NumericalData)textList[j];
-                else if (textList[j].name.Equals("O2 pressure")) oxygen_pressure = (NumericalData)textList[j];
             }
+
+            //Get pressure, oxygen, and temperature data
+            NumericalData sop_pressure = (NumericalData)textList[PRESSURE_INDEX];
+            NumericalData oxygen_pressure = (NumericalData)textList[OXYGEN_INDEX];
+            NumericalData temperature = (NumericalData)textList[TEMPERATURE_INDEX];
+
+            //Update the pressure, oxygen, and temperature icons
+            String pressureIconPath = String.Format("Icons/dial-{0}", sop_pressure.severity.ToString());
+            String oxygenIconPath = String.Format("Icons/dial-{0}", oxygen_pressure.severity.ToString());
+            String temperatureIconPath = String.Format("Icons/temperature-{0}", temperature.severity.ToString());
+            Sprite pressureIcon = Resources.Load<Sprite>(pressureIconPath);
+            Sprite oxygenIcon = Resources.Load<Sprite>(oxygenIconPath);
+            Sprite temperatureIcon = Resources.Load<Sprite>(temperatureIconPath);
+            pressureImage.GetComponent<Image>().sprite = pressureIcon;
+            oxygenImage.GetComponent<Image>().sprite = oxygenIcon;
+            temperatureImage.GetComponent<Image>().sprite = temperatureIcon;
+
 
             //Update pressure and oxygen arrows if they have values
             //If null, the arrows won't change their rotation
-            if(sop_pressure != null)
+            if (sop_pressure != null)
             {
                 double pressureAngle = ValueToDegrees(sop_pressure);
                 pressureArrow.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, (float)pressureAngle);
@@ -273,6 +291,8 @@ public class TelemetryController : MonoBehaviour
         SwitchData O2_off = new SwitchData("O2 offline", jsonData.o2_off, true);
 
         //This is already in alphabetical order to save us a sort
+        //*****Do NOT edit this list*****
+        //There are constants at the top of the script which depend on the objects' positions
         textList = new List<TelemetryData>
         {
             Cap_battery,
