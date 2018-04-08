@@ -111,7 +111,7 @@ public class TelemetryController : MonoBehaviour
             //TODO: if one server goes down, figure out how to only update notifications from the other server
             if (!switchServerConnErr && !numericalServerConnErr)
             {
-                jsonStr = numericalStr.Substring(0, numericalStr.Length - 3) + "," + switchStr.Substring(1);
+                jsonStr = numericalStr.Substring(0, numericalStr.Length - 1) + "," + switchStr.Substring(1);
                 JSONData jsonData = JSONData.CreateFromJSON(jsonStr);
                 if (jsonData.t_eva != null)
                     evaTimeText.GetComponentInChildren<Text>().text = jsonData.t_eva; //update eva time separately
