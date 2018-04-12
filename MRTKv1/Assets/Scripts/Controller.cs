@@ -10,6 +10,8 @@ public class Controller : MonoBehaviour {
     public Button fwdButton;
     public Button backButton;
     public Image stepImage;
+    public Canvas leftCanvas;
+    public GameObject procedureStep;
     public int numberOfSteps;
     private int stepNum; //starts counting from 1
 
@@ -23,6 +25,10 @@ public class Controller : MonoBehaviour {
         //Let's start at the very beginning, a very good place to start
         stepNum = 1;
         SetStepSprite(stepNum);
+
+        //Add sample step to left panel
+        GameObject stepClone = Instantiate(procedureStep, leftCanvas.GetComponent<Transform>(), false);
+        stepClone.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
     }
 
     //Called every frame
