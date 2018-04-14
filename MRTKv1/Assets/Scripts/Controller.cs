@@ -58,12 +58,13 @@ public class Controller : MonoBehaviour {
     }
 
     //These next two are triggered by voice commands
-    void NextInstruction_s()
+    //OBSOLETE, use ProcedureController instead
+    void XX_NextInstruction_s()
     {
         MoveToNextStep();
     }
 
-    void PreviousInstruction_s()
+    void XX_PreviousInstruction_s()
     {
         MoveToPrevStep();
     }

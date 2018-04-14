@@ -10,9 +10,9 @@ public class CSVReader
 	static string LINE_SPLIT_RE = @"\r\n|\n\r|\n|\r";
 	static char[] TRIM_CHARS = { '\"' };
 
-	public static List<Dictionary<string, object>> Read(string file)
+	public static List<Dictionary<string, string>> Read(string file) //changed 2nd arg from obj to str
 	{
-		var list = new List<Dictionary<string, object>>();
+		var list = new List<Dictionary<string, string>>();
 		TextAsset data = Resources.Load (file) as TextAsset;
 
 		var lines = Regex.Split (data.text, LINE_SPLIT_RE);
@@ -25,10 +25,11 @@ public class CSVReader
 			var values = Regex.Split(lines[i], SPLIT_RE);
 			if(values.Length == 0 ||values[0] == "") continue;
 
-			var entry = new Dictionary<string, object>();
+			var entry = new Dictionary<string, string>();
 			for(var j=0; j < header.Length && j < values.Length; j++ ) {
 				string value = values[j];
 				value = value.TrimStart(TRIM_CHARS).TrimEnd(TRIM_CHARS).Replace("\\", "");
+                /*
 				object finalvalue = value;
 				int n;
 				float f;
@@ -37,7 +38,8 @@ public class CSVReader
 				} else if (float.TryParse(value, out f)) {
 					finalvalue = f;
 				}
-				entry[header[j]] = finalvalue;
+                */
+                entry[header[j]] = value;// finalvalue;
 			}
 			list.Add (entry);
 		}
