@@ -21,12 +21,12 @@ public class SpeechManager : MonoBehaviour
             this.BroadcastMessage("HideNotifications_s");
         });
 
-        keywords.Add("Next instruction", () =>
+        keywords.Add("Next step", () =>
         {
             this.BroadcastMessage("NextInstruction_s");
         });
 
-        keywords.Add("Previous instruction", () =>
+        keywords.Add("Previous step", () =>
         {
             this.BroadcastMessage("PreviousInstruction_s");
         });

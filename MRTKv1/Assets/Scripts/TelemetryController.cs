@@ -20,6 +20,8 @@ public class TelemetryController : MonoBehaviour
     public GameObject pressureImage;
     public GameObject oxygenImage;
     public GameObject temperatureImage;
+    public GameObject batteryImage;
+    public GameObject notifyImage;
 
     //Telemetry data
     private const int MAX_NOTIFICATIONS = 4;
@@ -27,6 +29,7 @@ public class TelemetryController : MonoBehaviour
     private const int TEMPERATURE_INDEX = 2;
     private const int PRESSURE_INDEX = 15;
     private const int OXYGEN_INDEX = 10;
+    private const int BATTERY_INDEX = 0;
     private List<TelemetryData> notificationsList;
     private List<TelemetryData> textList;
     private string numericalDataURL = "https://hrvip.ucdavis.edu/share/UCDSUITS/api/telemetry/recent.json";
@@ -152,27 +155,38 @@ public class TelemetryController : MonoBehaviour
                 CreateTelemetryNotification(notificationsList[index], index);
             }
 
+            //Update notification icon
+            Severity notifySeverity = notificationsList[0].severity;
+            if (switchServerConnErr || numericalServerConnErr) notifySeverity = Severity.CRITICAL;
+            String notifyIconPath = String.Format("Icons/notify-{0}", notifySeverity.ToString());
+            Sprite notifyIcon = Resources.Load<Sprite>(notifyIconPath);
+            notifyImage.GetComponent<Image>().sprite = notifyIcon;
+
             //Create telemetry text for right panel
             for (int j = 0; j < textList.Count; ++j)
             {
                 CreateTelemetryText(textList[j], j);
             }
 
-            //Get pressure, oxygen, and temperature data
+            //Get pressure, oxygen, temperature, and battery data
             NumericalData sop_pressure = (NumericalData)textList[PRESSURE_INDEX];
             NumericalData oxygen_pressure = (NumericalData)textList[OXYGEN_INDEX];
             NumericalData temperature = (NumericalData)textList[TEMPERATURE_INDEX];
+            NumericalData battery = (NumericalData)textList[BATTERY_INDEX];
 
-            //Update the pressure, oxygen, and temperature icons
+            //Update the pressure, oxygen, temperature, and battery icons
             String pressureIconPath = String.Format("Icons/dial-{0}", sop_pressure.severity.ToString());
             String oxygenIconPath = String.Format("Icons/dial-{0}", oxygen_pressure.severity.ToString());
             String temperatureIconPath = String.Format("Icons/temperature-{0}", temperature.severity.ToString());
+            String batteryIconPath = String.Format("Icons/battery-{0}", battery.severity.ToString());
             Sprite pressureIcon = Resources.Load<Sprite>(pressureIconPath);
             Sprite oxygenIcon = Resources.Load<Sprite>(oxygenIconPath);
             Sprite temperatureIcon = Resources.Load<Sprite>(temperatureIconPath);
+            Sprite batteryIcon = Resources.Load<Sprite>(batteryIconPath);
             pressureImage.GetComponent<Image>().sprite = pressureIcon;
             oxygenImage.GetComponent<Image>().sprite = oxygenIcon;
             temperatureImage.GetComponent<Image>().sprite = temperatureIcon;
+            batteryImage.GetComponent<Image>().sprite = batteryIcon;
 
 
             //Update pressure and oxygen arrows if they have values

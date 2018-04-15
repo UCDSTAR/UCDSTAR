@@ -25,19 +25,6 @@ public class ProcedureController : MonoBehaviour
         //Parse csv file
         data = CSVReader.Read(csvName);
         numSteps = data.Count;        
-
-        /*
-        for (var i = 0; i < data.Count; i++)
-        {
-            if (data[i]["Caution"] == null) Debug.Log("NULL");
-            print("Step " + data[i]["Step"] + " " +
-                   "Text " + data[i]["Text"] + " " +
-                   "Caution " + data[i]["Caution"] + " " +
-                   "Warning " + data[i]["Warning"] + " " +
-                   "Figure " + data[i]["Figure"]);
-        }
-        */
-        
     }
 
     // Use this for initialization
@@ -61,7 +48,7 @@ public class ProcedureController : MonoBehaviour
 
         //Initialize currentStepPanel
         GameObject progressBar = currentStepPanel.transform.Find("ProgressBar").gameObject;
-        progressBar.GetComponent<Slider>().minValue = 0;
+        progressBar.GetComponent<Slider>().minValue = 1;
         progressBar.GetComponent<Slider>().maxValue = numSteps;
 
         //Set first instruction as active
@@ -71,14 +58,12 @@ public class ProcedureController : MonoBehaviour
     //Triggered by voice command
     void NextInstruction_s()
     {
-        Debug.Log("Received voice command next instruction");
         MoveToNextStep();
     }
 
     //Triggered by voice command
     void PreviousInstruction_s()
     {
-        Debug.Log("Received voice command previous instruction");
         MoveToPrevStep();
     }
 
@@ -165,6 +150,9 @@ public class ProcedureController : MonoBehaviour
     //TODO: add images
     private GameObject GenerateStep(string step, string text, string caution, string warning, string figure)
     {
+        int stepval = int.Parse(step);
+        bool hasFigure = bool.Parse(figure);
+
         //We assume an instruction can't have both a warning and a caution string
         //If neither is provided, warningCautionStr will just be ""
         bool isWarning = true;
@@ -190,9 +178,24 @@ public class ProcedureController : MonoBehaviour
         stepNumberText.GetComponentInChildren<Text>().text = step;
 
         GameObject progressBar = stepClone.transform.Find("ProgressBar").gameObject;
-        progressBar.GetComponent<Slider>().value = int.Parse(step);
-        progressBar.GetComponent<Slider>().minValue = 1;
-        progressBar.GetComponent<Slider>().maxValue = numSteps;
+        Slider bar = progressBar.GetComponent<Slider>();
+        bar.minValue = 1;
+        bar.maxValue = numSteps;
+        bar.value = stepval;
+
+        Image image = stepClone.transform.Find("StepImage").gameObject.GetComponent<Image>();
+        if (hasFigure)
+        {
+            int tempstepval = stepval + 6;
+            string imgpath = string.Format("ProcedureImages/png-{0}", tempstepval.ToString("D3")); //pad with zeros until length 3
+            Sprite img = Resources.Load<Sprite>(imgpath);
+            if (!img) Debug.Log("Error loading " + imgpath);
+            else image.sprite = img;
+        }
+        else
+        {
+            image.enabled = false;
+        }
 
         return stepClone;
     }
