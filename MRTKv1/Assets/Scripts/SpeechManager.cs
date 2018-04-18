@@ -31,6 +31,11 @@ public class SpeechManager : MonoBehaviour
             this.BroadcastMessage("PreviousInstruction_s");
         });
 
+        keywords.Add("Time", () =>
+        {
+            this.BroadcastMessage("ToggleTimer_s");
+        });
+
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
 

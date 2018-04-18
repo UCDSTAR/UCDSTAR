@@ -1372,6 +1372,7 @@ MonoBehaviour:
   temperatureImage: {fileID: 1573326940}
   batteryImage: {fileID: 1970687256}
   notifyImage: {fileID: 258926724}
+  timerPanel: {fileID: 798253402}
 --- !u!1001 &851576088
 Prefab:
   m_ObjectHideFlags: 0
@@ -2317,7 +2318,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 8ea20f57c47230a4388c2c3730430fdb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f8316b5cc408d4542912c950b9cdc653, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

@@ -22,6 +22,7 @@ public class TelemetryController : MonoBehaviour
     public GameObject temperatureImage;
     public GameObject batteryImage;
     public GameObject notifyImage;
+    public GameObject timerPanel;
 
     //Telemetry data
     private const int MAX_NOTIFICATIONS = 4;
@@ -357,5 +358,11 @@ public class TelemetryController : MonoBehaviour
             if (retval == 0) retval = x.name.CompareTo(y.name);
             return retval;
         });
+    }
+
+    //Show/hide the EVA timer
+    void ToggleTimer_s()
+    {
+        timerPanel.SetActive(!timerPanel.activeInHierarchy);
     }
 }
