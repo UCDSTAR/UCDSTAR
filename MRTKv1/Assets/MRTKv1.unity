@@ -1758,8 +1758,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddd1320c01a9d2f42a7c8319dea8f41b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  csvName: Disabling Alarm Procedure
-  stepAsset: {fileID: 1694108464752354, guid: 511a5f4611a9c1641aee3d4067e087cb, type: 2}
+  csvName: Generator Procedure
+  stepAsset: {fileID: 1479443573685802, guid: e6c25ffe438c67a418bd65756f93fadc, type: 2}
   currentStepPanel: {fileID: 2081881911}
   stepCanvas: {fileID: 930418558}
 --- !u!1001 &1124507090

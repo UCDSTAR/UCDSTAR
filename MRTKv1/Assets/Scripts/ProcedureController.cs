@@ -186,8 +186,7 @@ public class ProcedureController : MonoBehaviour
         Image image = stepClone.transform.Find("StepImage").gameObject.GetComponent<Image>();
         if (hasFigure)
         {
-            int tempstepval = stepval + 6;
-            string imgpath = string.Format("ProcedureImages/png-{0}", tempstepval.ToString("D3")); //pad with zeros until length 3
+            string imgpath = string.Format("GeneratorImages/2.{0}", stepval.ToString("D2")); //pad with zeros until length 2
             Sprite img = Resources.Load<Sprite>(imgpath);
             if (!img) Debug.Log("Error loading " + imgpath);
             else image.sprite = img;
@@ -201,17 +200,20 @@ public class ProcedureController : MonoBehaviour
     }
 
     //Color a procedure step white if it's the active step, else color it gray
+    //Also enable or disable the progress bar
     //We'll also update the currentStepPanel if we're active
     private void SetStepActive(GameObject step, bool isActive)
     {
         if(isActive)
         {
             step.GetComponent<Image>().color = Color.white;
+            step.transform.Find("ProgressBar").gameObject.SetActive(true);
             SetCurrentStepPanel(step);
         }
         else
         {
             step.GetComponent<Image>().color = Color.gray;
+            step.transform.Find("ProgressBar").gameObject.SetActive(false);
         }
     }
 

@@ -1,0 +1,15 @@
+Step,Text,Caution,Warning,Figure
+1,Clamp the carburetor Fuel Tube [Hose Pinching Pliers].,,,TRUE
+2,Put Gasoline Container under the Carburetor Drain Tube.,,,FALSE
+3,Loosen (but do not remove) Carburetor Drain Screw and drain fuel into Gasoline Container [Flat Head Screwdriver]. (Audible Call Out),,Gasoline Draining! Flammable! Irritant!,FALSE
+4,Tighten the Carburetor Drain Screw securely [1/8 in. Flat Head Screwdriver].,,,TRUE
+5,Remove Gasoline Container from under the Carburetor Drain Tube.,,,FALSE
+6,Remove Carburetor Fuel Tube Clamp [Pliers].,Pry the Carburetor Fuel Tube off gently to avoid damaging it.,,FALSE
+7,Detach Carburetor Fuel Tube from Carburetor [Flat Head Screwdriver].,,,FALSE
+8,Check that the tube routing configuration matches Figure. (Audible Call Out),,,TRUE
+9,Pull Carburetor Drain Tube upwards from red plastic housing until bottom end is free.,,,FALSE
+10,Remove tube from fitting at bottom of Carburetor Bowl.,,,FALSE
+11,Remove Right Hand Vent Tube from Carburetor.,,,TRUE
+12,Remove Left Hand Vent Tube from Carburetor.,,,TRUE
+13,Remove Tube Assembly.,,,FALSE
+14,Remove Carburetor by sliding it off of the bolts attaching it to the main unit.,,,FALSE
