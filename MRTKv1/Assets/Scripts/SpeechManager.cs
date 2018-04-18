@@ -11,22 +11,22 @@ public class SpeechManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        keywords.Add("Show notifications", () =>
+        keywords.Add("Alerts", () =>
         {
             this.BroadcastMessage("ShowNotifications_s");
         });
 
-        keywords.Add("Hide notifications", () =>
+        keywords.Add("Hide alerts", () =>
         {
             this.BroadcastMessage("HideNotifications_s");
         });
 
-        keywords.Add("Next step", () =>
+        keywords.Add("Next", () =>
         {
             this.BroadcastMessage("NextInstruction_s");
         });
 
-        keywords.Add("Previous step", () =>
+        keywords.Add("Back", () =>
         {
             this.BroadcastMessage("PreviousInstruction_s");
         });
