@@ -228,16 +228,16 @@ public class TelemetryController : MonoBehaviour
         switch (t.severity)
         {
             case Severity.NOMINAL:
-                panelClone.GetComponent<Image>().color = Color.green;
+                panelClone.GetComponent<Image>().color = Constants.GREEN;
                 break;
             case Severity.WARNING:
-                panelClone.GetComponent<Image>().color = Color.yellow;
+                panelClone.GetComponent<Image>().color = Constants.YELLOW;
                 break;
             case Severity.CRITICAL:
-                panelClone.GetComponent<Image>().color = Color.red;
+                panelClone.GetComponent<Image>().color = Constants.RED;
                 break;
             case Severity.UNKNOWN:
-                panelClone.GetComponent<Image>().color = Color.red;
+                panelClone.GetComponent<Image>().color = Constants.RED;
                 break;
         }
 
@@ -263,16 +263,16 @@ public class TelemetryController : MonoBehaviour
                 textNumberClone.GetComponentInChildren<Text>().color = Color.white;
                 break;
             case Severity.WARNING:
-                textNameClone.GetComponentInChildren<Text>().color = Color.yellow;
-                textNumberClone.GetComponentInChildren<Text>().color = Color.yellow;
+                textNameClone.GetComponentInChildren<Text>().color = Constants.YELLOW;
+                textNumberClone.GetComponentInChildren<Text>().color = Constants.YELLOW;
                 break;
             case Severity.CRITICAL:
-                textNameClone.GetComponentInChildren<Text>().color = Color.red;
-                textNumberClone.GetComponentInChildren<Text>().color = Color.red;
+                textNameClone.GetComponentInChildren<Text>().color = Constants.RED;
+                textNumberClone.GetComponentInChildren<Text>().color = Constants.RED;
                 break;
             case Severity.UNKNOWN:
-                textNameClone.GetComponentInChildren<Text>().color = Color.red;
-                textNumberClone.GetComponentInChildren<Text>().color = Color.red;
+                textNameClone.GetComponentInChildren<Text>().color = Constants.RED;
+                textNumberClone.GetComponentInChildren<Text>().color = Constants.RED;
                 break;
         }
 

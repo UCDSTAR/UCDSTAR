@@ -168,8 +168,8 @@ public class ProcedureController : MonoBehaviour
         GameObject warningCautionText = stepClone.transform.Find("WarningCautionText").gameObject;
         Text txt = warningCautionText.GetComponentInChildren<Text>();
         txt.text = warningCautionStr;
-        if (isWarning) txt.color = Color.red;
-        else txt.color = new Color(1, 0.6f, 0);
+        if (isWarning) txt.color = Constants.RED;
+        else txt.color = Constants.YELLOW;
 
         GameObject instructionText = stepClone.transform.Find("InstructionText").gameObject;
         instructionText.GetComponentInChildren<Text>().text = text;
