@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
  
@@ -12,6 +13,7 @@ public class ProcedureController : MonoBehaviour
     public GameObject stepAsset; //this is cloned
     public GameObject currentStepPanel; //this is not cloned, it's updated as needed
     public Canvas stepCanvas;
+    public GameObject zoomImage;
 
     private List<Dictionary<string, string>> data;
     private int numSteps;
@@ -183,17 +185,19 @@ public class ProcedureController : MonoBehaviour
         bar.maxValue = numSteps;
         bar.value = stepval;
 
-        Image image = stepClone.transform.Find("StepImage").gameObject.GetComponent<Image>();
+        GameObject imageButton = stepClone.transform.Find("ImageButton").gameObject;
         if (hasFigure)
         {
             string imgpath = string.Format("GeneratorImages/2.{0}", stepval.ToString("D2")); //pad with zeros until length 2
             Sprite img = Resources.Load<Sprite>(imgpath);
             if (!img) Debug.Log("Error loading " + imgpath);
-            else image.sprite = img;
+            else imageButton.GetComponentInChildren<Image>().sprite = img;
+
+            imageButton.GetComponent<Button>().onClick.AddListener(SetZoomImage);
         }
         else
         {
-            image.enabled = false;
+            imageButton.SetActive(false);
         }
 
         return stepClone;
@@ -243,5 +247,21 @@ public class ProcedureController : MonoBehaviour
         Slider currentSlider = currentStepPanel.transform.Find("ProgressBar").gameObject.GetComponent<Slider>();
         Slider stepSlider = step.transform.Find("ProgressBar").gameObject.GetComponent<Slider>();
         currentSlider.value = stepSlider.value;
+    }
+
+    private void SetZoomImage()
+    {
+        if(!zoomImage.activeInHierarchy)
+        {
+            Image img = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Image>();
+            zoomImage.GetComponent<Image>().sprite = img.sprite;
+            zoomImage.SetActive(true);
+            currentStepPanel.SetActive(false);
+        }
+        else
+        {
+            zoomImage.SetActive(false);
+            currentStepPanel.SetActive(true);
+        }
     }
 }
