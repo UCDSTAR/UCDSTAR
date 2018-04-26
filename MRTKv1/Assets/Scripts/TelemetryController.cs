@@ -91,6 +91,7 @@ public class TelemetryController : MonoBehaviour
                 else
                 {
                     numericalStr = www1.downloadHandler.text;
+                    numericalStr = numericalStr.Trim();
                 }
             }
 
@@ -107,6 +108,7 @@ public class TelemetryController : MonoBehaviour
                 else
                 {
                     switchStr = www2.downloadHandler.text;
+                    switchStr = switchStr.Trim();
                 }
             }
 
