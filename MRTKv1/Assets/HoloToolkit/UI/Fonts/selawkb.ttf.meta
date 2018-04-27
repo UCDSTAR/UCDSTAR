@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c757da92d7b4fde4283a92e17c4ea219
+guid: 2a056e2bb89e0134daaf49e5f183e5dc
 timeCreated: 1485994274
 licenseType: Free
 TrueTypeFontImporter:
@@ -12,19 +12,10 @@ TrueTypeFontImporter:
   fontName: Selawik
   fontNames:
   - Selawik
-  fallbackFontReferences:
-  - {fileID: 12800000, guid: 86574c70442309b45be5a1c37a37a40b, type: 3}
-  - {fileID: 12800000, guid: 98d9db324dda3a44e93fbf3b7ce9eca9, type: 3}
-  - {fileID: 12800000, guid: b8a8324793a77d14fad6ef1dc06c55ed, type: 3}
-  - {fileID: 12800000, guid: 96658b872a0666b40bc89cc6b02cae1c, type: 3}
-  - {fileID: 12800000, guid: 0d5cff58f1aac334eb19bdeef433a05e, type: 3}
-  - {fileID: 12800000, guid: 2a056e2bb89e0134daaf49e5f183e5dc, type: 3}
-  - {fileID: 12800000, guid: e3d8348b7d66bae4aa4b1f3ada3ef5fd, type: 3}
-  - {fileID: 12800000, guid: 8f1733bdf9e7a8a4588eee3024fd278a, type: 3}
+  fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
-  useLegacyBoundsCalculation: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
