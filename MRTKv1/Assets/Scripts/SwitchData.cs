@@ -1,6 +1,4 @@
-﻿using System;
-
-public class SwitchData : TelemetryData
+﻿public class SwitchData : TelemetryData
 {
     private string switchCondition;
     private bool trueMeansError;

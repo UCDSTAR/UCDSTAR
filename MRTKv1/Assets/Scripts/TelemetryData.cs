@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-
-public enum Severity {UNKNOWN=0, CRITICAL=1, WARNING=2, NOMINAL=3}; //should be ordered most to least severe
+﻿public enum Severity { UNKNOWN = 0, CRITICAL = 1, WARNING = 2, NOMINAL = 3 }; //should be ordered most to least severe
 
 public abstract class TelemetryData
 {
@@ -16,4 +10,3 @@ public abstract class TelemetryData
     public abstract string GetNameText();
     public abstract string GetValueText();
 }
-

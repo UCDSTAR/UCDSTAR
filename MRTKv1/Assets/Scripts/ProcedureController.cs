@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
- 
+
 //NOTE: some parts of this program assume there are at least 4 steps!!!
 //Steps are 0-indexed (i.e. step #1 is considered to be step 0)
 
@@ -24,7 +23,7 @@ public class ProcedureController : MonoBehaviour
     {
         //Parse csv file
         data = CSVReader.Read(csvName);
-        numSteps = data.Count;        
+        numSteps = data.Count;
     }
 
     // Use this for initialization
@@ -40,7 +39,7 @@ public class ProcedureController : MonoBehaviour
         currentStep = 0; //first step
 
         //Init container with first few steps
-        for(int i = 0; i < SHOW_NUM_STEPS; ++i)
+        for (int i = 0; i < SHOW_NUM_STEPS; ++i)
         {
             stepContainer[i] = GenerateStep(data[i]["Step"], data[i]["Text"], data[i]["Caution"], data[i]["Warning"], data[i]["Figure"]);
             SetStepPos(stepContainer[i], i);
@@ -77,12 +76,12 @@ public class ProcedureController : MonoBehaviour
             SetStepActive(stepContainer[0], false);
             SetStepActive(stepContainer[1], true);
         }
-        else if(currentStep == numSteps - 3)
+        else if (currentStep == numSteps - 3)
         {
             SetStepActive(stepContainer[1], false);
             SetStepActive(stepContainer[2], true);
         }
-        else if(currentStep == numSteps - 2)
+        else if (currentStep == numSteps - 2)
         {
             SetStepActive(stepContainer[2], false);
             SetStepActive(stepContainer[3], true);
@@ -117,12 +116,12 @@ public class ProcedureController : MonoBehaviour
             SetStepActive(stepContainer[1], false);
             SetStepActive(stepContainer[0], true);
         }
-        else if(currentStep == numSteps - 2)
+        else if (currentStep == numSteps - 2)
         {
             SetStepActive(stepContainer[2], false);
             SetStepActive(stepContainer[1], true);
         }
-        else if(currentStep == numSteps - 1)
+        else if (currentStep == numSteps - 1)
         {
             SetStepActive(stepContainer[3], false);
             SetStepActive(stepContainer[2], true);
@@ -204,7 +203,7 @@ public class ProcedureController : MonoBehaviour
     //We'll also update the currentStepPanel if we're active
     private void SetStepActive(GameObject step, bool isActive)
     {
-        if(isActive)
+        if (isActive)
         {
             step.GetComponent<Image>().color = Color.white;
             step.transform.Find("ProgressBar").gameObject.SetActive(true);
@@ -221,7 +220,7 @@ public class ProcedureController : MonoBehaviour
     //0 <= step < SHOW_NUM_STEPS
     private void SetStepPos(GameObject step, int pos)
     {
-        step.GetComponent<RectTransform>().localPosition = new Vector3(0, -2*pos + 3, 0);
+        step.GetComponent<RectTransform>().localPosition = new Vector3(0, -2 * pos + 3, 0);
     }
 
     //Copies data from the given step into currentStepPanel

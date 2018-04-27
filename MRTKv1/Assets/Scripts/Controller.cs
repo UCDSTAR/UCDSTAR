@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Controller : MonoBehaviour {
-
+public class Controller : MonoBehaviour
+{
     //Steps
     public Button fwdButton;
     public Button backButton;
@@ -32,15 +30,15 @@ public class Controller : MonoBehaviour {
     }
 
     //Called every frame
-    void Update()
-    {
+    //void Update()
+    //{
         //nothing here yet
-    }
+    //}
 
     void MoveToNextStep()
     {
         ++stepNum;
-        if(stepNum > numberOfSteps)
+        if (stepNum > numberOfSteps)
         {
             stepNum = 1; //wrap around
         }
@@ -73,7 +71,7 @@ public class Controller : MonoBehaviour {
     {
         String path = String.Format("ProcedureSteps/Steps-0{0}-static", stepNum);
         Sprite newSprite = Resources.Load<Sprite>(path);
-        if(newSprite)
+        if (newSprite)
         {
             stepImage.sprite = newSprite;
         }

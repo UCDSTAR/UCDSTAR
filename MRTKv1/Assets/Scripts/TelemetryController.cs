@@ -73,7 +73,7 @@ public class TelemetryController : MonoBehaviour
     {
         while (true)
         {
-            string numericalStr="blank:blank", switchStr="blank:blank", jsonStr="blank:blank";
+            string numericalStr = "blank:blank", switchStr = "blank:blank", jsonStr = "blank:blank";
 
             //Get numerical data
             numericalServerConnErr = false;
@@ -199,7 +199,7 @@ public class TelemetryController : MonoBehaviour
                 double pressureAngle = ValueToDegrees(sop_pressure);
                 pressureArrow.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, (float)pressureAngle);
             }
-            if(oxygen_pressure != null)
+            if (oxygen_pressure != null)
             {
                 double oxygenAngle = ValueToDegrees(oxygen_pressure);
                 oxygenArrow.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, (float)oxygenAngle);
