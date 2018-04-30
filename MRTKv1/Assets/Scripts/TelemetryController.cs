@@ -165,6 +165,14 @@ public class TelemetryController : MonoBehaviour
             Sprite notifyIcon = Resources.Load<Sprite>(notifyIconPath);
             notifyImage.GetComponent<Image>().sprite = notifyIcon;
 
+            if (notifySeverity == Severity.CRITICAL)
+            {
+                notifyImage.GetComponent<AudioSource>().Play();
+            } else
+            {
+                notifyImage.GetComponent<AudioSource>().Stop();
+            }
+
             //Create telemetry text for right panel
             for (int j = 0; j < textList.Count; ++j)
             {
