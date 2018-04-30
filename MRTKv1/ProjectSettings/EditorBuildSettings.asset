@@ -6,5 +6,5 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/MRTKv1.unity
+    path: Assets/_Scenes/UCDSTAR.unity
     guid: d11c6eb8f48ea994899b12ae1a86589a
