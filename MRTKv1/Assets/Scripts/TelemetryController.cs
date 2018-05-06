@@ -269,8 +269,8 @@ public class TelemetryController : MonoBehaviour
         switch (t.severity)
         {
             case Severity.NOMINAL:
-                textNameClone.GetComponentInChildren<Text>().color = Color.white;
-                textNumberClone.GetComponentInChildren<Text>().color = Color.white;
+                textNameClone.GetComponentInChildren<Text>().color = Constants.WHITE;
+                textNumberClone.GetComponentInChildren<Text>().color = Constants.WHITE;
                 break;
             case Severity.WARNING:
                 textNameClone.GetComponentInChildren<Text>().color = Constants.YELLOW;

@@ -259,7 +259,7 @@ public class ProcedureController : MonoBehaviour
     {
         if (setActive)
         {
-            step.GetComponent<Image>().color = Color.white;
+            step.GetComponent<Image>().color = Constants.ACTIVE_STEP;
             step.transform.Find("ProgressBar").gameObject.SetActive(true);
             SetCurrentStepPanel(step);
             GameObject imageButton = step.transform.Find("ImageButton").gameObject;
@@ -270,7 +270,7 @@ public class ProcedureController : MonoBehaviour
         }
         else
         {
-            step.GetComponent<Image>().color = Color.gray;
+            step.GetComponent<Image>().color = Constants.INACTIVE_STEP;
             step.transform.Find("ProgressBar").gameObject.SetActive(false);
             GameObject imageButton = step.transform.Find("ImageButton").gameObject;
             if (imageButton.activeInHierarchy)
