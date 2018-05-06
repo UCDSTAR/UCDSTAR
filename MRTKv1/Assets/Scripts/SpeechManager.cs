@@ -36,6 +36,16 @@ public class SpeechManager : MonoBehaviour
             this.BroadcastMessage("ToggleTimer_s");
         });
 
+        keywords.Add("Show image", () =>
+        {
+            this.BroadcastMessage("ShowImage_s");
+        });
+
+        keywords.Add("Hide image", () =>
+        {
+            this.BroadcastMessage("HideImage_s");
+        });
+
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
 

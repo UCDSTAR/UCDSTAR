@@ -39,43 +39,71 @@ public class ProcedureController : MonoBehaviour
     {
         if (isImageExpanded) //hide image
         {
-            //Hide image
-            enlargedImage.gameObject.SetActive(false);
-
-            //Move current step back into place
-            int currentIndex = GetCurrentContainerIndex();
-            DrawStepAtPos(stepContainer[currentIndex], currentIndex);
-
-            //Re-enable all 4 steps
-            stepContainer[0].SetActive(true);
-            stepContainer[1].SetActive(true);
-            stepContainer[2].SetActive(true);
-            stepContainer[3].SetActive(true);
+            HideImage();
         }
         else //enlarge image
         {
-            //Hide all steps
-            stepContainer[0].SetActive(false);
-            stepContainer[1].SetActive(false);
-            stepContainer[2].SetActive(false);
-            stepContainer[3].SetActive(false);
-
-            //Display current step at top position
-            int currentIndex = GetCurrentContainerIndex();
-            DrawStepAtPos(stepContainer[currentIndex], 0);
-            stepContainer[currentIndex].SetActive(true);
-
-            //Get current step's image
-            Sprite currentSprite = stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite;
-
-            //Set enlarged image to current image and show
-            enlargedImage.sprite = currentSprite;
-            enlargedImage.preserveAspect = true;
-            enlargedImage.gameObject.SetActive(true);
+            ShowImage();
         }
 
         //Don't forget to toggle!
         isImageExpanded = !isImageExpanded;
+    }
+
+    void ShowImage_s()
+    {
+        //Check if we have an image to hide
+        int currentIndex = GetCurrentContainerIndex();
+        GameObject imageButton = stepContainer[currentIndex].transform.Find("ImageButton").gameObject;
+        if(imageButton.activeInHierarchy)
+            ShowImage();
+    }
+
+    void HideImage_s()
+    {
+        //Check if we have an image to hide
+        int currentIndex = GetCurrentContainerIndex();
+        GameObject imageButton = stepContainer[currentIndex].transform.Find("ImageButton").gameObject;
+        if (imageButton.activeInHierarchy)
+            HideImage();
+    }
+
+    void ShowImage()
+    {
+        //Hide all steps
+        stepContainer[0].SetActive(false);
+        stepContainer[1].SetActive(false);
+        stepContainer[2].SetActive(false);
+        stepContainer[3].SetActive(false);
+
+        //Display current step at top position
+        int currentIndex = GetCurrentContainerIndex();
+        DrawStepAtPos(stepContainer[currentIndex], 0);
+        stepContainer[currentIndex].SetActive(true);
+
+        //Get current step's image
+        Sprite currentSprite = stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite;
+
+        //Set enlarged image to current image and show
+        enlargedImage.sprite = currentSprite;
+        enlargedImage.preserveAspect = true;
+        enlargedImage.gameObject.SetActive(true);
+    }
+
+    void HideImage()
+    {
+        //Hide image
+        enlargedImage.gameObject.SetActive(false);
+
+        //Move current step back into place
+        int currentIndex = GetCurrentContainerIndex();
+        DrawStepAtPos(stepContainer[currentIndex], currentIndex);
+
+        //Re-enable all 4 steps
+        stepContainer[0].SetActive(true);
+        stepContainer[1].SetActive(true);
+        stepContainer[2].SetActive(true);
+        stepContainer[3].SetActive(true);
     }
 
     //Initializes the procedure display with the first few steps
@@ -198,7 +226,6 @@ public class ProcedureController : MonoBehaviour
     }
 
     //Create a step asset with the given information
-    //TODO: add images
     private GameObject GenerateStep(string step, string text, string caution, string warning, string figure)
     {
         int stepval = int.Parse(step);
@@ -282,6 +309,7 @@ public class ProcedureController : MonoBehaviour
 
     //Draws the given step at the given position in the step display
     //0 <= step < SHOW_NUM_STEPS
+    //This function DOES NOT alter the step's position in the stepContainer
     private void DrawStepAtPos(GameObject step, int pos)
     {
         step.GetComponent<RectTransform>().localPosition = new Vector3(0, -2 * pos + 3, 0);
