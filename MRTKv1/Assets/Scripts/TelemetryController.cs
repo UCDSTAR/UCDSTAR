@@ -31,9 +31,11 @@ public class TelemetryController : MonoBehaviour
     private const int PRESSURE_INDEX = 9;
     private const int OXYGEN_INDEX = 7;
     private const int BATTERY_INDEX = 0;
-    private List<TelemetryData> notificationsList;
-    private List<NumericalData> numericalTextList;
-    private List<SwitchData> switchTextList;
+    private const int NUM_NUMERICAL = 10;
+    private const int NUM_SWITCH = 7;
+    private List<TelemetryData> notificationsList = new List<TelemetryData>(NUM_NUMERICAL + NUM_SWITCH);
+    private List<NumericalData> numericalTextList = new List<NumericalData>(NUM_NUMERICAL);
+    private List<SwitchData> switchTextList = new List<SwitchData>(NUM_SWITCH);
     private string numericalDataURL = "https://hrvip.ucdavis.edu/share/UCDSUITS/api/telemetry/recent.json";
     private string switchDataURL = "https://hrvip.ucdavis.edu/share/UCDSUITS/api/switch/recent.json";
     private Boolean numericalServerConnErr;
@@ -42,11 +44,29 @@ public class TelemetryController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        InitializeLists();
+
         //Hide notifications panel on startup
         notificationsPanel.SetActive(true);
 
         //Start polling server for data
         StartCoroutine(GetTelemetryData());
+    }
+
+    void InitializeLists()
+    {
+        for (int i = 0; i < notificationsList.Capacity; ++i)
+        {
+            notificationsList.Add(null);
+        }
+        for (int i = 0; i < numericalTextList.Capacity; ++i)
+        {
+            numericalTextList.Add(null);
+        }
+        for (int i = 0; i < switchTextList.Capacity; ++i)
+        {
+            switchTextList.Add(null);
+        }
     }
 
     // Update is called once per frame
@@ -77,8 +97,6 @@ public class TelemetryController : MonoBehaviour
             string numericalStr = "blank:blank", switchStr = "blank:blank", jsonStr = "blank:blank";
 
             //Get numerical data
-            numericalServerConnErr = false;
-            switchServerConnErr = false;
 
             using (UnityWebRequest www1 = UnityWebRequest.Get(numericalDataURL))
             {
@@ -91,6 +109,7 @@ public class TelemetryController : MonoBehaviour
                 }
                 else
                 {
+                    numericalServerConnErr = false;
                     numericalStr = www1.downloadHandler.text;
                     numericalStr = numericalStr.Trim();
                 }
@@ -108,6 +127,7 @@ public class TelemetryController : MonoBehaviour
                 }
                 else
                 {
+                    switchServerConnErr = false;
                     switchStr = www2.downloadHandler.text;
                     switchStr = switchStr.Trim();
                 }
@@ -155,13 +175,15 @@ public class TelemetryController : MonoBehaviour
             }
             for (; index < MAX_NOTIFICATIONS; ++index)
             {
+                if (notificationsList[index] == null) break; //hit end of list early
                 if (notificationsList[index].severity == Severity.NOMINAL) break; //only show errors and warnings
                 CreateTelemetryNotification(notificationsList[index], index);
             }
 
             //Update notification icon
-            Severity notifySeverity = notificationsList[0].severity;
-            if (switchServerConnErr || numericalServerConnErr) notifySeverity = Severity.CRITICAL;
+            Severity notifySeverity = notificationsList[0].severity; //there should always be something in index 0, even if server is down
+            if (switchServerConnErr || numericalServerConnErr)
+                notifySeverity = Severity.CRITICAL;
             String notifyIconPath = String.Format("Icons/notify-{0}", notifySeverity.ToString());
             Sprite notifyIcon = Resources.Load<Sprite>(notifyIconPath);
             notifyImage.GetComponent<Image>().sprite = notifyIcon;
@@ -192,19 +214,30 @@ public class TelemetryController : MonoBehaviour
             NumericalData battery = numericalTextList[BATTERY_INDEX];
 
             //Update the pressure, oxygen, temperature, and battery icons
-            String pressureIconPath = String.Format("Icons/dial-{0}", sop_pressure.severity.ToString());
-            String oxygenIconPath = String.Format("Icons/dial-{0}", oxygen_pressure.severity.ToString());
-            String temperatureIconPath = String.Format("Icons/temperature-{0}", temperature.severity.ToString());
-            String batteryIconPath = String.Format("Icons/battery-{0}", battery.severity.ToString());
-            Sprite pressureIcon = Resources.Load<Sprite>(pressureIconPath);
-            Sprite oxygenIcon = Resources.Load<Sprite>(oxygenIconPath);
-            Sprite temperatureIcon = Resources.Load<Sprite>(temperatureIconPath);
-            Sprite batteryIcon = Resources.Load<Sprite>(batteryIconPath);
-            pressureImage.GetComponent<Image>().sprite = pressureIcon;
-            oxygenImage.GetComponent<Image>().sprite = oxygenIcon;
-            temperatureImage.GetComponent<Image>().sprite = temperatureIcon;
-            batteryImage.GetComponent<Image>().sprite = batteryIcon;
-
+            if (sop_pressure != null)
+            {
+                String pressureIconPath = String.Format("Icons/dial-{0}", sop_pressure.severity.ToString());
+                Sprite pressureIcon = Resources.Load<Sprite>(pressureIconPath);
+                pressureImage.GetComponent<Image>().sprite = pressureIcon;
+            }
+            if (oxygen_pressure != null)
+            {
+                String oxygenIconPath = String.Format("Icons/dial-{0}", oxygen_pressure.severity.ToString());
+                Sprite oxygenIcon = Resources.Load<Sprite>(oxygenIconPath);
+                oxygenImage.GetComponent<Image>().sprite = oxygenIcon;
+            }
+            if (temperature != null)
+            {
+                String temperatureIconPath = String.Format("Icons/temperature-{0}", temperature.severity.ToString());
+                Sprite temperatureIcon = Resources.Load<Sprite>(temperatureIconPath);
+                temperatureImage.GetComponent<Image>().sprite = temperatureIcon;
+            }
+            if (battery != null)
+            {
+                String batteryIconPath = String.Format("Icons/battery-{0}", battery.severity.ToString());
+                Sprite batteryIcon = Resources.Load<Sprite>(batteryIconPath);
+                batteryImage.GetComponent<Image>().sprite = batteryIcon;
+            }
 
             //Update pressure and oxygen arrows if they have values
             //If null, the arrows won't change their rotation
@@ -279,6 +312,9 @@ public class TelemetryController : MonoBehaviour
     //Index 0 is at the top of the panel
     void CreateTelemetryText(TelemetryData t, int index, TelemetryType ttype)
     {
+        if (t == null)
+            return;
+
         float offset;
         if (ttype == TelemetryType.NUMERICAL)
             offset = 0;
@@ -344,53 +380,44 @@ public class TelemetryController : MonoBehaviour
         //These next two lists are already in alphabetical order to save us a sort
         //*****BE VERY CAREFUL WHEN EDITING THESE NEXT TWO LISTS*****
         //*****There are constants at the top of the script which depend on the objects' positions*****
-        numericalTextList = new List<NumericalData>
-        {
-            Cap_battery,
-            P_sub,
-            T_sub,
-            V_fan,
-            P_h2o_g,
-            P_h2o_l,
-            Rate_o2,
-            P_o2,
-            Rate_sop,
-            P_sop
-        };
+        numericalTextList[0] = Cap_battery;
+        numericalTextList[1] = P_sub;
+        numericalTextList[2] = T_sub;
+        numericalTextList[3] = V_fan;
+        numericalTextList[4] = P_h2o_g;
+        numericalTextList[5] = P_h2o_l;
+        numericalTextList[6] = Rate_o2;
+        numericalTextList[7] = P_o2;
+        numericalTextList[8] = Rate_sop;
+        numericalTextList[9] = P_sop;
 
-        switchTextList = new List<SwitchData>
-        {
-            Fan_error,
-            H2o_off,
-            O2_off,
-            Sspe,
-            Vehicle_power,
-            Sop_on,
-            Vent_error
-        };
+        switchTextList[0] = Fan_error;
+        switchTextList[1] = H2o_off;
+        switchTextList[2] = O2_off;
+        switchTextList[3] = Sspe;
+        switchTextList[4] = Vehicle_power;
+        switchTextList[5] = Sop_on;
+        switchTextList[6] = Vent_error;
 
         //We'll need to sort this list
         //Feel free to edit this list
-        notificationsList = new List<TelemetryData>
-        {
-            P_sub,
-            T_sub,
-            V_fan,
-            P_o2,
-            Rate_o2,
-            Cap_battery,
-            P_h2o_g,
-            P_h2o_l,
-            P_sop,
-            Rate_sop,
-            Sop_on,
-            Sspe,
-            Fan_error,
-            Vent_error,
-            Vehicle_power,
-            H2o_off,
-            O2_off
-        };
+        notificationsList[0] = P_sub;
+        notificationsList[1] = T_sub;
+        notificationsList[2] = V_fan;
+        notificationsList[3] = P_o2;
+        notificationsList[4] = Rate_o2;
+        notificationsList[5] = Cap_battery;
+        notificationsList[6] = P_h2o_g;
+        notificationsList[7] = P_h2o_l;
+        notificationsList[8] = P_sop;
+        notificationsList[9] = Rate_sop;
+        notificationsList[10] = Sop_on;
+        notificationsList[11] = Sspe;
+        notificationsList[12] = Fan_error;
+        notificationsList[13] = Vent_error;
+        notificationsList[14] = Vehicle_power;
+        notificationsList[15] = H2o_off;
+        notificationsList[16] = O2_off;
 
         //Sort by severity and then alphabetically
         notificationsList.Sort((x, y) =>
