@@ -11,12 +11,14 @@ public class ProcedureController : MonoBehaviour
     public GameObject stepAsset; //this is cloned
     public GameObject currentStepPanel; //this is not cloned, it's updated as needed
     public Canvas stepCanvas;
+    public Image enlargedImage;
 
     private List<Dictionary<string, string>> data;
     private int numSteps;
     private int currentStep;
     private GameObject[] stepContainer;
     private const int SHOW_NUM_STEPS = 4;
+    private bool isImageExpanded;
 
     //Acts as constructor for object
     void Awake()
@@ -29,7 +31,51 @@ public class ProcedureController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        isImageExpanded = false;
         ProcedureInit();
+    }
+
+    void ToggleImage()
+    {
+        if (isImageExpanded) //hide image
+        {
+            //Hide image
+            enlargedImage.gameObject.SetActive(false);
+
+            //Move current step back into place
+            int currentIndex = GetCurrentContainerIndex();
+            DrawStepAtPos(stepContainer[currentIndex], currentIndex);
+
+            //Re-enable all 4 steps
+            stepContainer[0].SetActive(true);
+            stepContainer[1].SetActive(true);
+            stepContainer[2].SetActive(true);
+            stepContainer[3].SetActive(true);
+        }
+        else //enlarge image
+        {
+            //Hide all steps
+            stepContainer[0].SetActive(false);
+            stepContainer[1].SetActive(false);
+            stepContainer[2].SetActive(false);
+            stepContainer[3].SetActive(false);
+
+            //Display current step at top position
+            int currentIndex = GetCurrentContainerIndex();
+            DrawStepAtPos(stepContainer[currentIndex], 0);
+            stepContainer[currentIndex].SetActive(true);
+
+            //Get current step's image
+            Sprite currentSprite = stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite;
+
+            //Set enlarged image to current image and show
+            enlargedImage.sprite = currentSprite;
+            enlargedImage.preserveAspect = true;
+            enlargedImage.gameObject.SetActive(true);
+        }
+
+        //Don't forget to toggle!
+        isImageExpanded = !isImageExpanded;
     }
 
     //Initializes the procedure display with the first few steps
@@ -42,7 +88,7 @@ public class ProcedureController : MonoBehaviour
         for (int i = 0; i < SHOW_NUM_STEPS; ++i)
         {
             stepContainer[i] = GenerateStep(data[i]["Step"], data[i]["Text"], data[i]["Caution"], data[i]["Warning"], data[i]["Figure"]);
-            SetStepPos(stepContainer[i], i);
+            DrawStepAtPos(stepContainer[i], i);
         }
 
         //Initialize currentStepPanel
@@ -68,6 +114,9 @@ public class ProcedureController : MonoBehaviour
 
     void MoveToNextStep()
     {
+        if (isImageExpanded)
+            return;
+
         if (currentStep == numSteps - 1) return;
 
         //Special cases where we don't shift all instructions up
@@ -91,13 +140,13 @@ public class ProcedureController : MonoBehaviour
             //There's probably a better way to do this but I'm just trying to get it to work right now
             Destroy(stepContainer[0]);
             stepContainer[0] = stepContainer[1];
-            SetStepPos(stepContainer[0], 0);
+            DrawStepAtPos(stepContainer[0], 0);
             stepContainer[1] = stepContainer[2];
-            SetStepPos(stepContainer[1], 1);
+            DrawStepAtPos(stepContainer[1], 1);
             stepContainer[2] = stepContainer[3];
-            SetStepPos(stepContainer[2], 2);
+            DrawStepAtPos(stepContainer[2], 2);
             stepContainer[3] = GenerateStep(data[currentStep + 3]["Step"], data[currentStep + 3]["Text"], data[currentStep + 3]["Caution"], data[currentStep + 3]["Warning"], data[currentStep + 3]["Figure"]);
-            SetStepPos(stepContainer[3], 3);
+            DrawStepAtPos(stepContainer[3], 3);
 
             SetStepActive(stepContainer[0], false);
             SetStepActive(stepContainer[1], true);
@@ -108,6 +157,9 @@ public class ProcedureController : MonoBehaviour
 
     void MoveToPrevStep()
     {
+        if (isImageExpanded)
+            return;
+
         if (currentStep == 0) return;
 
         //Special cases where we don't shift all instructions down
@@ -130,13 +182,13 @@ public class ProcedureController : MonoBehaviour
         {
             Destroy(stepContainer[3]);
             stepContainer[3] = stepContainer[2];
-            SetStepPos(stepContainer[3], 3);
+            DrawStepAtPos(stepContainer[3], 3);
             stepContainer[2] = stepContainer[1];
-            SetStepPos(stepContainer[2], 2);
+            DrawStepAtPos(stepContainer[2], 2);
             stepContainer[1] = stepContainer[0];
-            SetStepPos(stepContainer[1], 1);
+            DrawStepAtPos(stepContainer[1], 1);
             stepContainer[0] = GenerateStep(data[currentStep - 2]["Step"], data[currentStep - 2]["Text"], data[currentStep - 2]["Caution"], data[currentStep - 2]["Warning"], data[currentStep - 2]["Figure"]);
-            SetStepPos(stepContainer[0], 0);
+            DrawStepAtPos(stepContainer[0], 0);
 
             SetStepActive(stepContainer[2], false);
             SetStepActive(stepContainer[1], true);
@@ -182,17 +234,19 @@ public class ProcedureController : MonoBehaviour
         bar.maxValue = numSteps;
         bar.value = stepval;
 
-        Image image = stepClone.transform.Find("StepImage").gameObject.GetComponent<Image>();
+        GameObject imageButton = stepClone.transform.Find("ImageButton").gameObject;
         if (hasFigure)
         {
             string imgpath = string.Format("GeneratorImages/2.{0}", stepval.ToString("D2")); //pad with zeros until length 2
             Sprite img = Resources.Load<Sprite>(imgpath);
-            if (!img) Debug.Log("Error loading " + imgpath);
-            else image.sprite = img;
+            if (!img)
+                Debug.Log("Error loading " + imgpath);
+            else
+                imageButton.GetComponent<Image>().sprite = img;
         }
         else
         {
-            image.enabled = false;
+            imageButton.SetActive(false);
         }
 
         return stepClone;
@@ -201,24 +255,34 @@ public class ProcedureController : MonoBehaviour
     //Color a procedure step white if it's the active step, else color it gray
     //Also enable or disable the progress bar
     //We'll also update the currentStepPanel if we're active
-    private void SetStepActive(GameObject step, bool isActive)
+    private void SetStepActive(GameObject step, bool setActive)
     {
-        if (isActive)
+        if (setActive)
         {
             step.GetComponent<Image>().color = Color.white;
             step.transform.Find("ProgressBar").gameObject.SetActive(true);
             SetCurrentStepPanel(step);
+            GameObject imageButton = step.transform.Find("ImageButton").gameObject;
+            if(imageButton.activeInHierarchy)
+            {
+                imageButton.GetComponent<Button>().onClick.AddListener(ToggleImage);
+            }
         }
         else
         {
             step.GetComponent<Image>().color = Color.gray;
             step.transform.Find("ProgressBar").gameObject.SetActive(false);
+            GameObject imageButton = step.transform.Find("ImageButton").gameObject;
+            if (imageButton.activeInHierarchy)
+            {
+                imageButton.GetComponent<Button>().onClick.RemoveListener(ToggleImage);
+            }
         }
     }
 
-    //Set the given step's position in the step display
+    //Draws the given step at the given position in the step display
     //0 <= step < SHOW_NUM_STEPS
-    private void SetStepPos(GameObject step, int pos)
+    private void DrawStepAtPos(GameObject step, int pos)
     {
         step.GetComponent<RectTransform>().localPosition = new Vector3(0, -2 * pos + 3, 0);
     }
@@ -242,5 +306,17 @@ public class ProcedureController : MonoBehaviour
         Slider currentSlider = currentStepPanel.transform.Find("ProgressBar").gameObject.GetComponent<Slider>();
         Slider stepSlider = step.transform.Find("ProgressBar").gameObject.GetComponent<Slider>();
         currentSlider.value = stepSlider.value;
+    }
+
+    private int GetCurrentContainerIndex()
+    {
+        if (currentStep == 0)
+            return 0;
+        else if (currentStep == numSteps - 1)
+            return 3;
+        else if (currentStep == numSteps - 2)
+            return 2;
+        else
+            return 1;
     }
 }
