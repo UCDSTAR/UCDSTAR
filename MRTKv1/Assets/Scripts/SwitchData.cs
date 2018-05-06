@@ -5,6 +5,7 @@
 
     public SwitchData(string n, string c, bool t)
     {
+        ttype = TelemetryType.SWITCH;
         if (c == null)
         {
             name = n + " UNKNOWN";

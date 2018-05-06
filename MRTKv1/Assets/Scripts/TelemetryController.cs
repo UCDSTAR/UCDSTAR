@@ -28,11 +28,12 @@ public class TelemetryController : MonoBehaviour
     private const int MAX_NOTIFICATIONS = 4;
     private const double REFRESH_RATE = 2; //in seconds
     private const int TEMPERATURE_INDEX = 2;
-    private const int PRESSURE_INDEX = 15;
-    private const int OXYGEN_INDEX = 10;
+    private const int PRESSURE_INDEX = 9;
+    private const int OXYGEN_INDEX = 7;
     private const int BATTERY_INDEX = 0;
     private List<TelemetryData> notificationsList;
-    private List<TelemetryData> textList;
+    private List<NumericalData> numericalTextList;
+    private List<SwitchData> switchTextList;
     private string numericalDataURL = "https://hrvip.ucdavis.edu/share/UCDSUITS/api/telemetry/recent.json";
     private string switchDataURL = "https://hrvip.ucdavis.edu/share/UCDSUITS/api/switch/recent.json";
     private Boolean numericalServerConnErr;
@@ -174,16 +175,21 @@ public class TelemetryController : MonoBehaviour
             }
 
             //Create telemetry text for right panel
-            for (int j = 0; j < textList.Count; ++j)
+            CreateTelemetryTextHeaders();
+            for (int j = 0; j < numericalTextList.Count; ++j)
             {
-                CreateTelemetryText(textList[j], j);
+                CreateTelemetryText(numericalTextList[j], j, TelemetryType.NUMERICAL);
+            }
+            for(int k = 0; k < switchTextList.Count; ++k)
+            {
+                CreateTelemetryText(switchTextList[k], k, TelemetryType.SWITCH);
             }
 
             //Get pressure, oxygen, temperature, and battery data
-            NumericalData sop_pressure = (NumericalData)textList[PRESSURE_INDEX];
-            NumericalData oxygen_pressure = (NumericalData)textList[OXYGEN_INDEX];
-            NumericalData temperature = (NumericalData)textList[TEMPERATURE_INDEX];
-            NumericalData battery = (NumericalData)textList[BATTERY_INDEX];
+            NumericalData sop_pressure = numericalTextList[PRESSURE_INDEX];
+            NumericalData oxygen_pressure = numericalTextList[OXYGEN_INDEX];
+            NumericalData temperature = numericalTextList[TEMPERATURE_INDEX];
+            NumericalData battery = numericalTextList[BATTERY_INDEX];
 
             //Update the pressure, oxygen, temperature, and battery icons
             String pressureIconPath = String.Format("Icons/dial-{0}", sop_pressure.severity.ToString());
@@ -255,15 +261,35 @@ public class TelemetryController : MonoBehaviour
         panelClone.GetComponentInChildren<Text>().text = t.GetDescription();
     }
 
+    //Create the "Numerical Data" and "Switch Data" headers on the right-side panel
+    void CreateTelemetryTextHeaders()
+    {
+        //Numerical data
+        GameObject numericalTextNameClone = Instantiate(telemetryTextName, textPanel.GetComponent<Transform>(), false);
+        numericalTextNameClone.GetComponent<RectTransform>().localPosition = new Vector3((float)(0.75 - 0.25), (float)(3.5 - 0.4 * -1), 0);
+        numericalTextNameClone.GetComponentInChildren<Text>().text = "<b>Numerical data</b>";
+
+        //Switch data
+        GameObject switchTextNameClone = Instantiate(telemetryTextName, textPanel.GetComponent<Transform>(), false);
+        switchTextNameClone.GetComponent<RectTransform>().localPosition = new Vector3((float)(0.75 - 0.25), (float)(3.5 - 0.4 * -1) - 4.8f, 0);
+        switchTextNameClone.GetComponentInChildren<Text>().text = "<b>Switch data</b>";
+    }
+
     //Create telemetry data text for the right panel
     //Index 0 is at the top of the panel
-    void CreateTelemetryText(TelemetryData t, int index)
+    void CreateTelemetryText(TelemetryData t, int index, TelemetryType ttype)
     {
+        float offset;
+        if (ttype == TelemetryType.NUMERICAL)
+            offset = 0;
+        else
+            offset = 4.8f;
+
         GameObject textNameClone = Instantiate(telemetryTextName, textPanel.GetComponent<Transform>(), false);
         GameObject textNumberClone = Instantiate(telemetryTextNumber, textPanel.GetComponent<Transform>(), false);
 
-        textNameClone.GetComponent<RectTransform>().localPosition = new Vector3((float)0.75, (float)(3.5 - 0.4 * index), 0);
-        textNumberClone.GetComponent<RectTransform>().localPosition = new Vector3((float)-0.75, (float)(3.5 - 0.4 * index), 0);
+        textNameClone.GetComponent<RectTransform>().localPosition = new Vector3((float)0.75, (float)(3.5 - 0.4 * index) - offset, 0);
+        textNumberClone.GetComponent<RectTransform>().localPosition = new Vector3((float)-0.75, (float)(3.5 - 0.4 * index) - offset, 0);
 
         //Set color based on severity
         switch (t.severity)
@@ -315,31 +341,36 @@ public class TelemetryController : MonoBehaviour
         SwitchData H2o_off = new SwitchData("H2O offline", jsonData.h2o_off, true);
         SwitchData O2_off = new SwitchData("O2 offline", jsonData.o2_off, true);
 
-        //This is already in alphabetical order to save us a sort
-        //*****Do NOT edit this list*****
-        //There are constants at the top of the script which depend on the objects' positions
-        textList = new List<TelemetryData>
+        //These next two lists are already in alphabetical order to save us a sort
+        //*****BE VERY CAREFUL WHEN EDITING THESE NEXT TWO LISTS*****
+        //*****There are constants at the top of the script which depend on the objects' positions*****
+        numericalTextList = new List<NumericalData>
         {
             Cap_battery,
             P_sub,
             T_sub,
-            Fan_error,
             V_fan,
             P_h2o_g,
             P_h2o_l,
-            H2o_off,
             Rate_o2,
-            O2_off,
             P_o2,
+            Rate_sop,
+            P_sop
+        };
+
+        switchTextList = new List<SwitchData>
+        {
+            Fan_error,
+            H2o_off,
+            O2_off,
             Sspe,
             Vehicle_power,
             Sop_on,
-            Rate_sop,
-            P_sop,
             Vent_error
         };
 
         //We'll need to sort this list
+        //Feel free to edit this list
         notificationsList = new List<TelemetryData>
         {
             P_sub,

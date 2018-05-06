@@ -12,6 +12,8 @@ public class NumericalData : TelemetryData
 
     public NumericalData(string n, string v, string u, double min, double max)
     {
+        ttype = TelemetryType.NUMERICAL;
+
         if (v == null) //value missing from JSON
         {
             name = n + " UNKNOWN";

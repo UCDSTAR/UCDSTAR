@@ -35,77 +35,6 @@ public class ProcedureController : MonoBehaviour
         ProcedureInit();
     }
 
-    void ToggleImage()
-    {
-        if (isImageExpanded) //hide image
-        {
-            HideImage();
-        }
-        else //enlarge image
-        {
-            ShowImage();
-        }
-
-        //Don't forget to toggle!
-        isImageExpanded = !isImageExpanded;
-    }
-
-    void ShowImage_s()
-    {
-        //Check if we have an image to hide
-        int currentIndex = GetCurrentContainerIndex();
-        GameObject imageButton = stepContainer[currentIndex].transform.Find("ImageButton").gameObject;
-        if(imageButton.activeInHierarchy)
-            ShowImage();
-    }
-
-    void HideImage_s()
-    {
-        //Check if we have an image to hide
-        int currentIndex = GetCurrentContainerIndex();
-        GameObject imageButton = stepContainer[currentIndex].transform.Find("ImageButton").gameObject;
-        if (imageButton.activeInHierarchy)
-            HideImage();
-    }
-
-    void ShowImage()
-    {
-        //Hide all steps
-        stepContainer[0].SetActive(false);
-        stepContainer[1].SetActive(false);
-        stepContainer[2].SetActive(false);
-        stepContainer[3].SetActive(false);
-
-        //Display current step at top position
-        int currentIndex = GetCurrentContainerIndex();
-        DrawStepAtPos(stepContainer[currentIndex], 0);
-        stepContainer[currentIndex].SetActive(true);
-
-        //Get current step's image
-        Sprite currentSprite = stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite;
-
-        //Set enlarged image to current image and show
-        enlargedImage.sprite = currentSprite;
-        enlargedImage.preserveAspect = true;
-        enlargedImage.gameObject.SetActive(true);
-    }
-
-    void HideImage()
-    {
-        //Hide image
-        enlargedImage.gameObject.SetActive(false);
-
-        //Move current step back into place
-        int currentIndex = GetCurrentContainerIndex();
-        DrawStepAtPos(stepContainer[currentIndex], currentIndex);
-
-        //Re-enable all 4 steps
-        stepContainer[0].SetActive(true);
-        stepContainer[1].SetActive(true);
-        stepContainer[2].SetActive(true);
-        stepContainer[3].SetActive(true);
-    }
-
     //Initializes the procedure display with the first few steps
     void ProcedureInit()
     {
@@ -126,6 +55,26 @@ public class ProcedureController : MonoBehaviour
 
         //Set first instruction as active
         SetStepActive(stepContainer[0], true);
+
+        //Setup touch navigation
+        SetPrevNextStepButtons();
+    }
+
+    //Enable clicking on previous or next step to navigate
+    void SetPrevNextStepButtons()
+    {
+        //Disable all step buttons
+        stepContainer[0].GetComponent<Button>().onClick.RemoveAllListeners();
+        stepContainer[1].GetComponent<Button>().onClick.RemoveAllListeners();
+        stepContainer[2].GetComponent<Button>().onClick.RemoveAllListeners();
+        stepContainer[3].GetComponent<Button>().onClick.RemoveAllListeners();
+
+        //Add the listeners we want
+        int currentIndex = GetCurrentContainerIndex();
+        if (currentIndex - 1 >= 0)
+            stepContainer[currentIndex - 1].GetComponent<Button>().onClick.AddListener(MoveToPrevStep);
+        if (currentIndex + 1 <= SHOW_NUM_STEPS)
+            stepContainer[currentIndex + 1].GetComponent<Button>().onClick.AddListener(MoveToNextStep);
     }
 
     //Triggered by voice command
@@ -181,6 +130,8 @@ public class ProcedureController : MonoBehaviour
         }
 
         ++currentStep;
+
+        SetPrevNextStepButtons();
     }
 
     void MoveToPrevStep()
@@ -223,6 +174,81 @@ public class ProcedureController : MonoBehaviour
         }
 
         --currentStep;
+
+        SetPrevNextStepButtons();
+    }
+
+    void ToggleImage()
+    {
+        if (isImageExpanded) //hide image
+        {
+            HideImage();
+        }
+        else //enlarge image
+        {
+            ShowImage();
+        }
+
+        //Don't forget to toggle!
+        isImageExpanded = !isImageExpanded;
+    }
+
+    //Triggered by voice command
+    void ShowImage_s()
+    {
+        //Check if we have an image to hide
+        int currentIndex = GetCurrentContainerIndex();
+        GameObject imageButton = stepContainer[currentIndex].transform.Find("ImageButton").gameObject;
+        if (imageButton.activeInHierarchy)
+            ShowImage();
+    }
+
+    //Triggered by voice command
+    void HideImage_s()
+    {
+        //Check if we have an image to hide
+        int currentIndex = GetCurrentContainerIndex();
+        GameObject imageButton = stepContainer[currentIndex].transform.Find("ImageButton").gameObject;
+        if (imageButton.activeInHierarchy)
+            HideImage();
+    }
+
+    void ShowImage()
+    {
+        //Hide all steps
+        stepContainer[0].SetActive(false);
+        stepContainer[1].SetActive(false);
+        stepContainer[2].SetActive(false);
+        stepContainer[3].SetActive(false);
+
+        //Display current step at top position
+        int currentIndex = GetCurrentContainerIndex();
+        DrawStepAtPos(stepContainer[currentIndex], 0);
+        stepContainer[currentIndex].SetActive(true);
+
+        //Get current step's image
+        Sprite currentSprite = stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite;
+
+        //Set enlarged image to current image and show
+        enlargedImage.sprite = currentSprite;
+        enlargedImage.preserveAspect = true;
+        enlargedImage.gameObject.SetActive(true);
+    }
+
+    void HideImage()
+    {
+        //Hide image
+        enlargedImage.gameObject.SetActive(false);
+
+        //Move current step back into place
+        int currentIndex = GetCurrentContainerIndex();
+        DrawStepAtPos(stepContainer[currentIndex], currentIndex);
+
+        //Re-enable all 4 steps
+        stepContainer[0].SetActive(true);
+        stepContainer[1].SetActive(true);
+        stepContainer[2].SetActive(true);
+        stepContainer[3].SetActive(true);
     }
 
     //Create a step asset with the given information
