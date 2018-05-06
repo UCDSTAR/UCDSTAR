@@ -57,6 +57,8 @@ public class ProcedureController : MonoBehaviour
         SetStepActive(stepContainer[0], true);
 
         //Setup touch navigation
+        currentStepPanel.transform.Find("LeftArrowButton").gameObject.GetComponent<Button>().onClick.AddListener(MoveToPrevStep);
+        currentStepPanel.transform.Find("RightArrowButton").gameObject.GetComponent<Button>().onClick.AddListener(MoveToNextStep);
         SetPrevNextStepButtons();
     }
 
@@ -73,7 +75,7 @@ public class ProcedureController : MonoBehaviour
         int currentIndex = GetCurrentContainerIndex();
         if (currentIndex - 1 >= 0)
             stepContainer[currentIndex - 1].GetComponent<Button>().onClick.AddListener(MoveToPrevStep);
-        if (currentIndex + 1 <= SHOW_NUM_STEPS)
+        if (currentIndex + 1 < SHOW_NUM_STEPS)
             stepContainer[currentIndex + 1].GetComponent<Button>().onClick.AddListener(MoveToNextStep);
     }
 
@@ -353,9 +355,9 @@ public class ProcedureController : MonoBehaviour
         Text stepIText = step.transform.Find("InstructionText").gameObject.GetComponentInChildren<Text>();
         currentIText.text = stepIText.text;
 
-        Text currentSText = currentStepPanel.transform.Find("StepNumberText").gameObject.GetComponentInChildren<Text>();
-        Text stepSText = step.transform.Find("StepNumberText").gameObject.GetComponentInChildren<Text>();
-        currentSText.text = stepSText.text;
+        //Text currentSText = currentStepPanel.transform.Find("StepNumberText").gameObject.GetComponentInChildren<Text>();
+        //Text stepSText = step.transform.Find("StepNumberText").gameObject.GetComponentInChildren<Text>();
+        //currentSText.text = stepSText.text;
 
         Slider currentSlider = currentStepPanel.transform.Find("ProgressBar").gameObject.GetComponent<Slider>();
         Slider stepSlider = step.transform.Find("ProgressBar").gameObject.GetComponent<Slider>();
