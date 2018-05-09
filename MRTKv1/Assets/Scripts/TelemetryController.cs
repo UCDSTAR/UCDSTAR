@@ -429,8 +429,13 @@ public class TelemetryController : MonoBehaviour
     }
 
     //Show/hide the EVA timer
-    void ToggleTimer_s()
+    void ShowTimer_s()
     {
-        timerPanel.SetActive(!timerPanel.activeInHierarchy);
+        timerPanel.SetActive(true);
+    }
+
+    void HideTimer_s()
+    {
+        timerPanel.SetActive(false);
     }
 }

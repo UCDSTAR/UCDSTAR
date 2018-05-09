@@ -11,7 +11,7 @@ public class SpeechManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        keywords.Add("Alerts", () =>
+        keywords.Add("Show alerts", () =>
         {
             this.BroadcastMessage("ShowNotifications_s");
         });
@@ -21,19 +21,24 @@ public class SpeechManager : MonoBehaviour
             this.BroadcastMessage("HideNotifications_s");
         });
 
-        keywords.Add("Next", () =>
+        keywords.Add("Show next", () =>
         {
             this.BroadcastMessage("NextInstruction_s");
         });
 
-        keywords.Add("Back", () =>
+        keywords.Add("Show previous", () =>
         {
             this.BroadcastMessage("PreviousInstruction_s");
         });
 
-        keywords.Add("Time", () =>
+        keywords.Add("Show time", () =>
         {
-            this.BroadcastMessage("ToggleTimer_s");
+            this.BroadcastMessage("ShowTimer_s");
+        });
+
+        keywords.Add("Hide time", () =>
+        {
+            this.BroadcastMessage("HideTimer_s");
         });
 
         keywords.Add("Show image", () =>
@@ -44,6 +49,16 @@ public class SpeechManager : MonoBehaviour
         keywords.Add("Hide image", () =>
         {
             this.BroadcastMessage("HideImage_s");
+        });
+
+        keywords.Add("Show help", () =>
+        {
+            this.BroadcastMessage("ShowVoiceHelp_s");
+        });
+
+        keywords.Add("Hide help", () =>
+        {
+            this.BroadcastMessage("HideVoiceHelp_s");
         });
 
         // Tell the KeywordRecognizer about our keywords.
