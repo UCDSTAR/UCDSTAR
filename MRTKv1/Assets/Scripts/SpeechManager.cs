@@ -61,6 +61,16 @@ public class SpeechManager : MonoBehaviour
             this.BroadcastMessage("HideVoiceHelp_s");
         });
 
+        keywords.Add("Show tap to place", () =>
+        {
+            this.BroadcastMessage("ShowTapToPlace_s");
+        });
+
+        keywords.Add("Hide tap to place", () =>
+        {
+            this.BroadcastMessage("HideTapToPlace_s");
+        });
+
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
 

@@ -12,8 +12,8 @@ public class ProcedureController : MonoBehaviour
     public GameObject currentStepPanel; //this is not cloned, it's updated as needed
     public Canvas stepCanvas;
     public Image enlargedImage;
-    public Button voiceHelpButton;
-    public Image voiceHelpImg;
+    public Button prevButton;
+    public Button nextButton;
 
     private List<Dictionary<string, string>> data;
     private int numSteps;
@@ -62,9 +62,8 @@ public class ProcedureController : MonoBehaviour
         currentStepPanel.transform.Find("LeftArrowButton").gameObject.GetComponent<Button>().onClick.AddListener(MoveToPrevStep);
         currentStepPanel.transform.Find("RightArrowButton").gameObject.GetComponent<Button>().onClick.AddListener(MoveToNextStep);
         SetPrevNextStepButtons();
-
-        //Set up toolbar buttons
-        voiceHelpButton.onClick.AddListener(ToggleVoiceHelp);
+        prevButton.onClick.AddListener(MoveToPrevStep);
+        nextButton.onClick.AddListener(MoveToNextStep);
     }
 
     //Enable clicking on previous or next step to navigate
@@ -183,34 +182,6 @@ public class ProcedureController : MonoBehaviour
         --currentStep;
 
         SetPrevNextStepButtons();
-    }
-
-    void ShowVoiceHelp_s()
-    {
-        ShowVoiceHelp();
-    }
-
-    void HideVoiceHelp_s()
-    {
-        HideVoiceHelp();
-    }
-
-    void ToggleVoiceHelp()
-    {
-        if (voiceHelpImg.IsActive())
-            HideVoiceHelp();
-        else
-            ShowVoiceHelp();
-    }
-
-    void ShowVoiceHelp()
-    {
-        voiceHelpImg.gameObject.SetActive(true);
-    }
-
-    void HideVoiceHelp()
-    {
-        voiceHelpImg.gameObject.SetActive(false);
     }
 
     void ToggleImage()
