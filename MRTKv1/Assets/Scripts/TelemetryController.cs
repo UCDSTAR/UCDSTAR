@@ -15,12 +15,15 @@ public class TelemetryController : MonoBehaviour
     public GameObject telemetryNotification; //this will be copied into the scene
     public GameObject telemetryTextName; //this will be copied into the scene
     public GameObject telemetryTextNumber; //this will be copied into the scene
-    public GameObject pressureArrow;
-    public GameObject oxygenArrow;
-    public GameObject pressureImage;
-    public GameObject oxygenImage;
-    public GameObject temperatureImage;
-    public GameObject batteryImage;
+    public Image oxygenImage;    
+    public Image oxygenArrow;
+    public GameObject oxygenText;
+    public Image pressureImage;
+    public Image pressureArrow;
+    public GameObject pressureText;
+    public Image temperatureImage;
+    public GameObject temperatureText;
+    public Image batteryImage;
     public GameObject notifyImage;
     public GameObject timerPanel;
 
@@ -213,30 +216,33 @@ public class TelemetryController : MonoBehaviour
             NumericalData temperature = numericalTextList[TEMPERATURE_INDEX];
             NumericalData battery = numericalTextList[BATTERY_INDEX];
 
-            //Update the pressure, oxygen, temperature, and battery icons
+            //Update the pressure, oxygen, temperature, and battery icons and text
             if (sop_pressure != null)
             {
                 String pressureIconPath = String.Format("Icons/dial-{0}", sop_pressure.severity.ToString());
                 Sprite pressureIcon = Resources.Load<Sprite>(pressureIconPath);
-                pressureImage.GetComponent<Image>().sprite = pressureIcon;
+                pressureImage.sprite = pressureIcon;
+                pressureText.GetComponentInChildren<Text>().text = sop_pressure.value + " " + sop_pressure.units;
             }
             if (oxygen_pressure != null)
             {
                 String oxygenIconPath = String.Format("Icons/dial-{0}", oxygen_pressure.severity.ToString());
                 Sprite oxygenIcon = Resources.Load<Sprite>(oxygenIconPath);
-                oxygenImage.GetComponent<Image>().sprite = oxygenIcon;
+                oxygenImage.sprite = oxygenIcon;
+                oxygenText.GetComponentInChildren<Text>().text = oxygen_pressure.value + " " + oxygen_pressure.units;
             }
             if (temperature != null)
             {
                 String temperatureIconPath = String.Format("Icons/temperature-{0}", temperature.severity.ToString());
                 Sprite temperatureIcon = Resources.Load<Sprite>(temperatureIconPath);
-                temperatureImage.GetComponent<Image>().sprite = temperatureIcon;
+                temperatureImage.sprite = temperatureIcon;
+                temperatureText.GetComponentInChildren<Text>().text = temperature.value + " " + temperature.units;
             }
             if (battery != null)
             {
                 String batteryIconPath = String.Format("Icons/battery-{0}", battery.severity.ToString());
                 Sprite batteryIcon = Resources.Load<Sprite>(batteryIconPath);
-                batteryImage.GetComponent<Image>().sprite = batteryIcon;
+                batteryImage.sprite = batteryIcon;
             }
 
             //Update pressure and oxygen arrows if they have values
