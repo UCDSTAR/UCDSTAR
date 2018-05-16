@@ -225,6 +225,10 @@ public class ProcedureController : MonoBehaviour
         enlargedImage.sprite = currentSprite;
         enlargedImage.preserveAspect = true;
         enlargedImage.gameObject.SetActive(true);
+
+        //Set current step to show back button in place of image
+        Sprite backButton = Resources.Load<Sprite>("Icons/arrowLeft");
+        stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite = backButton;
     }
 
     void HideImage()
@@ -235,6 +239,9 @@ public class ProcedureController : MonoBehaviour
         //Move current step back into place
         int currentIndex = GetCurrentContainerIndex();
         DrawStepAtPos(stepContainer[currentIndex], currentIndex);
+
+        //Reset current step's image
+        stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite = enlargedImage.sprite;
 
         //Re-enable all steps
         stepContainer[0].SetActive(true);
