@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-//NOTE: some parts of this program assume there are at least 4 steps!!!
+//NOTE: some parts of this program assume there are at least 3 steps!!!
 //Steps are 0-indexed (i.e. step #1 is considered to be step 0)
 
 public class ProcedureController : MonoBehaviour
@@ -19,7 +19,7 @@ public class ProcedureController : MonoBehaviour
     private int numSteps;
     private int currentStep;
     private GameObject[] stepContainer;
-    private const int SHOW_NUM_STEPS = 4;
+    private const int SHOW_NUM_STEPS = 3;
     private bool isImageExpanded;
 
     //Acts as constructor for object
@@ -73,7 +73,6 @@ public class ProcedureController : MonoBehaviour
         stepContainer[0].GetComponent<Button>().onClick.RemoveAllListeners();
         stepContainer[1].GetComponent<Button>().onClick.RemoveAllListeners();
         stepContainer[2].GetComponent<Button>().onClick.RemoveAllListeners();
-        stepContainer[3].GetComponent<Button>().onClick.RemoveAllListeners();
 
         //Add the listeners we want
         int currentIndex = GetCurrentContainerIndex();
@@ -100,23 +99,19 @@ public class ProcedureController : MonoBehaviour
         if (isImageExpanded)
             return;
 
-        if (currentStep == numSteps - 1) return;
+        if (currentStep == numSteps - 1) //if on last step, don't move
+            return;
 
         //Special cases where we don't shift all instructions up
-        if (currentStep == 0)
+        if (currentStep == 0) //on first step
         {
             SetStepActive(stepContainer[0], false);
             SetStepActive(stepContainer[1], true);
         }
-        else if (currentStep == numSteps - 3)
+        else if (currentStep == numSteps - 2) //on second to last step
         {
             SetStepActive(stepContainer[1], false);
             SetStepActive(stepContainer[2], true);
-        }
-        else if (currentStep == numSteps - 2)
-        {
-            SetStepActive(stepContainer[2], false);
-            SetStepActive(stepContainer[3], true);
         }
         else //General case where we shift all instructions up
         {
@@ -126,10 +121,8 @@ public class ProcedureController : MonoBehaviour
             DrawStepAtPos(stepContainer[0], 0);
             stepContainer[1] = stepContainer[2];
             DrawStepAtPos(stepContainer[1], 1);
-            stepContainer[2] = stepContainer[3];
+            stepContainer[2] = GenerateStep(data[currentStep + 2]["Step"], data[currentStep + 2]["Text"], data[currentStep + 2]["Caution"], data[currentStep + 2]["Warning"], data[currentStep + 2]["Figure"]);
             DrawStepAtPos(stepContainer[2], 2);
-            stepContainer[3] = GenerateStep(data[currentStep + 3]["Step"], data[currentStep + 3]["Text"], data[currentStep + 3]["Caution"], data[currentStep + 3]["Warning"], data[currentStep + 3]["Figure"]);
-            DrawStepAtPos(stepContainer[3], 3);
 
             SetStepActive(stepContainer[0], false);
             SetStepActive(stepContainer[1], true);
@@ -145,29 +138,23 @@ public class ProcedureController : MonoBehaviour
         if (isImageExpanded)
             return;
 
-        if (currentStep == 0) return;
+        if (currentStep == 0) //if on first step, don't move
+            return;
 
         //Special cases where we don't shift all instructions down
-        if (currentStep == 1)
+        if (currentStep == 1) //on second step
         {
             SetStepActive(stepContainer[1], false);
             SetStepActive(stepContainer[0], true);
         }
-        else if (currentStep == numSteps - 2)
+        else if (currentStep == numSteps - 1) //on last step
         {
             SetStepActive(stepContainer[2], false);
             SetStepActive(stepContainer[1], true);
         }
-        else if (currentStep == numSteps - 1)
-        {
-            SetStepActive(stepContainer[3], false);
-            SetStepActive(stepContainer[2], true);
-        }
         else //General case where we shift all instructions down
         {
-            Destroy(stepContainer[3]);
-            stepContainer[3] = stepContainer[2];
-            DrawStepAtPos(stepContainer[3], 3);
+            Destroy(stepContainer[2]);
             stepContainer[2] = stepContainer[1];
             DrawStepAtPos(stepContainer[2], 2);
             stepContainer[1] = stepContainer[0];
@@ -225,7 +212,6 @@ public class ProcedureController : MonoBehaviour
         stepContainer[0].SetActive(false);
         stepContainer[1].SetActive(false);
         stepContainer[2].SetActive(false);
-        stepContainer[3].SetActive(false);
 
         //Display current step at top position
         int currentIndex = GetCurrentContainerIndex();
@@ -250,11 +236,10 @@ public class ProcedureController : MonoBehaviour
         int currentIndex = GetCurrentContainerIndex();
         DrawStepAtPos(stepContainer[currentIndex], currentIndex);
 
-        //Re-enable all 4 steps
+        //Re-enable all steps
         stepContainer[0].SetActive(true);
         stepContainer[1].SetActive(true);
         stepContainer[2].SetActive(true);
-        stepContainer[3].SetActive(true);
     }
 
     //Create a step asset with the given information
@@ -344,7 +329,7 @@ public class ProcedureController : MonoBehaviour
     //This function DOES NOT alter the step's position in the stepContainer
     private void DrawStepAtPos(GameObject step, int pos)
     {
-        step.GetComponent<RectTransform>().localPosition = new Vector3(0, -2 * pos + 3, 0);
+        step.GetComponent<RectTransform>().localPosition = new Vector3(0, -2.667f * pos + 2.667f, 0);
     }
 
     //Copies data from the given step into currentStepPanel
@@ -359,10 +344,6 @@ public class ProcedureController : MonoBehaviour
         Text stepIText = step.transform.Find("InstructionText").gameObject.GetComponentInChildren<Text>();
         currentIText.text = stepIText.text;
 
-        //Text currentSText = currentStepPanel.transform.Find("StepNumberText").gameObject.GetComponentInChildren<Text>();
-        //Text stepSText = step.transform.Find("StepNumberText").gameObject.GetComponentInChildren<Text>();
-        //currentSText.text = stepSText.text;
-
         Slider currentSlider = currentStepPanel.transform.Find("ProgressBar").gameObject.GetComponent<Slider>();
         Slider stepSlider = step.transform.Find("ProgressBar").gameObject.GetComponent<Slider>();
         currentSlider.value = stepSlider.value;
@@ -373,8 +354,6 @@ public class ProcedureController : MonoBehaviour
         if (currentStep == 0)
             return 0;
         else if (currentStep == numSteps - 1)
-            return 3;
-        else if (currentStep == numSteps - 2)
             return 2;
         else
             return 1;
