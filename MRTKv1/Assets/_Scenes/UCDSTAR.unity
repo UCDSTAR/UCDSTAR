@@ -208,7 +208,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 930418555}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -522,7 +522,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 930418555}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1644,7 +1644,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 5.5, y: 1}
+  m_AnchoredPosition: {x: 5.5, y: 1.15}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &614021761
@@ -2885,7 +2885,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 5.5, y: 0.25}
-  m_SizeDelta: {x: 900, y: 50}
+  m_SizeDelta: {x: 900, y: 66.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &887857610
 MonoBehaviour:
@@ -3088,6 +3088,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: -3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1364333103}
   - {fileID: 239509800}
   - {fileID: 1179202522}
   - {fileID: 1976204949}
@@ -3350,7 +3351,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1.0000001}
   m_Children: []
   m_Father: {fileID: 930418555}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3527,7 +3528,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 930418555}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3607,7 +3608,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 900, y: 50}
+  m_SizeDelta: {x: 900, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1237119788
 MonoBehaviour:
@@ -3642,7 +3643,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '<i>WARNING: Door can accidentally close</i>'
+  m_Text: Rock the <b>ALARM</b> <b>FUSE</b> with the <b>FUSE</b> <b>PULLER</b> when
+    pulling up.
 --- !u!222 &1237119789
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3685,7 +3687,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 900, y: 120}
+  m_SizeDelta: {x: 900, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1301620710
 MonoBehaviour:
@@ -3709,7 +3711,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 86574c70442309b45be5a1c37a37a40b, type: 3}
-    m_FontSize: 30
+    m_FontSize: 36
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -3720,8 +3722,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Insert your fingers in the <b>center opening</b> and secure the <b>panel
-    access door</b> in an <b>OPEN</b> position
+  m_Text: Use the <b>BLUE</b> <b>FUSE</b> <b>PULLER</b> to remove <b>ONLY</b> the
+    <b>ALARM</b> <b>FUSE.</b>  Be super duper <b>CAREFUL</b> because there might be
+    <b>ALIENS</b> outside!!
 --- !u!222 &1301620711
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3920,6 +3923,188 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1001 &1364333102
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 930418555}
+    m_Modifications:
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 2.667
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1802902642996072, guid: 58a3a15be875bca4399b4bd96f12b6c8, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224566820643044346, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 2.667
+      objectReference: {fileID: 0}
+    - target: {fileID: 224199820933819736, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0.22222222
+      objectReference: {fileID: 0}
+    - target: {fileID: 224199820933819736, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224583442590293906, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 66.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 224298778433408488, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 266.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 224244868949167268, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.334
+      objectReference: {fileID: 0}
+    - target: {fileID: 114478579014164046, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_Text
+      value: Rock the <b>ALARM</b> <b>FUSE</b> with the <b>FUSE</b> <b>PULLER</b>
+        when pulling up.
+      objectReference: {fileID: 0}
+    - target: {fileID: 224412960146525994, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114318330115567632, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 224412960146525994, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224675546644259118, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 224153033534206264, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114318330115567632, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_Text
+      value: Use the <b>BLUE</b> <b>FUSE</b> <b>PULLER</b> to remove <b>ONLY</b> the
+        <b>ALARM</b> <b>FUSE.</b>  Be super duper <b>CAREFUL</b> because there might
+        be <b>ALIENS</b> outside!!
+      objectReference: {fileID: 0}
+    - target: {fileID: 224092749906223048, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 140
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 58a3a15be875bca4399b4bd96f12b6c8, type: 2}
+  m_IsPrefabParent: 0
+--- !u!224 &1364333103 stripped
+RectTransform:
+  m_PrefabParentObject: {fileID: 224472230571873178, guid: 58a3a15be875bca4399b4bd96f12b6c8,
+    type: 2}
+  m_PrefabInternal: {fileID: 1364333102}
 --- !u!1 &1417351633
 GameObject:
   m_ObjectHideFlags: 0
@@ -4059,7 +4244,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 930418555}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4853,7 +5038,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 930418555}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5017,7 +5202,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 5.5, y: 1.75}
+  m_AnchoredPosition: {x: 5.5, y: 2.25}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2030605208
@@ -5155,7 +5340,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 5, y: 2}
-  m_SizeDelta: {x: 11, y: 2}
+  m_SizeDelta: {x: 11, y: 2.667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2135889489
 GameObject:
@@ -5254,10 +5439,10 @@ RectTransform:
   m_GameObject: {fileID: 2141172383}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 930418555}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
