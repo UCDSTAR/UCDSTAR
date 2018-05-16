@@ -37,11 +37,13 @@ public class UIController : MonoBehaviour {
     void ShowVoiceHelp()
     {
         voiceHelpImg.gameObject.SetActive(true);
+        voiceHelpButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/mic-white");
     }
 
     void HideVoiceHelp()
     {
         voiceHelpImg.gameObject.SetActive(false);
+        voiceHelpButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/mic-black");
     }
 
     void ShowTapToPlace_s()

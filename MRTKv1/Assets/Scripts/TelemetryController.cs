@@ -26,6 +26,7 @@ public class TelemetryController : MonoBehaviour
     public Image batteryImage;
     public GameObject notifyImage;
     public GameObject timerPanel;
+    public GameObject notificationCountText;
 
     //Telemetry data
     private const int MAX_NOTIFICATIONS = 4;
@@ -190,6 +191,16 @@ public class TelemetryController : MonoBehaviour
             String notifyIconPath = String.Format("Icons/notify-{0}", notifySeverity.ToString());
             Sprite notifyIcon = Resources.Load<Sprite>(notifyIconPath);
             notifyImage.GetComponent<Image>().sprite = notifyIcon;
+
+            //Update notification count
+            int numNotifications = (NUM_NUMERICAL + NUM_SWITCH) - notificationsList.FindAll(x => x.severity == Severity.NOMINAL).Count;
+            if (numNotifications == 0)
+                notificationCountText.SetActive(false);
+            else
+            {
+                notificationCountText.SetActive(true);
+                notificationCountText.GetComponentInChildren<Text>().text = "" + numNotifications;
+            }
 
             if (notifySeverity == Severity.CRITICAL)
             {
