@@ -219,14 +219,14 @@ public class TelemetryController : MonoBehaviour
             //Update the pressure, oxygen, temperature, and battery icons and text
             if (sop_pressure != null)
             {
-                String pressureIconPath = String.Format("Icons/dial-{0}", sop_pressure.severity.ToString());
+                String pressureIconPath = String.Format("Icons/suit-{0}", sop_pressure.severity.ToString());
                 Sprite pressureIcon = Resources.Load<Sprite>(pressureIconPath);
                 pressureImage.sprite = pressureIcon;
                 pressureText.GetComponentInChildren<Text>().text = sop_pressure.value + " " + sop_pressure.units;
             }
             if (oxygen_pressure != null)
             {
-                String oxygenIconPath = String.Format("Icons/dial-{0}", oxygen_pressure.severity.ToString());
+                String oxygenIconPath = String.Format("Icons/oxygen-{0}", oxygen_pressure.severity.ToString());
                 Sprite oxygenIcon = Resources.Load<Sprite>(oxygenIconPath);
                 oxygenImage.sprite = oxygenIcon;
                 oxygenText.GetComponentInChildren<Text>().text = oxygen_pressure.value + " " + oxygen_pressure.units;
