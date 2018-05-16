@@ -33,13 +33,14 @@ public class ProcedureController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        isImageExpanded = false;
         ProcedureInit();
     }
 
     //Initializes the procedure display with the first few steps
     void ProcedureInit()
     {
+        isImageExpanded = false;
+
         stepContainer = new GameObject[SHOW_NUM_STEPS];
         currentStep = 0; //first step
 
