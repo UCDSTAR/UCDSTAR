@@ -14,10 +14,16 @@ public class ProcedureController : MonoBehaviour
     public Image enlargedImage;
     public Button prevButton;
     public Button nextButton;
+    public GameObject titleText;
 
     private List<Dictionary<string, string>> data;
+    private List<int> numStepsList;
+    private List<int> procedureOffsetsList;
+    private List<string> procedureNamesList;
     private int numSteps;
+    private int offset;
     private int currentStep;
+    private int currentProcedure;
     private GameObject[] stepContainer;
     private const int SHOW_NUM_STEPS = 3;
     private bool isImageExpanded;
@@ -27,27 +33,73 @@ public class ProcedureController : MonoBehaviour
     {
         //Parse csv file
         data = CSVReader.Read(csvName);
-        numSteps = data.Count;
+
+        //Init vars
+        numStepsList = new List<int>();
+        procedureOffsetsList = new List<int>();
+        procedureNamesList = new List<string>();
+        stepContainer = new GameObject[SHOW_NUM_STEPS];
+
+        //Parse
+        ParseCSVData();
+    }
+
+    //Parse csv data to extract procedures
+    void ParseCSVData()
+    {
+        int index = -1;
+        int row;
+        for(row = 0; row < data.Count; ++row)
+        {
+            if(data[row]["Step"].StartsWith("NAME:")) //indicates new procedure
+            {
+                ++index;
+                procedureOffsetsList.Add(row + 1); //skip NAME row
+                procedureNamesList.Add(data[row]["Step"].Substring(5));
+                numStepsList.Add(0);
+            }
+            else
+            {
+                numStepsList[index]++;
+            }
+        }
     }
 
     // Use this for initialization
     void Start()
     {
-        ProcedureInit();
+        ProcedureInit(0);
+
+        //Setup touch navigation
+        currentStepPanel.transform.Find("LeftArrowButton").gameObject.GetComponent<Button>().onClick.AddListener(MoveToPrevStep);
+        currentStepPanel.transform.Find("RightArrowButton").gameObject.GetComponent<Button>().onClick.AddListener(MoveToNextStep);
+        //SetPrevNextStepButtons();
+        prevButton.onClick.AddListener(MoveToPrevStep);
+        nextButton.onClick.AddListener(MoveToNextStep);
     }
 
     //Initializes the procedure display with the first few steps
-    void ProcedureInit()
+    void ProcedureInit(int procedureIndex)
     {
+        currentProcedure = procedureIndex;
         isImageExpanded = false;
-
-        stepContainer = new GameObject[SHOW_NUM_STEPS];
+        offset = procedureOffsetsList[procedureIndex];
+        numSteps = numStepsList[procedureIndex];
+        
         currentStep = 0; //first step
+
+        //Clear out container
+        if (stepContainer[0] != null) Destroy(stepContainer[0]);
+        if (stepContainer[1] != null) Destroy(stepContainer[1]);
+        if (stepContainer[2] != null) Destroy(stepContainer[2]);
+
+        //Update title text
+        titleText.GetComponentInChildren<Text>().text = procedureNamesList[procedureIndex];
 
         //Init container with first few steps
         for (int i = 0; i < SHOW_NUM_STEPS; ++i)
         {
-            stepContainer[i] = GenerateStep(data[i]["Step"], data[i]["Text"], data[i]["Caution"], data[i]["Warning"], data[i]["Figure"]);
+            stepContainer[i] = GenerateStep(data[i + offset]["Step"], data[i + offset]["Text"], data[i + offset]["Caution"], data[i + offset]["Warning"], data[i + offset]["Figure"]);
             DrawStepAtPos(stepContainer[i], i);
         }
 
@@ -58,16 +110,10 @@ public class ProcedureController : MonoBehaviour
 
         //Set first instruction as active
         SetStepActive(stepContainer[0], true);
-
-        //Setup touch navigation
-        currentStepPanel.transform.Find("LeftArrowButton").gameObject.GetComponent<Button>().onClick.AddListener(MoveToPrevStep);
-        currentStepPanel.transform.Find("RightArrowButton").gameObject.GetComponent<Button>().onClick.AddListener(MoveToNextStep);
-        SetPrevNextStepButtons();
-        prevButton.onClick.AddListener(MoveToPrevStep);
-        nextButton.onClick.AddListener(MoveToNextStep);
     }
 
     //Enable clicking on previous or next step to navigate
+    /*
     void SetPrevNextStepButtons()
     {
         //Disable all step buttons
@@ -82,6 +128,7 @@ public class ProcedureController : MonoBehaviour
         if (currentIndex + 1 < SHOW_NUM_STEPS)
             stepContainer[currentIndex + 1].GetComponent<Button>().onClick.AddListener(MoveToNextStep);
     }
+    */
 
     //Triggered by voice command
     void NextInstruction_s()
@@ -122,7 +169,7 @@ public class ProcedureController : MonoBehaviour
             DrawStepAtPos(stepContainer[0], 0);
             stepContainer[1] = stepContainer[2];
             DrawStepAtPos(stepContainer[1], 1);
-            stepContainer[2] = GenerateStep(data[currentStep + 2]["Step"], data[currentStep + 2]["Text"], data[currentStep + 2]["Caution"], data[currentStep + 2]["Warning"], data[currentStep + 2]["Figure"]);
+            stepContainer[2] = GenerateStep(data[currentStep + offset + 2]["Step"], data[currentStep + offset + 2]["Text"], data[currentStep + offset + 2]["Caution"], data[currentStep + offset + 2]["Warning"], data[currentStep + offset + 2]["Figure"]);
             DrawStepAtPos(stepContainer[2], 2);
 
             SetStepActive(stepContainer[0], false);
@@ -131,7 +178,7 @@ public class ProcedureController : MonoBehaviour
 
         ++currentStep;
 
-        SetPrevNextStepButtons();
+        //SetPrevNextStepButtons();
     }
 
     void MoveToPrevStep()
@@ -160,7 +207,7 @@ public class ProcedureController : MonoBehaviour
             DrawStepAtPos(stepContainer[2], 2);
             stepContainer[1] = stepContainer[0];
             DrawStepAtPos(stepContainer[1], 1);
-            stepContainer[0] = GenerateStep(data[currentStep - 2]["Step"], data[currentStep - 2]["Text"], data[currentStep - 2]["Caution"], data[currentStep - 2]["Warning"], data[currentStep - 2]["Figure"]);
+            stepContainer[0] = GenerateStep(data[currentStep + offset - 2]["Step"], data[currentStep + offset - 2]["Text"], data[currentStep + offset - 2]["Caution"], data[currentStep + offset - 2]["Warning"], data[currentStep + offset - 2]["Figure"]);
             DrawStepAtPos(stepContainer[0], 0);
 
             SetStepActive(stepContainer[2], false);
@@ -169,7 +216,43 @@ public class ProcedureController : MonoBehaviour
 
         --currentStep;
 
-        SetPrevNextStepButtons();
+        //SetPrevNextStepButtons();
+    }
+
+    void NextProcedure_s()
+    {
+        MoveToNextProcedure();
+    }
+
+    void PreviousProcedure_s()
+    {
+        MoveToPrevProcedure();
+    }
+
+    void MoveToNextProcedure()
+    {
+        if (isImageExpanded)
+            return;
+
+        int nextIndex = currentProcedure + 1;
+        if(nextIndex >= procedureNamesList.Count) //wraparound
+        {
+            nextIndex = 0;
+        }
+        ProcedureInit(nextIndex);
+    }
+
+    void MoveToPrevProcedure()
+    {
+        if (isImageExpanded)
+            return;
+
+        int prevIndex = currentProcedure - 1;
+        if (prevIndex < 0) //wraparound
+        {
+            prevIndex = procedureNamesList.Count - 1;
+        }
+        ProcedureInit(prevIndex);
     }
 
     void ToggleImage()
@@ -327,7 +410,7 @@ public class ProcedureController : MonoBehaviour
             GameObject imageButton = step.transform.Find("ImageButton").gameObject;
             if (imageButton.activeInHierarchy)
             {
-                imageButton.GetComponent<Button>().onClick.RemoveListener(ToggleImage);
+                imageButton.GetComponent<Button>().onClick.RemoveAllListeners();
             }
         }
     }

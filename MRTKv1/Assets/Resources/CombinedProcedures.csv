@@ -1,0 +1,41 @@
+Step,Text,Caution,Warning,Figure
+NAME:Generator Procedure,,,,
+1,Clamp the carburetor Fuel Tube [Hose Pinching Pliers].,,,TRUE
+2,Put Gasoline Container under the Carburetor Drain Tube.,,,FALSE
+3,Loosen (but do not remove) Carburetor Drain Screw and drain fuel into Gasoline Container [Flat Head Screwdriver]. (Audible Call Out),,Gasoline Draining! Flammable! Irritant!,FALSE
+4,Tighten the Carburetor Drain Screw securely [1/8 in. Flat Head Screwdriver].,,,TRUE
+5,Remove Gasoline Container from under the Carburetor Drain Tube.,,,FALSE
+6,Remove Carburetor Fuel Tube Clamp [Pliers].,Pry the Carburetor Fuel Tube off gently to avoid damaging it.,,FALSE
+7,Detach Carburetor Fuel Tube from Carburetor [Flat Head Screwdriver].,,,FALSE
+8,Check that the tube routing configuration matches Figure. (Audible Call Out),,,TRUE
+9,Pull Carburetor Drain Tube upwards from red plastic housing until bottom end is free.,,,FALSE
+10,Remove tube from fitting at bottom of Carburetor Bowl.,,,FALSE
+11,Remove Right Hand Vent Tube from Carburetor.,,,TRUE
+12,Remove Left Hand Vent Tube from Carburetor.,,,TRUE
+13,Remove Tube Assembly.,,,FALSE
+14,Remove Carburetor by sliding it off of the bolts attaching it to the main unit.,,,FALSE
+NAME:Disabling Alarm Procedure,,,,
+1,"On the RIGHT side of the EVA Kit, locate and use the PANEL ACCESS KEY to unlock the PANEL ACCESS DOOR LOCKS.",The keys are on a tension-spring cable.,,true
+2,Carefully return keys to the side of the EVA kit.,,,false
+3,Insert your fingers in the CENTER OPENING and secure the PANEL ACCESS DOOR in an OPEN position.,,Door can accidentally close.,true
+4,"On your belt, use the BLUE CARABINEER to securely tether to the TETHER CABLE inside the STORAGE.",Notice the TETHER CABLE is adjustable,,true
+5,Locate the E-STOP button and gently press down to temporarily disable the alarm.,,,true
+6,Locate the FUSIBLE DISCONNECT box and tether the BLUE CARABINEER to the TETHER CABLE.,,,false
+7,Remove the BLUE CARABINEER from the FUSIBLE DISCONNECT box and transfer it to STORAGE.,,,true
+8,Open the FUSIBLE DISCONNECT box and secure the lid in the open position.,Pull the locking tab toward STORAGE with the index finger while lifting the cover with the thumb.,,true
+9,Locate the BLACK DISCONNECT and tether it to the TETHER CABLE.,,,false
+10,Remove the DISCONNECT and place it in STORAGE.,Pull up with the index and middle fingers while pushing down on the FUSE ACCESS PANEL with the thumb.,,true
+11,Tether the FUSE ACCESS PANEL to the TETHER CABLE.,,,false
+12,Remove the FUSE ACCESS PANEL by pulling straight up.,,,true
+13,Place the FUSE ACCESS PANEL into STORAGE.,,,false
+14,Tether the ALARM FUSE to the TETHER CABLE.,,,false
+15,"In Storage, locate the BLUE FUSE PULLER.",,,false
+16,Use the BLUE FUSE PULLER to remove ONLY the ALARM FUSE.,Rock the ALARM FUSE with the FUSE PULLER when pulling up.,,true
+17,Return the ALARM FUSE and the FUSE PULLER to STORAGE.,,,false
+18,"In STORAGE, locate the FUSE ACCESS PANEL and reinstall it into the FUSIBLE DISCONNECT box.",,,true
+19,Remove the FUSE ACCESS PANEL tether from the TETHER CABLE and stow inside.,,All tethers are under spring tension and can retract quickly.,false
+20,"In STORAGE, locate the DISCONNECT and reinstall it into the FUSIBLE DISCONNECT box.",The DISCONNECT must read “ON” in the upper right corner to restore conductivity.,,true
+21,Remove the DISCONNECT tether from the TETHER CABLE.,,All tethers are under spring tension and can retract quickly.,false
+22,Close the FUSIBLE DISCONNECT box cover.,,,false
+23,"In STORAGE, use the BLUE CARABINEER to clip and lock the FUSIBLE DISCONNECT box cover.",,,true
+24,Remove the BLUE CARABINEER’s tether from the TETHER CABLE.,,All tethers are under spring tension and can retract quickly.,false

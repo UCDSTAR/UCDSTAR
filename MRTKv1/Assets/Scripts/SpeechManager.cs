@@ -31,6 +31,16 @@ public class SpeechManager : MonoBehaviour
             this.BroadcastMessage("PreviousInstruction_s");
         });
 
+        keywords.Add("Show next procedure", () =>
+        {
+            this.BroadcastMessage("NextProcedure_s");
+        });
+
+        keywords.Add("Show previous procedure", () =>
+        {
+            this.BroadcastMessage("PreviousProcedure_s");
+        });
+
         keywords.Add("Show time", () =>
         {
             this.BroadcastMessage("ShowTimer_s");
