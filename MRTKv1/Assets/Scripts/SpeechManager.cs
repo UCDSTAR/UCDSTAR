@@ -13,42 +13,42 @@ public class SpeechManager : MonoBehaviour
     {
         keywords.Add("Show alerts", () =>
         {
-            this.BroadcastMessage("ShowNotifications_s");
+            this.BroadcastMessage("ShowAlerts_s");
         });
 
         keywords.Add("Hide alerts", () =>
         {
-            this.BroadcastMessage("HideNotifications_s");
+            this.BroadcastMessage("HideAlerts_s");
         });
 
         keywords.Add("Show next", () =>
         {
-            this.BroadcastMessage("NextInstruction_s");
+            this.BroadcastMessage("ShowNext_s");
         });
 
         keywords.Add("Show previous", () =>
         {
-            this.BroadcastMessage("PreviousInstruction_s");
+            this.BroadcastMessage("ShowPrevious_s");
         });
 
         keywords.Add("Show next procedure", () =>
         {
-            this.BroadcastMessage("NextProcedure_s");
+            this.BroadcastMessage("ShowNextProcedure_s");
         });
 
         keywords.Add("Show previous procedure", () =>
         {
-            this.BroadcastMessage("PreviousProcedure_s");
+            this.BroadcastMessage("ShowPreviousProcedure_s");
         });
 
         keywords.Add("Show time", () =>
         {
-            this.BroadcastMessage("ShowTimer_s");
+            this.BroadcastMessage("ShowTime_s");
         });
 
         keywords.Add("Hide time", () =>
         {
-            this.BroadcastMessage("HideTimer_s");
+            this.BroadcastMessage("HideTime_s");
         });
 
         keywords.Add("Show image", () =>
@@ -63,12 +63,12 @@ public class SpeechManager : MonoBehaviour
 
         keywords.Add("Show help", () =>
         {
-            this.BroadcastMessage("ShowVoiceHelp_s");
+            this.BroadcastMessage("ShowHelp_s");
         });
 
         keywords.Add("Hide help", () =>
         {
-            this.BroadcastMessage("HideVoiceHelp_s");
+            this.BroadcastMessage("HideHelp_s");
         });
 
         keywords.Add("Show tap to place", () =>

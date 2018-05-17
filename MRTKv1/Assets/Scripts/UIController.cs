@@ -16,12 +16,12 @@ public class UIController : MonoBehaviour {
         voiceHelpButton.onClick.AddListener(ToggleVoiceHelp);
     }
 
-    void ShowVoiceHelp_s()
+    void ShowHelp_s()
     {
         ShowVoiceHelp();
     }
 
-    void HideVoiceHelp_s()
+    void HideHelp_s()
     {
         HideVoiceHelp();
     }

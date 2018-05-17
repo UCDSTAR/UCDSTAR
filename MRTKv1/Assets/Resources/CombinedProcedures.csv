@@ -1,5 +1,5 @@
 Step,Text,Caution,Warning,Figure
-NAME:Generator Procedure,,,,
+Name:Generator Procedure,,,,
 1,Clamp the carburetor Fuel Tube [Hose Pinching Pliers].,,,TRUE
 2,Put Gasoline Container under the Carburetor Drain Tube.,,,FALSE
 3,Loosen (but do not remove) Carburetor Drain Screw and drain fuel into Gasoline Container [Flat Head Screwdriver]. (Audible Call Out),,Gasoline Draining! Flammable! Irritant!,FALSE
@@ -14,7 +14,7 @@ NAME:Generator Procedure,,,,
 12,Remove Left Hand Vent Tube from Carburetor.,,,TRUE
 13,Remove Tube Assembly.,,,FALSE
 14,Remove Carburetor by sliding it off of the bolts attaching it to the main unit.,,,FALSE
-NAME:Disabling Alarm Procedure,,,,
+Name:Disabling Alarm Procedure,,,,
 1,"On the RIGHT side of the EVA Kit, locate and use the PANEL ACCESS KEY to unlock the PANEL ACCESS DOOR LOCKS.",The keys are on a tension-spring cable.,,true
 2,Carefully return keys to the side of the EVA kit.,,,false
 3,Insert your fingers in the CENTER OPENING and secure the PANEL ACCESS DOOR in an OPEN position.,,Door can accidentally close.,true

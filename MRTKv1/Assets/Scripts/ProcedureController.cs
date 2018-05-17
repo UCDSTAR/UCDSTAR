@@ -51,7 +51,7 @@ public class ProcedureController : MonoBehaviour
         int row;
         for(row = 0; row < data.Count; ++row)
         {
-            if(data[row]["Step"].StartsWith("NAME:")) //indicates new procedure
+            if(data[row]["Step"].StartsWith("Name:")) //indicates new procedure
             {
                 ++index;
                 procedureOffsetsList.Add(row + 1); //skip NAME row
@@ -131,13 +131,13 @@ public class ProcedureController : MonoBehaviour
     */
 
     //Triggered by voice command
-    void NextInstruction_s()
+    void ShowNext_s()
     {
         MoveToNextStep();
     }
 
     //Triggered by voice command
-    void PreviousInstruction_s()
+    void ShowPrevious_s()
     {
         MoveToPrevStep();
     }
@@ -219,12 +219,12 @@ public class ProcedureController : MonoBehaviour
         //SetPrevNextStepButtons();
     }
 
-    void NextProcedure_s()
+    void ShowNextProcedure_s()
     {
         MoveToNextProcedure();
     }
 
-    void PreviousProcedure_s()
+    void ShowPreviousProcedure_s()
     {
         MoveToPrevProcedure();
     }

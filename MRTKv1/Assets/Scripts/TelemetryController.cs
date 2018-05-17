@@ -81,14 +81,14 @@ public class TelemetryController : MonoBehaviour
     }
 
     //Called when voice command is triggered
-    void ShowNotifications_s()
+    void ShowAlerts_s()
     {
         //Show panel
         notificationsPanel.SetActive(true);
     }
 
     //Called when voice command is triggered
-    void HideNotifications_s()
+    void HideAlerts_s()
     {
         notificationsPanel.SetActive(false);
     }
@@ -446,12 +446,12 @@ public class TelemetryController : MonoBehaviour
     }
 
     //Show/hide the EVA timer
-    void ShowTimer_s()
+    void ShowTime_s()
     {
         timerPanel.SetActive(true);
     }
 
-    void HideTimer_s()
+    void HideTime_s()
     {
         timerPanel.SetActive(false);
     }
