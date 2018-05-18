@@ -14,6 +14,7 @@ public class UIController : MonoBehaviour {
     void Start () {
         //Set up toolbar buttons
         voiceHelpButton.onClick.AddListener(ToggleVoiceHelp);
+        ShowTapToPlace_s();
     }
 
     void ShowHelp_s()
@@ -50,13 +51,13 @@ public class UIController : MonoBehaviour {
     {
         //Enable panel and collider box
         dragPanel.SetActive(true);
-        ui.GetComponent<BoxCollider>().enabled = true;
+        //ui.GetComponent(TapToPlace).enabled = true;
     }
 
     void HideTapToPlace_s()
     {
         //Disable panel and collider box
-        ui.GetComponent<BoxCollider>().enabled = false;
+        //ui.GetComponent<TapToPlace>().enabled = false;
         dragPanel.SetActive(false);
     }
 }

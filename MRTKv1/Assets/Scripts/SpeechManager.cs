@@ -61,6 +61,16 @@ public class SpeechManager : MonoBehaviour
             this.BroadcastMessage("HideImage_s");
         });
 
+        keywords.Add("Show task board", () =>
+        {
+            this.BroadcastMessage("ShowTaskboard_s");
+        });
+
+        keywords.Add("Hide task board", () =>
+        {
+            this.BroadcastMessage("HideTaskboard_s");
+        });
+
         keywords.Add("Show help", () =>
         {
             this.BroadcastMessage("ShowHelp_s");

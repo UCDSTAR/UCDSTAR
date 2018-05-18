@@ -27,6 +27,8 @@ public class ProcedureController : MonoBehaviour
     private GameObject[] stepContainer;
     private const int SHOW_NUM_STEPS = 3;
     private bool isImageExpanded;
+    private enum ImageType { STEP, TASKBOARD };
+    private ImageType imageType;
 
     //Acts as constructor for object
     void Awake()
@@ -263,26 +265,29 @@ public class ProcedureController : MonoBehaviour
         }
         else //enlarge image
         {
-            ShowImage();
+            ShowImage(ImageType.STEP);
         }
-
-        //Don't forget to toggle!
-        isImageExpanded = !isImageExpanded;
     }
 
     //Triggered by voice command
     void ShowImage_s()
     {
+        if (isImageExpanded)
+            return;
+
         //Check if we have an image to hide
         int currentIndex = GetCurrentContainerIndex();
         GameObject imageButton = stepContainer[currentIndex].transform.Find("ImageButton").gameObject;
         if (imageButton.activeInHierarchy)
-            ShowImage();
+            ShowImage(ImageType.STEP);
     }
 
     //Triggered by voice command
     void HideImage_s()
     {
+        if (!isImageExpanded)
+            return;
+
         //Check if we have an image to hide
         int currentIndex = GetCurrentContainerIndex();
         GameObject imageButton = stepContainer[currentIndex].transform.Find("ImageButton").gameObject;
@@ -290,8 +295,26 @@ public class ProcedureController : MonoBehaviour
             HideImage();
     }
 
-    void ShowImage()
+    void ShowTaskboard_s()
     {
+        if (isImageExpanded)
+            return;
+
+        ShowImage(ImageType.TASKBOARD);
+    }
+
+    void HideTaskboard_s()
+    {
+        if (!isImageExpanded)
+            return;
+
+        HideImage();
+    }
+
+    void ShowImage(ImageType type)
+    {
+        imageType = type;
+
         //Hide all steps
         stepContainer[0].SetActive(false);
         stepContainer[1].SetActive(false);
@@ -302,17 +325,29 @@ public class ProcedureController : MonoBehaviour
         DrawStepAtPos(stepContainer[currentIndex], 0);
         stepContainer[currentIndex].SetActive(true);
 
-        //Get current step's image
-        Sprite currentSprite = stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite;
+        if (imageType == ImageType.STEP)
+        {
+            //Get current step's image
+            Sprite currentSprite = stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite;
 
-        //Set enlarged image to current image and show
-        enlargedImage.sprite = currentSprite;
-        enlargedImage.preserveAspect = true;
-        enlargedImage.gameObject.SetActive(true);
+            //Set enlarged image to current image and show
+            enlargedImage.sprite = currentSprite;
+            enlargedImage.preserveAspect = true;
+            enlargedImage.gameObject.SetActive(true);
 
-        //Set current step to show back button in place of image
-        Sprite backButton = Resources.Load<Sprite>("Icons/arrowLeft");
-        stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite = backButton;
+            //Set current step to show back button in place of image
+            Sprite backButton = Resources.Load<Sprite>("Icons/arrowLeft");
+            stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite = backButton;
+        }
+        else
+        {
+            //Set enlarged image to taskboard image and show
+            enlargedImage.sprite = Resources.Load<Sprite>("Images/taskboard");
+            enlargedImage.preserveAspect = true;
+            enlargedImage.gameObject.SetActive(true);
+        }
+
+        isImageExpanded = true;
     }
 
     void HideImage()
@@ -324,13 +359,18 @@ public class ProcedureController : MonoBehaviour
         int currentIndex = GetCurrentContainerIndex();
         DrawStepAtPos(stepContainer[currentIndex], currentIndex);
 
-        //Reset current step's image
-        stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite = enlargedImage.sprite;
+        if (imageType == ImageType.STEP)
+        {
+            //Reset current step's image
+            stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite = enlargedImage.sprite;
+        }
 
         //Re-enable all steps
         stepContainer[0].SetActive(true);
         stepContainer[1].SetActive(true);
         stepContainer[2].SetActive(true);
+
+        isImageExpanded = false;
     }
 
     //Create a step asset with the given information
