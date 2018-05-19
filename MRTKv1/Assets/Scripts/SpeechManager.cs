@@ -71,6 +71,16 @@ public class SpeechManager : MonoBehaviour
             this.BroadcastMessage("HideTaskboard_s");
         });
 
+        keywords.Add("Show tool", () =>
+        {
+            this.BroadcastMessage("ShowTool_s");
+        });
+
+        keywords.Add("Hide tool", () =>
+        {
+            this.BroadcastMessage("HideTool_s");
+        });
+
         keywords.Add("Show help", () =>
         {
             this.BroadcastMessage("ShowHelp_s");

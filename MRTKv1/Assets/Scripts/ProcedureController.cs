@@ -315,29 +315,47 @@ public class ProcedureController : MonoBehaviour
 
     void ToggleTool()
     {
-        if (isImageExpanded && currentImageType == ImageType.TOOL) //hide image
+        if (isImageExpanded && currentImageType == ImageType.TOOL) //hide tool
         {
             HideToolImage();
         }
-        else //enlarge image
+        else //show tool if one exists
+        {
+            if (!string.IsNullOrEmpty(data[currentStep + offset]["Tool"]))
+            {
+                ShowToolImage();
+            }
+        }
+    }
+
+    void ShowTool_s()
+    {
+        if (!string.IsNullOrEmpty(data[currentStep + offset]["Tool"]))
         {
             ShowToolImage();
         }
     }
 
+    void HideTool_s()
+    {
+        if (isImageExpanded && currentImageType == ImageType.TOOL)
+        {
+            HideToolImage();
+        }
+    }
+
     void ShowToolImage()
     {
-        //Get current step's image
-        int currentIndex = GetCurrentContainerIndex();
-        Sprite currentSprite = stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite;
+        string toolPath = string.Format("Tools/{0}", data[currentStep + offset]["Tool"]);
+        Sprite toolSprite = Resources.Load<Sprite>(toolPath);
 
-        //Set enlarged image to current image and show
-        enlargedImage.sprite = currentSprite;
+        //Set enlarged image to current tool and show
+        enlargedImage.sprite = toolSprite;
         enlargedImage.preserveAspect = true;
         enlargedImage.gameObject.SetActive(true);
 
         //Update state variables
-        currentImageType = ImageType.STEP;
+        currentImageType = ImageType.TOOL;
         isImageExpanded = true;
     }
 

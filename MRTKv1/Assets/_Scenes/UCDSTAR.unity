@@ -2925,14 +2925,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddd1320c01a9d2f42a7c8319dea8f41b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  csvName: CombinedProcedures
+  csvName: proc2
   stepAsset: {fileID: 1421877966628046, guid: 1f467bae745b5034da9fc6bd2b1fdc8c, type: 2}
   stepCanvas: {fileID: 930418558}
   prevButton: {fileID: 15762060}
   nextButton: {fileID: 1087431801}
   titleText: {fileID: 637891266}
   enlargedImage: {fileID: 1650786931}
-  toolButton: {fileID: 0}
+  toolButton: {fileID: 1451639572}
 --- !u!1001 &993023707
 Prefab:
   m_ObjectHideFlags: 0
