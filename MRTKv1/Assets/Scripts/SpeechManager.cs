@@ -81,12 +81,12 @@ public class SpeechManager : MonoBehaviour
             this.BroadcastMessage("HideHelp_s");
         });
 
-        keywords.Add("Show tap to place", () =>
+        keywords.Add("Show placement", () =>
         {
             this.BroadcastMessage("ShowTapToPlace_s");
         });
 
-        keywords.Add("Hide tap to place", () =>
+        keywords.Add("Hide placement", () =>
         {
             this.BroadcastMessage("HideTapToPlace_s");
         });

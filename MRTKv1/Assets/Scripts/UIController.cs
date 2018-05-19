@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour {
 
     public Button voiceHelpButton;
-    public Image voiceHelpImg;
+    public Image enlargedImage;
     public GameObject dragPanel;
     public GameObject ui;
 
@@ -29,7 +29,7 @@ public class UIController : MonoBehaviour {
 
     void ToggleVoiceHelp()
     {
-        if (voiceHelpImg.IsActive())
+        if (ProcedureController.isImageExpanded && ProcedureController.currentImageType == ProcedureController.ImageType.HELP)
             HideVoiceHelp();
         else
             ShowVoiceHelp();
@@ -37,14 +37,29 @@ public class UIController : MonoBehaviour {
 
     void ShowVoiceHelp()
     {
-        voiceHelpImg.gameObject.SetActive(true);
+        //Set enlarged image to taskboard image and show
+        enlargedImage.sprite = Resources.Load<Sprite>("Images/commands");
+        enlargedImage.preserveAspect = true;
+        enlargedImage.gameObject.SetActive(true);
+
+        //Update button icon
         voiceHelpButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/mic-white");
+
+        //Update state
+        ProcedureController.isImageExpanded = true;
+        ProcedureController.currentImageType = ProcedureController.ImageType.HELP;
     }
 
     void HideVoiceHelp()
     {
-        voiceHelpImg.gameObject.SetActive(false);
+        //Hide image
+        enlargedImage.gameObject.SetActive(false);
+
+        //Update button icon
         voiceHelpButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/mic-black");
+
+        //Update state
+        ProcedureController.isImageExpanded = false;
     }
 
     void ShowTapToPlace_s()
