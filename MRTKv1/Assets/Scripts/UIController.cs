@@ -66,13 +66,13 @@ public class UIController : MonoBehaviour {
     {
         //Enable panel and collider box
         dragPanel.SetActive(true);
-        //ui.GetComponent(TapToPlace).enabled = true;
+        ui.GetComponent<HoloToolkit.Unity.InputModule.TapToPlace>().enabled = true;
     }
 
     void HideTapToPlace_s()
     {
         //Disable panel and collider box
-        //ui.GetComponent<TapToPlace>().enabled = false;
+        ui.GetComponent<HoloToolkit.Unity.InputModule.TapToPlace>().enabled = false;
         dragPanel.SetActive(false);
     }
 }
