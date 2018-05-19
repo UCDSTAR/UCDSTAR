@@ -2932,6 +2932,7 @@ MonoBehaviour:
   nextButton: {fileID: 1087431801}
   titleText: {fileID: 637891266}
   enlargedImage: {fileID: 1650786931}
+  toolButton: {fileID: 0}
 --- !u!1001 &993023707
 Prefab:
   m_ObjectHideFlags: 0

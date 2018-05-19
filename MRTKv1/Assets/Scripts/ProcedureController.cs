@@ -14,10 +14,11 @@ public class ProcedureController : MonoBehaviour
     public Button nextButton;
     public GameObject titleText;
     public Image enlargedImage;
+    public Button toolButton;
 
     //These need to be public so that the UI controller can also access them
     public static bool isImageExpanded;
-    public  enum ImageType { STEP, TASKBOARD, HELP };
+    public  enum ImageType { STEP, TASKBOARD, HELP, TOOL };
     public static ImageType currentImageType;
 
     private List<Dictionary<string, string>> data;
@@ -76,6 +77,7 @@ public class ProcedureController : MonoBehaviour
         //Setup touch navigation
         prevButton.onClick.AddListener(MoveToPrevStep);
         nextButton.onClick.AddListener(MoveToNextStep);
+        toolButton.onClick.AddListener(ToggleTool);
     }
 
     //Initializes the procedure display with the first few steps
@@ -99,7 +101,7 @@ public class ProcedureController : MonoBehaviour
         //Init container with first few steps
         for (int i = 0; i < SHOW_NUM_STEPS; ++i)
         {
-            stepContainer[i] = GenerateStep(data[i + offset]["Step"], data[i + offset]["Text"], data[i + offset]["Caution"], data[i + offset]["Warning"], data[i + offset]["Figure"]);
+            stepContainer[i] = GenerateStep(data[i + offset]["Step"], data[i + offset]["StepDisplay"], data[i + offset]["Text"], data[i + offset]["Caution"], data[i + offset]["Warning"], data[i + offset]["Figure"]);
             DrawStepAtPos(stepContainer[i], i);
         }
 
@@ -143,7 +145,7 @@ public class ProcedureController : MonoBehaviour
             DrawStepAtPos(stepContainer[0], 0);
             stepContainer[1] = stepContainer[2];
             DrawStepAtPos(stepContainer[1], 1);
-            stepContainer[2] = GenerateStep(data[currentStep + offset + 2]["Step"], data[currentStep + offset + 2]["Text"], data[currentStep + offset + 2]["Caution"], data[currentStep + offset + 2]["Warning"], data[currentStep + offset + 2]["Figure"]);
+            stepContainer[2] = GenerateStep(data[currentStep + offset + 2]["Step"], data[currentStep + offset + 2]["StepDisplay"], data[currentStep + offset + 2]["Text"], data[currentStep + offset + 2]["Caution"], data[currentStep + offset + 2]["Warning"], data[currentStep + offset + 2]["Figure"]);
             DrawStepAtPos(stepContainer[2], 2);
 
             SetStepActive(stepContainer[0], false);
@@ -176,7 +178,7 @@ public class ProcedureController : MonoBehaviour
             DrawStepAtPos(stepContainer[2], 2);
             stepContainer[1] = stepContainer[0];
             DrawStepAtPos(stepContainer[1], 1);
-            stepContainer[0] = GenerateStep(data[currentStep + offset - 2]["Step"], data[currentStep + offset - 2]["Text"], data[currentStep + offset - 2]["Caution"], data[currentStep + offset - 2]["Warning"], data[currentStep + offset - 2]["Figure"]);
+            stepContainer[0] = GenerateStep(data[currentStep + offset - 2]["Step"], data[currentStep + offset - 2]["StepDisplay"], data[currentStep + offset - 2]["Text"], data[currentStep + offset - 2]["Caution"], data[currentStep + offset - 2]["Warning"], data[currentStep + offset - 2]["Figure"]);
             DrawStepAtPos(stepContainer[0], 0);
 
             SetStepActive(stepContainer[2], false);
@@ -252,19 +254,6 @@ public class ProcedureController : MonoBehaviour
             HideStepImage();
     }
 
-    void ShowTaskboard_s()
-    {
-        ShowTaskboardImage();
-    }
-
-    void HideTaskboard_s()
-    {
-        if (!isImageExpanded || currentImageType != ImageType.TASKBOARD)
-            return;
-
-        HideTaskboardImage();
-    }
-
     void ShowStepImage()
     {
         //Get current step's image
@@ -290,6 +279,19 @@ public class ProcedureController : MonoBehaviour
         isImageExpanded = false;
     }
 
+    void ShowTaskboard_s()
+    {
+        ShowTaskboardImage();
+    }
+
+    void HideTaskboard_s()
+    {
+        if (!isImageExpanded || currentImageType != ImageType.TASKBOARD)
+            return;
+
+        HideTaskboardImage();
+    }
+
     void ShowTaskboardImage()
     {
         //Set enlarged image to taskboard image and show
@@ -311,8 +313,45 @@ public class ProcedureController : MonoBehaviour
         isImageExpanded = false;
     }
 
+    void ToggleTool()
+    {
+        if (isImageExpanded && currentImageType == ImageType.TOOL) //hide image
+        {
+            HideToolImage();
+        }
+        else //enlarge image
+        {
+            ShowToolImage();
+        }
+    }
+
+    void ShowToolImage()
+    {
+        //Get current step's image
+        int currentIndex = GetCurrentContainerIndex();
+        Sprite currentSprite = stepContainer[currentIndex].transform.Find("ImageButton").gameObject.GetComponentInChildren<Image>().sprite;
+
+        //Set enlarged image to current image and show
+        enlargedImage.sprite = currentSprite;
+        enlargedImage.preserveAspect = true;
+        enlargedImage.gameObject.SetActive(true);
+
+        //Update state variables
+        currentImageType = ImageType.STEP;
+        isImageExpanded = true;
+    }
+
+    void HideToolImage()
+    {
+        //Hide image
+        enlargedImage.gameObject.SetActive(false);
+
+        //Update state
+        isImageExpanded = false;
+    }
+
     //Create a step asset with the given information
-    private GameObject GenerateStep(string step, string text, string caution, string warning, string figure)
+    private GameObject GenerateStep(string step, string stepDisplay, string text, string caution, string warning, string figure)
     {
         int stepval = int.Parse(step);
         bool hasFigure = bool.Parse(figure);
@@ -321,7 +360,7 @@ public class ProcedureController : MonoBehaviour
         //If neither is provided, warningCautionStr will just be ""
         bool isWarning = true;
         string warningCautionStr = warning;
-        if (!string.IsNullOrEmpty(caution))
+        if (!string.IsNullOrEmpty(caution.Trim()))
         {
             warningCautionStr = caution;
             isWarning = false;
@@ -339,7 +378,7 @@ public class ProcedureController : MonoBehaviour
         instructionText.GetComponentInChildren<Text>().text = text;
 
         GameObject stepNumberText = stepClone.transform.Find("StepNumberText").gameObject;
-        stepNumberText.GetComponentInChildren<Text>().text = step;
+        stepNumberText.GetComponentInChildren<Text>().text = stepDisplay;
 
         GameObject progressBar = stepClone.transform.Find("ProgressBar").gameObject;
         Slider bar = progressBar.GetComponent<Slider>();
@@ -350,7 +389,7 @@ public class ProcedureController : MonoBehaviour
         GameObject imageButton = stepClone.transform.Find("ImageButton").gameObject;
         if (hasFigure)
         {
-            string imgpath = string.Format("GeneratorImages/2.{0}", stepval.ToString("D2")); //pad with zeros until length 2
+            string imgpath = string.Format("ProcedureImages/{0}", stepDisplay); //pad with zeros until length 2
             Sprite img = Resources.Load<Sprite>(imgpath);
             if (!img)
                 Debug.Log("Error loading " + imgpath);

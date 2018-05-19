@@ -1,41 +1,59 @@
-Step,Text,Caution,Warning,Figure
-Name:Generator Procedure,,,,
-1,Clamp the carburetor Fuel Tube [Hose Pinching Pliers].,,,TRUE
-2,Put Gasoline Container under the Carburetor Drain Tube.,,,FALSE
-3,Loosen (but do not remove) Carburetor Drain Screw and drain fuel into Gasoline Container [Flat Head Screwdriver]. (Audible Call Out),,Gasoline Draining! Flammable! Irritant!,FALSE
-4,Tighten the Carburetor Drain Screw securely [1/8 in. Flat Head Screwdriver].,,,TRUE
-5,Remove Gasoline Container from under the Carburetor Drain Tube.,,,FALSE
-6,Remove Carburetor Fuel Tube Clamp [Pliers].,Pry the Carburetor Fuel Tube off gently to avoid damaging it.,,FALSE
-7,Detach Carburetor Fuel Tube from Carburetor [Flat Head Screwdriver].,,,FALSE
-8,Check that the tube routing configuration matches Figure. (Audible Call Out),,,TRUE
-9,Pull Carburetor Drain Tube upwards from red plastic housing until bottom end is free.,,,FALSE
-10,Remove tube from fitting at bottom of Carburetor Bowl.,,,FALSE
-11,Remove Right Hand Vent Tube from Carburetor.,,,TRUE
-12,Remove Left Hand Vent Tube from Carburetor.,,,TRUE
-13,Remove Tube Assembly.,,,FALSE
-14,Remove Carburetor by sliding it off of the bolts attaching it to the main unit.,,,FALSE
-Name:Disabling Alarm Procedure,,,,
-1,"On the RIGHT side of the EVA Kit, locate and use the PANEL ACCESS KEY to unlock the PANEL ACCESS DOOR LOCKS.",The keys are on a tension-spring cable.,,true
-2,Carefully return keys to the side of the EVA kit.,,,false
-3,Insert your fingers in the CENTER OPENING and secure the PANEL ACCESS DOOR in an OPEN position.,,Door can accidentally close.,true
-4,"On your belt, use the BLUE CARABINEER to securely tether to the TETHER CABLE inside the STORAGE.",Notice the TETHER CABLE is adjustable,,true
-5,Locate the E-STOP button and gently press down to temporarily disable the alarm.,,,true
-6,Locate the FUSIBLE DISCONNECT box and tether the BLUE CARABINEER to the TETHER CABLE.,,,false
-7,Remove the BLUE CARABINEER from the FUSIBLE DISCONNECT box and transfer it to STORAGE.,,,true
-8,Open the FUSIBLE DISCONNECT box and secure the lid in the open position.,Pull the locking tab toward STORAGE with the index finger while lifting the cover with the thumb.,,true
-9,Locate the BLACK DISCONNECT and tether it to the TETHER CABLE.,,,false
-10,Remove the DISCONNECT and place it in STORAGE.,Pull up with the index and middle fingers while pushing down on the FUSE ACCESS PANEL with the thumb.,,true
-11,Tether the FUSE ACCESS PANEL to the TETHER CABLE.,,,false
-12,Remove the FUSE ACCESS PANEL by pulling straight up.,,,true
-13,Place the FUSE ACCESS PANEL into STORAGE.,,,false
-14,Tether the ALARM FUSE to the TETHER CABLE.,,,false
-15,"In Storage, locate the BLUE FUSE PULLER.",,,false
-16,Use the BLUE FUSE PULLER to remove ONLY the ALARM FUSE.,Rock the ALARM FUSE with the FUSE PULLER when pulling up.,,true
-17,Return the ALARM FUSE and the FUSE PULLER to STORAGE.,,,false
-18,"In STORAGE, locate the FUSE ACCESS PANEL and reinstall it into the FUSIBLE DISCONNECT box.",,,true
-19,Remove the FUSE ACCESS PANEL tether from the TETHER CABLE and stow inside.,,All tethers are under spring tension and can retract quickly.,false
-20,"In STORAGE, locate the DISCONNECT and reinstall it into the FUSIBLE DISCONNECT box.",The DISCONNECT must read ‚ÄúON‚Äù in the upper right corner to restore conductivity.,,true
-21,Remove the DISCONNECT tether from the TETHER CABLE.,,All tethers are under spring tension and can retract quickly.,false
-22,Close the FUSIBLE DISCONNECT box cover.,,,false
-23,"In STORAGE, use the BLUE CARABINEER to clip and lock the FUSIBLE DISCONNECT box cover.",,,true
-24,Remove the BLUE CARABINEER‚Äôs tether from the TETHER CABLE.,,All tethers are under spring tension and can retract quickly.,false
+Step,Text,Caution,Warning,Figure,StepDisplay,Tool
+Name:Disabling Alarm Procedure,,,,,,
+1,"On the <b>RIGHT</b> side of the <b>EVA</b> Kit, locate and use the <b>PANEL</b> <b>ACCESS</b> <b>KEY</b> to unlock the <b>PANEL</b> <b>ACCESS</b> <b>DOOR</b> <b>LOCKS.</b>", ,The keys are on a tension-spring cable.,True,1.1,
+2,Carefully return keys to the side of the <b>EVA</b> kit., , ,False,1.2,
+3,Insert your fingers in the <b>CENTER</b> <b>OPENING</b> and secure the <b>PANEL</b> <b>ACCESS</b> <b>DOOR</b> in an <b>OPEN</b> position., ,Door can accidentally close.,True,1.3,
+4,"On your belt, use the <b>BLUE</b> <b>CARABINEER</b> to securely tether to the <b>TETHER</b> <b>CABLE</b> inside the <b>STORAGE.</b>", ,Notice the <b>TETHER</b> <b>CABLE</b> is adjustable.,True,1.4,
+5,Locate the <b>E-STOP</b> button and gently press down to temporarily disable the alarm., , ,True,1.5,
+6,Locate the <b>FUSIBLE</b> <b>DISCONNECT</b> box and tether the <b>BLUE</b> <b>CARABINEER</b> to the <b>TETHER</b> <b>CABLE.</b>, , ,False,1.6,
+7,Remove the <b>BLUE</b> <b>CARABINEER</b> from the <b>FUSIBLE</b> <b>DISCONNECT</b> box and transfer it to <b>STORAGE.</b>, , ,True,1.7,
+8,Open the <b>FUSIBLE</b> <b>DISCONNECT</b> box and secure the lid in the open position.,Pull the locking tab toward <b>STORAGE</b> with the index finger while lifting the cover with the thumb., ,True,1.8,
+9,Locate the <b>BLACK</b> <b>DISCONNECT</b> and tether it to the <b>TETHER</b> <b>CABLE.</b>, , ,False,1.9,
+10,Remove the <b>DISCONNECT</b> and place it in <b>STORAGE.</b>,Pull up with the index and middle fingers while pushing down on the <b>FUSE</b> <b>ACCESS</b> <b>PANEL</b> with the thumb., ,True,1.1,
+11,Tether the <b>FUSE</b> <b>ACCESS</b> <b>PANEL</b> to the <b>TETHER</b> <b>CABLE.</b>, , ,False,1.11,
+12,Remove the <b>FUSE</b> <b>ACCESS</b> <b>PANEL</b> by pulling straight up., , ,True,1.12,
+13,Place the <b>FUSE</b> <b>ACCESS</b> <b>PANEL</b> into <b>STORAGE.</b>, , ,False,1.13,
+14,Tether the <b>ALARM</b> <b>FUSE</b> to the <b>TETHER</b> <b>CABLE.</b>, , ,False,1.14,
+15,"In Storage, locate the <b>BLUE</b> <b>FUSE</b> <b>PULLER.</b>", , ,False,1.15,
+16,Use the <b>BLUE</b> <b>FUSE</b> <b>PULLER</b> to remove <b>ONLY</b> the <b>ALARM</b> <b>FUSE.</b>,Rock the <b>ALARM</b> <b>FUSE</b> with the <b>FUSE</b> <b>PULLER</b> when pulling up., ,True,1.16,
+17,Return the <b>ALARM</b> <b>FUSE</b> and the <b>FUSE</b> <b>PULLER</b> to <b>STORAGE.</b>, , ,False,1.17,
+18,"In <b>STORAGE,</b> locate the <b>FUSE</b> <b>ACCESS</b> <b>PANEL</b> and reinstall it into the <b>FUSIBLE</b> <b>DISCONNECT</b> box.", , ,True,1.18,
+19,Remove the <b>FUSE</b> <b>ACCESS</b> <b>PANEL</b> tether from the <b>TETHER</b> <b>CABLE</b> and stow inside., ,All tethers are under spring tension and can retract quickly.,False,1.19,
+20,"In <b>STORAGE,</b> locate the <b>DISCONNECT</b> and reinstall it into the <b>FUSIBLE</b> <b>DISCONNECT</b> box.", ,"The <b>DISCONNECT</b> must read <b>""ON""ù</b> in the upper right corner to restore conductivity.",True,1.2,
+21,Remove the <b>DISCONNECT</b> tether from the <b>TETHER</b> <b>CABLE.</b>, ,All tethers are under spring tension and can retract quickly.,False,1.21,
+22,Close the <b>FUSIBLE</b> <b>DISCONNECT</b> box cover., , ,False,1.22,
+23,"In <b>STORAGE,</b> use the <b>BLUE</b> <b>CARABINEER</b> to clip and lock the <b>FUSIBLE</b> <b>DISCONNECT</b> box cover.", , ,True,1.23,
+24,Remove the <b>BLUE</b> CARABINEER's tether from the <b>TETHER</b> <b>CABLE.</b>, ,All tethers are under spring tension and can retract quickly.,False,1.24,
+Name:Rerouting Power Procedure,,,,,,
+1, Locate the Aux. Power Input,,,False,2.1,
+2, Locate <b>BATTERY</b> <b>PACK</b> and tether to <b>TETHER</b> <b>CABLE.</b>,,,False,2.2,
+3, Undo the <b>BATTERY</b> <b>PACK</b> <b>LEADS</b> from the <b>AUX.</b> <b>POWER</b> <b>INPUT.</b>,Depress the red and black plastic hammers on the side of the <b>AUX.</b> <b>POWER</b> <b>INPUT</b> and pull the leads straight up.,,True,2.3,
+4, Remove <b>BATTERY</b> <b>PACK</b> from <b>AUX.</b> <b>POWER</b> <b>INPUT.</b>,,,False,2.4,
+5, Locate the <b>ON/OFF</b> switch on the back of the <b>BATTERY</b> <b>PACK</b> and switch it to the <b>OFF</b> position.,,,True,2.5,
+6, Place the <b>BATTERY</b> <b>PACK</b> into <b>STORAGE.</b>,,,False,2.6,
+7,"In <b>STORAGE,</b> find the replacement <b>BATTERY</b> <b>PACK.</b>",,,False,2.7,
+8,Locate the <b>ON/OFF</b> switch on the back of the <b>BATTERY</b> <b>PACK</b> and switch it to the <b>ON</b> position.,,,False,2.8,
+9,Attach the replacement <b>BATTERY</b> <b>PACK</b> onto the <b>AUX.</b> <b>POWER</b> <b>INPUT</b> by the Velcro.,,,False,2.9,
+10, Insert the <b>BATTERY</b> <b>PACK</b> leads back into same colored ports.,Depress the red and black plastic hammers on the side of the <b>AUX.</b> <b>POWER</b> <b>INPUT</b> and push leads straight into their ports.,,False,2.1,
+11, Conduct a <b>GENTLE</b> <b>PULL</b> <b>TEST</b> on the wires.,,,False,2.11,
+12, Remove the <b>BATTERY</b> <b>PACK</b> tether from the <b>TETHER</b> <b>CABLE.</b>,,All tethers are under spring tension and can retract quickly.,True,2.12,
+13," In <b>STORAGE,</b> locate the <b>GRAY</b> 220 Volt <b>PLUG.</b>",,,False,2.13,
+14, Install it into the <b>POWER</b> <b>OUT.</b>,"Outlet and plug mate are stiff, ensure the full engagement of the plug into the outlet.",,False,2.14,
+15," Locate the metal <b>BUSS</b> <b>BAR</b> and verify there are <b>BLACK,</b> <b>GREEN</b> & <b>WHITE</b> <b>BUSSES,</b> each with 2 openings.",,,False,2.15,
+16, Insert the <b>WHITE</b> 220 <b>VOLT</b> <b>LEAD</b> into the <b>LEFT</b> <b>WHITE</b> <b>BUSS</b> opening and <b>GENTLY</b> <b>TIGHTEN</b> the thumbscrew.,<b>DO</b> <b>NOT</b> over tighten the thumbscrew.,,True,2.16,
+17, Insert the <b>GREEN</b> 220 <b>VOLT</b> <b>LEAD</b> into the <b>LEFT</b> <b>GREEN</b> <b>BUS</b> opening.,<b>DO</b> <b>NOT</b> over tighten the thumbscrew.,,True,2.17,
+18, Insert the <b>BLACK</b> 220 <b>VOLT</b> <b>LEAD</b> into the <b>LEFT</b> <b>BLACK</b> <b>BUS</b> opening.,<b>DO</b> <b>NOT</b> over tighten the thumbscrew.,,True,2.18,
+19, Make sure the <b>METAL</b> <b>LEADS</b> are not sticking out the <b>BACK</b> of the <b>BUSS</b> <b>BAR.</b>,,,False,2.19,
+20, Conduct a Gentle <b>PULL</b> <b>TEST</b> on each cable.,,,False,2.2,
+21," In <b>STORAGE,</b> locate the 110 <b>VOLT</b> <b>PLUG</b> and install it into <b>POWER</b> <b>IN.</b>",Lift cover with one hand while installing <b>PLUG</b> into the outlet with the other. The lid is spring-loaded.,,True,2.21,
+22, Insert the <b>WHITE</b> 110 <b>VOLT</b> <b>PLUG</b> <b>LEAD</b> into the <b>RIGHT</b> <b>WHITE</b> <b>BUS</b> opening.,<b>DO</b> <b>NOT</b> over tighten the thumbscrew.,,True,2.22,
+23, Insert the <b>GREEN</b> 110 <b>VOLT</b> <b>PLUG</b> <b>LEAD</b> into the <b>RIGHT</b> <b>GREEN</b> <b>BUS</b> opening.,<b>DO</b> <b>NOT</b> over tighten the thumbscrew.,,True,2.23,
+24, Insert the <b>BLACK</b> 110 <b>VOLT</b> <b>PLUG</b> <b>LEAD</b> into the <b>RIGHT</b> <b>BLACK</b> <b>BUS</b> opening.,<b>DO</b> <b>NOT</b> over tighten the thumbscrew.,,True,2.24,
+25, Conduct a Gentle <b>PULL</b> <b>TEST</b> on each cable,,,True,2.25,
+26," In <b>STORAGE,</b> locate the <b>E-STOP</b> <b>KEY.</b>",,,True,2.26,
+27, Insert the <b>KEY</b> into the <b>E-STOP</b> and <b>TURN</b> to the <b>RIGHT</b> and the button will pop up.,,,False,2.27,
+28, Remove the <b>KEY</b> and place it in <b>STORAGE.</b>,,,True,2.28,
+29, Locate the <b>AUX.</b> <b>POWER</b> <b>SWITCH</b> on the <b>POWER</b> <b>IN</b> box and switch it to the <b>ìONî</b> position.,,,False,2.29,
+30, Can you please confirm <b>YES</b> or <b>NO</b> that the <b>SYSTEM</b> <b>GO</b> indicator light is <b>GREEN?</b>,,,False,2.3,
+31," <b>IF</b> <b>GREEN,</b> read this script: <b>EVA</b> 1, this is Houston Mission Control. Congratulations. <b>PHALCON</b> is reporting that they are reading a successful power restoration on their console. You are a go to untether from the <b>TETHER</b> <b>CABLE</b> and return to space station. Mission Control out.",,,False,2.31,
+32," <b>IF</b> <b>NOT</b> <b>GREEN,</b> read this script: <b>EVA</b> 1, this is Houston Mission Control. <b>PHALCON</b> confirms and is not able to report a successful power restoration on their console. <b>EVA-1,</b> please be advised that we have prepared some trouble-shooting steps for you to conduct on a future spacewalk.",,,False,2.32,
