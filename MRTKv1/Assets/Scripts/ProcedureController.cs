@@ -107,6 +107,8 @@ public class ProcedureController : MonoBehaviour
 
         //Set first instruction as active
         SetStepActive(stepContainer[0], true);
+
+        UpdateToolIconColor();
     }
 
     //Triggered by voice command
@@ -153,6 +155,8 @@ public class ProcedureController : MonoBehaviour
         }
 
         ++currentStep;
+
+        UpdateToolIconColor();
     }
 
     void MoveToPrevStep()
@@ -186,6 +190,8 @@ public class ProcedureController : MonoBehaviour
         }
 
         --currentStep;
+
+        UpdateToolIconColor();
     }
 
     void ShowNextProcedure_s()
@@ -464,5 +470,18 @@ public class ProcedureController : MonoBehaviour
             return 2;
         else
             return 1;
+    }
+
+    //Update tool icon if there's a tool associated with the current step
+    void UpdateToolIconColor()
+    {
+        if (!string.IsNullOrEmpty(data[currentStep + offset]["Tool"]))
+        {
+            toolButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/toolGreen");
+        }
+        else
+        {
+            toolButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/tool");
+        }
     }
 }
