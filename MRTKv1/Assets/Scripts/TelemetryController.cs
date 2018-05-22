@@ -11,7 +11,6 @@ public class TelemetryController : MonoBehaviour
     public GameObject currentTimeText;
     public GameObject notificationsPanel;
     public GameObject textPanel;
-    public GameObject evaTimeText;
     public GameObject telemetryNotification; //this will be copied into the scene
     public GameObject telemetryTextName; //this will be copied into the scene
     public GameObject telemetryTextNumber; //this will be copied into the scene
@@ -30,18 +29,20 @@ public class TelemetryController : MonoBehaviour
 
     //Telemetry data
     private const int MAX_NOTIFICATIONS = 4;
-    private const double REFRESH_RATE = 2; //in seconds
+    private const double REFRESH_RATE = 10; //in seconds
     private const int TEMPERATURE_INDEX = 2;
     private const int PRESSURE_INDEX = 9;
     private const int OXYGEN_INDEX = 7;
     private const int BATTERY_INDEX = 0;
-    private const int NUM_NUMERICAL = 10;
+    private const int NUM_NUMERICAL = 12;
     private const int NUM_SWITCH = 7;
-    private List<TelemetryData> notificationsList = new List<TelemetryData>(NUM_NUMERICAL + NUM_SWITCH);
+    private const int NUM_TIMER = 3;
+    private List<TelemetryData> notificationsList = new List<TelemetryData>(NUM_NUMERICAL + NUM_SWITCH +NUM_TIMER);
     private List<NumericalData> numericalTextList = new List<NumericalData>(NUM_NUMERICAL);
     private List<SwitchData> switchTextList = new List<SwitchData>(NUM_SWITCH);
-    private string numericalDataURL = "https://hrvip.ucdavis.edu/share/UCDSUITS/api/telemetry/recent.json";
-    private string switchDataURL = "https://hrvip.ucdavis.edu/share/UCDSUITS/api/switch/recent.json";
+    private List<TimerData> timerTextList = new List<TimerData>(NUM_TIMER);
+    private string numericalDataURL = "https://apollo-program.herokuapp.com/api/suit/recent";
+    private string switchDataURL = "https://apollo-program.herokuapp.com/api/suitswitch/recent";
     private Boolean numericalServerConnErr;
     private Boolean switchServerConnErr;
 
@@ -70,6 +71,10 @@ public class TelemetryController : MonoBehaviour
         for (int i = 0; i < switchTextList.Capacity; ++i)
         {
             switchTextList.Add(null);
+        }
+        for (int i = 0; i < timerTextList.Capacity; ++i)
+        {
+            timerTextList.Add(null);
         }
     }
 
@@ -142,10 +147,8 @@ public class TelemetryController : MonoBehaviour
             //TODO: if one server goes down, figure out how to only update notifications from the other server
             if (!switchServerConnErr && !numericalServerConnErr)
             {
-                jsonStr = numericalStr.Substring(0, numericalStr.Length - 1) + "," + switchStr.Substring(1);
+                jsonStr = numericalStr.Substring(1, numericalStr.Length - 3) + "," + switchStr.Substring(2, switchStr.Length - 3);
                 JSONData jsonData = JSONData.CreateFromJSON(jsonStr);
-                if (jsonData.t_eva != null)
-                    evaTimeText.GetComponentInChildren<Text>().text = jsonData.t_eva; //update eva time separately
                 UpdateNotificationsArray(jsonData);
             }
 
@@ -193,7 +196,7 @@ public class TelemetryController : MonoBehaviour
             notifyImage.GetComponent<Image>().sprite = notifyIcon;
 
             //Update notification count
-            int numNotifications = (NUM_NUMERICAL + NUM_SWITCH) - notificationsList.FindAll(x => x.severity == Severity.NOMINAL).Count;
+            int numNotifications = (NUM_NUMERICAL + NUM_SWITCH + NUM_TIMER) - notificationsList.FindAll(x => x.severity == Severity.NOMINAL).Count;
             if (numNotifications == 0)
                 notificationCountText.SetActive(false);
             else
@@ -201,15 +204,16 @@ public class TelemetryController : MonoBehaviour
                 notificationCountText.SetActive(true);
                 notificationCountText.GetComponentInChildren<Text>().text = "" + numNotifications;
             }
-
+            /*
             if (notifySeverity == Severity.CRITICAL)
             {
                 notifyImage.GetComponent<AudioSource>().Play();
-            } else
+            }
+            else
             {
                 notifyImage.GetComponent<AudioSource>().Stop();
             }
-
+            */
             //Create telemetry text for right panel
             CreateTelemetryTextHeaders();
             for (int j = 0; j < numericalTextList.Count; ++j)
@@ -220,12 +224,16 @@ public class TelemetryController : MonoBehaviour
             {
                 CreateTelemetryText(switchTextList[k], k, TelemetryType.SWITCH);
             }
+            for (int m = 0; m < timerTextList.Count; ++m)
+            {
+                CreateTelemetryText(timerTextList[m], m, TelemetryType.TIMER);
+            }
 
             //Get pressure, oxygen, temperature, and battery data
             NumericalData sop_pressure = numericalTextList[PRESSURE_INDEX];
             NumericalData oxygen_pressure = numericalTextList[OXYGEN_INDEX];
             NumericalData temperature = numericalTextList[TEMPERATURE_INDEX];
-            NumericalData battery = numericalTextList[BATTERY_INDEX];
+            TimerData battery = timerTextList[BATTERY_INDEX];
 
             //Update the pressure, oxygen, temperature, and battery icons and text
             if (sop_pressure != null)
@@ -316,13 +324,18 @@ public class TelemetryController : MonoBehaviour
     {
         //Numerical data
         GameObject numericalTextNameClone = Instantiate(telemetryTextName, textPanel.GetComponent<Transform>(), false);
-        numericalTextNameClone.GetComponent<RectTransform>().localPosition = new Vector3((float)(0.75 - 0.25), (float)(3.5 - 0.4 * -1), 0);
+        numericalTextNameClone.GetComponent<RectTransform>().localPosition = new Vector3((float)(0.75 - 0.25), (float)(3.5 - 0.4 * -1) + 1.5f, 0);
         numericalTextNameClone.GetComponentInChildren<Text>().text = "<b>Numerical data</b>";
 
         //Switch data
         GameObject switchTextNameClone = Instantiate(telemetryTextName, textPanel.GetComponent<Transform>(), false);
-        switchTextNameClone.GetComponent<RectTransform>().localPosition = new Vector3((float)(0.75 - 0.25), (float)(3.5 - 0.4 * -1) - 4.8f, 0);
+        switchTextNameClone.GetComponent<RectTransform>().localPosition = new Vector3((float)(0.75 - 0.25), (float)(3.5 - 0.4 * -1) - 4.0f, 0);
         switchTextNameClone.GetComponentInChildren<Text>().text = "<b>Switch data</b>";
+
+        //Timer data
+        GameObject timerTextNameClone = Instantiate(telemetryTextName, textPanel.GetComponent<Transform>(), false);
+        timerTextNameClone.GetComponent<RectTransform>().localPosition = new Vector3((float)(0.75 - 0.25), (float)(3.5 - 0.4 * -1) - 7.5f, 0);
+        timerTextNameClone.GetComponentInChildren<Text>().text = "<b>Timers</b>";
     }
 
     //Create telemetry data text for the right panel
@@ -334,9 +347,11 @@ public class TelemetryController : MonoBehaviour
 
         float offset;
         if (ttype == TelemetryType.NUMERICAL)
-            offset = 0;
+            offset = -1.5f;
+        else if (ttype == TelemetryType.SWITCH)
+            offset = 4.0f;
         else
-            offset = 4.8f;
+            offset = 7.5f;
 
         GameObject textNameClone = Instantiate(telemetryTextName, textPanel.GetComponent<Transform>(), false);
         GameObject textNumberClone = Instantiate(telemetryTextNumber, textPanel.GetComponent<Transform>(), false);
@@ -374,6 +389,8 @@ public class TelemetryController : MonoBehaviour
     void UpdateNotificationsArray(JSONData jsonData)
     {
         //Numerical data
+        NumericalData Heart_bpm = new NumericalData("Heart rate", jsonData.heart_bpm, "bpm", 0, 300);
+        NumericalData P_suit = new NumericalData("Suit pressure", jsonData.p_suit, "psia", 2, 4);
         NumericalData P_sub = new NumericalData("External pressure", jsonData.p_sub, "psia", 2, 4);
         NumericalData T_sub = new NumericalData("External temperature", jsonData.t_sub, "F", -150, 250);
         NumericalData V_fan = new NumericalData("Fan speed", jsonData.v_fan, "RPM", 10000, 40000);
@@ -394,6 +411,11 @@ public class TelemetryController : MonoBehaviour
         SwitchData H2o_off = new SwitchData("H2O offline", jsonData.h2o_off, true);
         SwitchData O2_off = new SwitchData("O2 offline", jsonData.o2_off, true);
 
+        //Timer data
+        TimerData T_battery = new TimerData("Battery life", jsonData.t_battery, "01:00:00", "00:30:00");
+        TimerData T_oxygen = new TimerData("Oxygen remaining", jsonData.t_oxygen, "01:00:00", "00:30:00");
+        TimerData T_water = new TimerData("Water remaining", jsonData.t_water, "01:00:00", "00:30:00");
+
         //These next two lists are already in alphabetical order to save us a sort
         //*****BE VERY CAREFUL WHEN EDITING THESE NEXT TWO LISTS*****
         //*****There are constants at the top of the script which depend on the objects' positions*****
@@ -403,10 +425,12 @@ public class TelemetryController : MonoBehaviour
         numericalTextList[3] = V_fan;
         numericalTextList[4] = P_h2o_g;
         numericalTextList[5] = P_h2o_l;
-        numericalTextList[6] = Rate_o2;
-        numericalTextList[7] = P_o2;
-        numericalTextList[8] = Rate_sop;
-        numericalTextList[9] = P_sop;
+        numericalTextList[6] = Heart_bpm;
+        numericalTextList[7] = Rate_o2;
+        numericalTextList[8] = P_o2;
+        numericalTextList[9] = Rate_sop;
+        numericalTextList[10] = P_sop;
+        numericalTextList[11] = P_suit;
 
         switchTextList[0] = Fan_error;
         switchTextList[1] = H2o_off;
@@ -415,6 +439,10 @@ public class TelemetryController : MonoBehaviour
         switchTextList[4] = Vehicle_power;
         switchTextList[5] = Sop_on;
         switchTextList[6] = Vent_error;
+
+        timerTextList[0] = T_battery;
+        timerTextList[1] = T_oxygen;
+        timerTextList[2] = T_water;
 
         //We'll need to sort this list
         //Feel free to edit this list
@@ -435,6 +463,11 @@ public class TelemetryController : MonoBehaviour
         notificationsList[14] = Vehicle_power;
         notificationsList[15] = H2o_off;
         notificationsList[16] = O2_off;
+        notificationsList[17] = P_suit;
+        notificationsList[18] = Heart_bpm;
+        notificationsList[19] = T_battery;
+        notificationsList[20] = T_oxygen;
+        notificationsList[21] = T_water;
 
         //Sort by severity and then alphabetically
         notificationsList.Sort((x, y) =>

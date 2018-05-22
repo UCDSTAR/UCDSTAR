@@ -4,10 +4,11 @@
 public class JSONData
 {
     //Numerical data
+    public string heart_bpm;
+    public string p_suit;
     public string p_sub;
     public string t_sub;
     public string v_fan;
-    public string t_eva;
     public string p_o2;
     public string rate_o2;
     public string cap_battery;
@@ -24,6 +25,11 @@ public class JSONData
     public string vehicle_power;
     public string h2o_off;
     public string o2_off;
+
+    //Timer data
+    public string t_battery;
+    public string t_oxygen;
+    public string t_water;
 
     public static JSONData CreateFromJSON(string jsonDataString)
     {

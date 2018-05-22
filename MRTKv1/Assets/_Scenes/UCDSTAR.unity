@@ -618,7 +618,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: b2da1936e6c9196479e0b826f05461f8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1c0026c8661356e46a3f27c7e84aa149, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -638,7 +638,7 @@ AudioSource:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 258926724}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 130a177e727814a2ea78a886ab72213d, type: 3}
@@ -1372,11 +1372,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1 &467147333 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1000011327985922, guid: 022450106439a8946ae18a9e20cc92d8,
-    type: 2}
-  m_PrefabInternal: {fileID: 328985249}
 --- !u!1 &487160272
 GameObject:
   m_ObjectHideFlags: 0
@@ -1782,8 +1777,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 30, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 24.031, y: 5}
-  m_SizeDelta: {x: 7, y: 10}
+  m_AnchoredPosition: {x: 24.031, y: 4}
+  m_SizeDelta: {x: 7, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &663706312
 MonoBehaviour:
@@ -2282,7 +2277,6 @@ MonoBehaviour:
   currentTimeText: {fileID: 1911113393}
   notificationsPanel: {fileID: 258405863}
   textPanel: {fileID: 663706310}
-  evaTimeText: {fileID: 467147333}
   telemetryNotification: {fileID: 1596553688540818, guid: 3e50a3241ec907347b18aa2960cc15ba,
     type: 2}
   telemetryTextName: {fileID: 1758121880457490, guid: 5bd0767fc1e1f664293c5d1620e3b516,
@@ -2925,7 +2919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddd1320c01a9d2f42a7c8319dea8f41b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  csvName: proc2
+  csvName: proc3
   stepAsset: {fileID: 1421877966628046, guid: 1f467bae745b5034da9fc6bd2b1fdc8c, type: 2}
   stepCanvas: {fileID: 930418558}
   prevButton: {fileID: 15762060}
@@ -3414,7 +3408,7 @@ MonoBehaviour:
   PlaceParentOnTap: 0
   ParentGameObjectToPlace: {fileID: 0}
   IsBeingPlaced: 0
-  AllowMeshVisualizationControl: 1
+  AllowMeshVisualizationControl: 0
 --- !u!114 &1324726834
 MonoBehaviour:
   m_ObjectHideFlags: 0
