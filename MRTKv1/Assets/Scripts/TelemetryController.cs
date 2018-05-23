@@ -28,7 +28,7 @@ public class TelemetryController : MonoBehaviour
     public GameObject notificationCountText;
 
     //Telemetry data
-    private const int MAX_NOTIFICATIONS = 4;
+    private const int MAX_NOTIFICATIONS = 5;
     private const double REFRESH_RATE = 10; //in seconds
     private const int TEMPERATURE_INDEX = 2;
     private const int PRESSURE_INDEX = 9;
@@ -296,7 +296,7 @@ public class TelemetryController : MonoBehaviour
     void CreateTelemetryNotification(TelemetryData t, int index)
     {
         GameObject panelClone = Instantiate(telemetryNotification, notificationsPanel.GetComponent<Transform>(), false);
-        panelClone.GetComponent<RectTransform>().localPosition = new Vector3(0, (float)(1.425 - 0.95 * index), 0);
+        panelClone.GetComponent<RectTransform>().localPosition = new Vector3(0, (float)(2.4 - 0.95 * index), 0);
 
         //Set color based on severity
         switch (t.severity)

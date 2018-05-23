@@ -9,6 +9,7 @@ public class ProcedureController : MonoBehaviour
 {
     public string csvName;
     public GameObject stepAsset; //this is cloned
+    public GameObject currentStepPanel; //this is edited
     public Canvas stepCanvas;
     public Button prevButton;
     public Button nextButton;
@@ -430,12 +431,14 @@ public class ProcedureController : MonoBehaviour
 
     //Color a procedure step white if it's the active step, else color it gray
     //Also enable or disable the progress bar
+    //Update the current step panel as well
     private void SetStepActive(GameObject step, bool setActive)
     {
         if (setActive)
         {
             step.GetComponent<Image>().color = Constants.ACTIVE_STEP;
             step.transform.Find("ProgressBar").gameObject.SetActive(true);
+            SetCurrentStepPanel(step);
             GameObject imageButton = step.transform.Find("ImageButton").gameObject;
             if(imageButton.activeInHierarchy)
             {
@@ -460,6 +463,23 @@ public class ProcedureController : MonoBehaviour
     private void DrawStepAtPos(GameObject step, int pos)
     {
         step.GetComponent<RectTransform>().localPosition = new Vector3(0, -2.667f * pos + 2.667f, 0);
+    }
+
+    //Copies data from the given step into currentStepPanel
+    private void SetCurrentStepPanel(GameObject step)
+    {
+        Text currentNumText = currentStepPanel.transform.Find("StepNumberText").gameObject.GetComponentInChildren<Text>();
+        Text stepNumText = step.transform.Find("StepNumberText").gameObject.GetComponentInChildren<Text>();
+        currentNumText.text = stepNumText.text;
+
+        Text currentWCText = currentStepPanel.transform.Find("WarningCautionText").gameObject.GetComponentInChildren<Text>();
+        Text stepWCText = step.transform.Find("WarningCautionText").gameObject.GetComponentInChildren<Text>();
+        currentWCText.text = stepWCText.text;
+        currentWCText.color = stepWCText.color;
+
+        Text currentIText = currentStepPanel.transform.Find("InstructionText").gameObject.GetComponentInChildren<Text>();
+        Text stepIText = step.transform.Find("InstructionText").gameObject.GetComponentInChildren<Text>();
+        currentIText.text = stepIText.text;
     }
 
     private int GetCurrentContainerIndex()
