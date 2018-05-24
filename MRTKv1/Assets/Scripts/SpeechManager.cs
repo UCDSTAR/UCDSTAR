@@ -11,6 +11,36 @@ public class SpeechManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        keywords.Add("Show help", () =>
+        {
+            this.BroadcastMessage("ShowHelp_s");
+        });
+
+        keywords.Add("Hide help", () =>
+        {
+            this.BroadcastMessage("HideHelp_s");
+        });
+
+        keywords.Add("Next step", () =>
+        {
+            this.BroadcastMessage("ShowNext_s");
+        });
+
+        keywords.Add("Previous step", () =>
+        {
+            this.BroadcastMessage("ShowPrevious_s");
+        });
+
+        keywords.Add("Next procedure", () =>
+        {
+            this.BroadcastMessage("ShowNextProcedure_s");
+        });
+
+        keywords.Add("Previous procedure", () =>
+        {
+            this.BroadcastMessage("ShowPreviousProcedure_s");
+        });
+
         keywords.Add("Show alerts", () =>
         {
             this.BroadcastMessage("ShowAlerts_s");
@@ -21,24 +51,14 @@ public class SpeechManager : MonoBehaviour
             this.BroadcastMessage("HideAlerts_s");
         });
 
-        keywords.Add("Show next", () =>
+        keywords.Add("Show tools", () =>
         {
-            this.BroadcastMessage("ShowNext_s");
+            this.BroadcastMessage("ShowTool_s");
         });
 
-        keywords.Add("Show previous", () =>
+        keywords.Add("Hide tools", () =>
         {
-            this.BroadcastMessage("ShowPrevious_s");
-        });
-
-        keywords.Add("Show next procedure", () =>
-        {
-            this.BroadcastMessage("ShowNextProcedure_s");
-        });
-
-        keywords.Add("Show previous procedure", () =>
-        {
-            this.BroadcastMessage("ShowPreviousProcedure_s");
+            this.BroadcastMessage("HideTool_s");
         });
 
         keywords.Add("Show time", () =>
@@ -61,36 +81,6 @@ public class SpeechManager : MonoBehaviour
             this.BroadcastMessage("HideImage_s");
         });
 
-        keywords.Add("Show task board", () =>
-        {
-            this.BroadcastMessage("ShowTaskboard_s");
-        });
-
-        keywords.Add("Hide task board", () =>
-        {
-            this.BroadcastMessage("HideTaskboard_s");
-        });
-
-        keywords.Add("Show tool", () =>
-        {
-            this.BroadcastMessage("ShowTool_s");
-        });
-
-        keywords.Add("Hide tool", () =>
-        {
-            this.BroadcastMessage("HideTool_s");
-        });
-
-        keywords.Add("Show help", () =>
-        {
-            this.BroadcastMessage("ShowHelp_s");
-        });
-
-        keywords.Add("Hide help", () =>
-        {
-            this.BroadcastMessage("HideHelp_s");
-        });
-
         keywords.Add("Show placement", () =>
         {
             this.BroadcastMessage("ShowTapToPlace_s");
@@ -100,6 +90,16 @@ public class SpeechManager : MonoBehaviour
         {
             this.BroadcastMessage("HideTapToPlace_s");
         });
+
+        keywords.Add("Show task board", () =>
+        {
+            this.BroadcastMessage("ShowTaskboard_s");
+        });
+
+        keywords.Add("Hide task board", () =>
+        {
+            this.BroadcastMessage("HideTaskboard_s");
+        });      
 
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());

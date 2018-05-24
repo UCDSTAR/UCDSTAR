@@ -31,7 +31,7 @@ public class TelemetryController : MonoBehaviour
     private const int MAX_NOTIFICATIONS = 5;
     private const double REFRESH_RATE = 10; //in seconds
     private const int TEMPERATURE_INDEX = 2;
-    private const int PRESSURE_INDEX = 9;
+    private const int SUIT_PRESSURE_INDEX = 11;
     private const int OXYGEN_INDEX = 7;
     private const int BATTERY_INDEX = 0;
     private const int NUM_NUMERICAL = 12;
@@ -41,8 +41,8 @@ public class TelemetryController : MonoBehaviour
     private List<NumericalData> numericalTextList = new List<NumericalData>(NUM_NUMERICAL);
     private List<SwitchData> switchTextList = new List<SwitchData>(NUM_SWITCH);
     private List<TimerData> timerTextList = new List<TimerData>(NUM_TIMER);
-    private string numericalDataURL = "https://apollo-program.herokuapp.com/api/suit/recent";
-    private string switchDataURL = "https://apollo-program.herokuapp.com/api/suitswitch/recent";
+    private string numericalDataURL = "https://iss-program.herokuapp.com/api/suit/recent";
+    private string switchDataURL = "https://iss-program.herokuapp.com/api/suitswitch/recent";
     private Boolean numericalServerConnErr;
     private Boolean switchServerConnErr;
 
@@ -230,18 +230,18 @@ public class TelemetryController : MonoBehaviour
             }
 
             //Get pressure, oxygen, temperature, and battery data
-            NumericalData sop_pressure = numericalTextList[PRESSURE_INDEX];
+            NumericalData suit_pressure = numericalTextList[SUIT_PRESSURE_INDEX];
             NumericalData oxygen_pressure = numericalTextList[OXYGEN_INDEX];
             NumericalData temperature = numericalTextList[TEMPERATURE_INDEX];
             TimerData battery = timerTextList[BATTERY_INDEX];
 
             //Update the pressure, oxygen, temperature, and battery icons and text
-            if (sop_pressure != null)
+            if (suit_pressure != null)
             {
-                String pressureIconPath = String.Format("Icons/suit-{0}", sop_pressure.severity.ToString());
+                String pressureIconPath = String.Format("Icons/suit-{0}", suit_pressure.severity.ToString());
                 Sprite pressureIcon = Resources.Load<Sprite>(pressureIconPath);
                 pressureImage.sprite = pressureIcon;
-                pressureText.GetComponentInChildren<Text>().text = sop_pressure.value + " " + sop_pressure.units;
+                pressureText.GetComponentInChildren<Text>().text = suit_pressure.value + " " + suit_pressure.units;
             }
             if (oxygen_pressure != null)
             {
@@ -266,9 +266,9 @@ public class TelemetryController : MonoBehaviour
 
             //Update pressure and oxygen arrows if they have values
             //If null, the arrows won't change their rotation
-            if (sop_pressure != null)
+            if (suit_pressure != null)
             {
-                double pressureAngle = ValueToDegrees(sop_pressure);
+                double pressureAngle = ValueToDegrees(suit_pressure);
                 pressureArrow.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, (float)pressureAngle);
             }
             if (oxygen_pressure != null)
