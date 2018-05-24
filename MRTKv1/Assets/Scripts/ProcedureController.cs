@@ -430,14 +430,26 @@ public class ProcedureController : MonoBehaviour
     }
 
     //Color a procedure step white if it's the active step, else color it gray
-    //Also enable or disable the progress bar
+    //Also enable or disable the progress bar and associated text
     //Update the current step panel as well
     private void SetStepActive(GameObject step, bool setActive)
     {
         if (setActive)
         {
             step.GetComponent<Image>().color = Constants.ACTIVE_STEP;
-            step.transform.Find("ProgressBar").gameObject.SetActive(true);
+            GameObject progressBar = step.transform.Find("ProgressBar").gameObject;
+            int curVal = (int)progressBar.GetComponent<Slider>().value;
+            int maxVal = (int)progressBar.GetComponent<Slider>().maxValue;
+            progressBar.SetActive(true);
+            if (curVal == maxVal)
+            {
+                step.transform.Find("Checkmark").gameObject.SetActive(true);
+            }
+            else
+            {
+                step.transform.Find("ProgressText").gameObject.GetComponentInChildren<Text>().text = curVal + "/" + maxVal;
+                step.transform.Find("ProgressText").gameObject.SetActive(true);
+            }
             SetCurrentStepPanel(step);
             GameObject imageButton = step.transform.Find("ImageButton").gameObject;
             if(imageButton.activeInHierarchy)
@@ -449,6 +461,8 @@ public class ProcedureController : MonoBehaviour
         {
             step.GetComponent<Image>().color = Constants.INACTIVE_STEP;
             step.transform.Find("ProgressBar").gameObject.SetActive(false);
+            step.transform.Find("ProgressText").gameObject.SetActive(false);
+            step.transform.Find("Checkmark").gameObject.SetActive(false);
             GameObject imageButton = step.transform.Find("ImageButton").gameObject;
             if (imageButton.activeInHierarchy)
             {
