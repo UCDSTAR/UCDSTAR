@@ -1,0 +1,65 @@
+Step,Text,Caution,Warning,Figure,StepDisplay,Tool
+Name:Disabling Alarm Procedure,,,,,,
+1,"On the RIGHT side of the EVA Kit, locate and use the PANEL ACCESS KEY to unlock the PANEL ACCESS DOOR LOCKS.", ,The keys are on a tension-spring cable.,TRUE,A-1,
+2,Insert your fingers in the CENTER OPENING and secure the PANEL ACCESS DOOR in an OPEN position., ,Door can accidentally close.,TRUE,A-2,
+3,"On your belt, use the BLUE CARABINEER to securely tether to the TETHER CABLE inside the STORAGE.", ,Notice the TETHER CABLE is adjustable.,TRUE,A-3,carabiner
+4,Locate the E-STOP button and gently press down to temporarily disable the alarm., , ,TRUE,A-4,
+5,"Locate the FUSIBLE DISCONNECT box and tether the BLUE CARABINEER to the TETHER CABLE, and remove the BLUE CARABINEER from the FUSIBLE DISCONNECT box and transfer it to STORAGE.", , ,TRUE,A-5,carabiner
+6,Open the FUSIBLE DISCONNECT box and secure the lid in the open position. Pull the locking tab toward STORAGE with the index finger while lifting the cover with the thumb.,, ,TRUE,A-6,
+7,Locate the BLACK DISCONNECT and tether it to the TETHER CABLE., , ,FALSE,A-7,
+8,Remove the DISCONNECT and place it in STORAGE.,Pull up with the index and middle fingers while pushing down on the FUSE ACCESS PANEL with the thumb., ,TRUE,A-8,
+9,Tether the FUSE ACCESS PANEL to the TETHER CABLE., , ,FALSE,A-9,
+10,Remove the FUSE ACCESS PANEL by pulling straight up., , ,TRUE,A-10,
+11,Place the FUSE ACCESS PANEL into STORAGE., , ,FALSE,A-11,
+12,Tether the ALARM FUSE to the TETHER CABLE., , ,FALSE,A-12,
+13,"In Storage, locate the BLUE FUSE PULLER.", , ,FALSE,A-13,FusePuller
+14,Use the BLUE FUSE PULLER to remove ONLY the ALARM FUSE.,Rock the ALARM FUSE with the FUSE PULLER when pulling up., ,TRUE,A-14,fusepuller60Afuse
+15,Return the ALARM FUSE and the FUSE PULLER to STORAGE., , ,FALSE,A-15,fusepuller60Afuse
+16,"In STORAGE, locate the FUSE ACCESS PANEL and reinstall it into the FUSIBLE DISCONNECT box.", , ,TRUE,A-16,
+17,Remove the FUSE ACCESS PANEL tether from the TETHER CABLE and stow inside., ,All tethers are under spring tension and can retract quickly.,FALSE,A-17,
+18,"In STORAGE, locate the DISCONNECT and reinstall it into the FUSIBLE DISCONNECT box.", ,"The DISCONNECT must read ""ON""ù in the upper right corner to restore conductivity.",TRUE,A-18,
+19,Remove the DISCONNECT tether from the TETHER CABLE., ,All tethers are under spring tension and can retract quickly.,FALSE,A-19,
+20,Close the FUSIBLE DISCONNECT box cover., , ,FALSE,A-20,
+21,"In STORAGE, use the BLUE CARABINEER to clip and lock the FUSIBLE DISCONNECT box cover.", , ,TRUE,A-21,carabiner
+22,Remove the BLUE CARABINEER's tether from the TETHER CABLE., ,All tethers are under spring tension and can retract quickly.,FALSE,A-22,carabiner
+Name:Rerouting Power Procedure,,,,,,
+1, Locate the Aux. Power Input,,,FALSE,B-1,
+2, Locate BATTERY PACK and tether to TETHER CABLE.,,,FALSE,B-2,battery
+3, Undo the BATTERY PACK LEADS from the AUX. POWER INPUT.,Depress the red and black plastic hammers on the side of the AUX. POWER INPUT and pull the leads straight up.,,TRUE,B-3,
+4, Remove BATTERY PACK from AUX. POWER INPUT.,,,FALSE,B-4,battery
+5, Locate the ON/OFF switch on the back of the BATTERY PACK and switch it to the OFF position.,,,TRUE,B-5,battery
+6, Place the BATTERY PACK into STORAGE.,,,FALSE,B-6,battery
+7,"In STORAGE, find the replacement BATTERY PACK.",,,FALSE,B-7,battery
+8,Locate the ON/OFF switch on the back of the BATTERY PACK and switch it to the ON position.,,,FALSE,B-8,battery
+9,Attach the replacement BATTERY PACK onto the AUX. POWER INPUT by the Velcro.,,,FALSE,B-9,battery
+10, Insert the BATTERY PACK leads back into same colored ports.,Depress the red and black plastic hammers on the side of the AUX. POWER INPUT and push leads straight into their ports.,,FALSE,B-10,battery
+11, Conduct a GENTLE PULL TEST on the wires.,,,FALSE,B-11,
+12, Remove the BATTERY PACK tether from the TETHER CABLE.,,All tethers are under spring tension and can retract quickly.,TRUE,B-12,battery
+13," In STORAGE, locate the GRAY 220 Volt PLUG.",,,FALSE,B-13,220Vplug
+14, Install it into the POWER OUT.,"Outlet and plug mate are stiff, ensure the full engagement of the plug into the outlet.",,FALSE,B-14,
+15," Locate the metal BUSS BAR and verify there are BLACK, GREEN & WHITE BUSSES, each with 2 openings.",,,FALSE,B-15,
+16, Insert the WHITE 220 VOLT LEAD into the LEFT WHITE BUSS opening and GENTLY TIGHTEN the thumbscrew.,DO NOT over tighten the thumbscrew.,,TRUE,B-16,220Vplug
+17, Insert the GREEN 220 VOLT LEAD into the LEFT GREEN BUS opening.,DO NOT over tighten the thumbscrew.,,TRUE,B-17,220Vplug
+18, Insert the BLACK 220 VOLT LEAD into the LEFT BLACK BUS opening.,DO NOT over tighten the thumbscrew.,,TRUE,B-18,220Vplug
+19, Make sure the METAL LEADS are not sticking out the BACK of the BUSS BAR.,,,FALSE,B-19,
+20, Conduct a Gentle PULL TEST on each cable.,,,FALSE,B-20,
+21," In STORAGE, locate the 110 VOLT PLUG and install it into POWER IN.",Lift cover with one hand while installing PLUG into the outlet with the other. The lid is spring-loaded.,,TRUE,B-21,110vplug
+22, Insert the WHITE 110 VOLT PLUG LEAD into the RIGHT WHITE BUS opening.,DO NOT over tighten the thumbscrew.,,TRUE,B-22,110vplug
+23, Insert the GREEN 110 VOLT PLUG LEAD into the RIGHT GREEN BUS opening.,DO NOT over tighten the thumbscrew.,,TRUE,B-23,110vplug
+24, Insert the BLACK 110 VOLT PLUG LEAD into the RIGHT BLACK BUS opening.,DO NOT over tighten the thumbscrew.,,TRUE,B-24,110vplug
+25, Conduct a Gentle PULL TEST on each cable,,,TRUE,B-25,
+26," In STORAGE, locate the E-STOP KEY.",,,TRUE,B-26,estopkey
+27, Insert the KEY into the E-STOP and TURN to the RIGHT and the button will pop up.,,,FALSE,B-27,estopkey
+28, Remove the KEY and place it in STORAGE.,,,TRUE,B-28,estopkey
+29, Locate the AUX. POWER SWITCH on the POWER IN box and switch it to the ìONî position.,,,FALSE,B-29,
+30, Can you please confirm YES or NO that the SYSTEM GO indicator light is GREEN?,,,FALSE,B-30,
+31," IF GREEN, read this script: EVA 1, this is Houston Mission Control. Congratulations. PHALCON is reporting that they are reading a successful power restoration on their console. You are a go to untether from the TETHER CABLE and return to space station. Mission Control out.",,,FALSE,B-31,
+32," IF NOT GREEN, read this script: EVA 1, this is Houston Mission Control. PHALCON confirms and is not able to report a successful power restoration on their console. EVA-1, please be advised that we have prepared some trouble-shooting steps for you to conduct on a future spacewalk.",,,FALSE,B-32,
+Name:Clean Up Procedure,,,,,,
+1,Engage the E-Stop button,,,FALSE,C-1,
+2,Disconnect all leads for the 110 Volt & 220 Volt Plug LEADS,,,FALSE,C-2,110v220v
+3,Unplug the 110V & 220V PLUGS and stow the plugs in the STORAGE AREA,,,FALSE,C-3,110v220v
+4,Switch the BATTERY PACKS switch to the “OFF” position,,,FALSE,C-4,battery
+5,Ensure all remaining items are either installed securely or tethered in the STORAGE AREA,,,FALSE,C-5,
+6,Close the PANEL ACCESS DOOR and lock the door with the keys from the tethering belt to secure the area,,,FALSE,C-6,
+7,Return tethering belt and gloves to the instructor,,,FALSE,C-7,
